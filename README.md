@@ -44,6 +44,16 @@ I_AM_ML_Engineer/
 └── readings/              # 읽은 글 정리
 ```
 
+## Recent Readings
+
+최근 읽고 정리한 기술 글들입니다.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2024-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20241218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
+| 2024-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20241218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
+| 2024-12-18 | [LLM 버그 트리아지 자동화](readings/blogs/[20241218]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
+
 ## Document Template
 
 각 주제는 다음 구조로 정리됩니다:
