@@ -20,7 +20,8 @@ I_AM_ML_Engineer/
 ├── interviews/            # ML 인터뷰 준비
 ├── experiments/           # 실험 코드
 ├── practical_tips/        # 실무 경험 및 팁
-└── llm_trends/            # LLM 트렌드 및 도구 학습
+├── llm_trends/            # LLM 트렌드 및 도구 학습
+└── readings/              # 읽은 글 정리 (블로그, LinkedIn 등)
 ```
 
 ## Development Commands
@@ -141,3 +142,40 @@ import torch.nn as nn
 ### 파일 네이밍
 - `llm_YYYYMMDD_주제.md`
 - 예: `llm_20241218_n8n_workflow_setup.md`
+
+## Reading Notes (읽은 글 정리)
+
+LinkedIn, 블로그, 논문 등에서 읽은 유용한 글들을 정리합니다.
+
+### 디렉토리 구조
+```
+readings/
+├── blogs/           # 기술 블로그 글
+├── linkedin/        # LinkedIn 포스트
+├── papers/          # 논문 요약 (papers/와 별도로 간단 요약용)
+└── newsletters/     # 뉴스레터 (The Batch, TLDR AI 등)
+```
+
+### 작성 형식
+```markdown
+# [글 제목]
+
+- **출처**: [링크](URL)
+- **저자**: 저자명
+- **읽은 날짜**: YYYY-MM-DD
+- **태그**: #tag1 #tag2
+
+## 핵심 내용
+- 요점 1
+- 요점 2
+
+## 인상 깊은 부분
+> 인용문이나 핵심 문장
+
+## 내 생각 / 적용점
+이 글에서 배운 점, 실무에 적용할 수 있는 부분
+```
+
+### 파일 네이밍
+- `read_YYYYMMDD_출처_제목요약.md`
+- 예: `read_20241218_linkedin_llm_production_tips.md`
