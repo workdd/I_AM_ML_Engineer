@@ -19,7 +19,8 @@ I_AM_ML_Engineer/
 ├── papers/                # 논문 구현 및 정리
 ├── interviews/            # ML 인터뷰 준비
 ├── experiments/           # 실험 코드
-└── practical_tips/        # 실무 경험 및 팁
+├── practical_tips/        # 실무 경험 및 팁
+└── llm_trends/            # LLM 트렌드 및 도구 학습
 ```
 
 ## Development Commands
@@ -114,3 +115,29 @@ import torch.nn as nn
 ### 파일 네이밍
 - `tip_YYYYMMDD_간단한설명.md`
 - 예: `tip_20241215_gpu_memory_leak.md`
+
+## LLM Trends (LLM 트렌드)
+
+최신 LLM 관련 기술, 도구, 트렌드를 학습하고 정리합니다.
+
+### 카테고리
+- **agents/**: LLM 에이전트 (AutoGPT, CrewAI, LangGraph 등)
+- **rag/**: RAG 파이프라인 및 벡터 DB
+- **automation/**: n8n, Zapier, Make 등 워크플로우 자동화
+- **prompting/**: 프롬프트 엔지니어링 기법
+- **fine_tuning/**: 파인튜닝 및 PEFT (LoRA, QLoRA 등)
+- **serving/**: LLM 서빙 (vLLM, TGI, Ollama 등)
+- **evaluation/**: LLM 평가 방법론
+
+### 주요 도구/프레임워크
+| 카테고리 | 도구 |
+|---------|------|
+| 오케스트레이션 | LangChain, LlamaIndex, Haystack |
+| 에이전트 | CrewAI, AutoGen, LangGraph |
+| 자동화 | n8n, Flowise, Dify |
+| 벡터 DB | Pinecone, Weaviate, Chroma, Milvus |
+| 모니터링 | LangFuse, LangSmith, Helicone |
+
+### 파일 네이밍
+- `llm_YYYYMMDD_주제.md`
+- 예: `llm_20241218_n8n_workflow_setup.md`
