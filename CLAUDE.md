@@ -4,7 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ML 이론 공부부터 코드 구현, 그리고 **실무에서 얻은 경험과 팁**까지 정리하는 저장소입니다.
+3년차 ML Engineer의 **이직 면접 대비** 및 **기술 깊이 확보**를 위한 학습 저장소입니다.
+
+### 목표
+- "그냥 쓸 줄 아는" → "왜 그런지 설명할 수 있는" 수준으로
+- 면접관의 "왜요?" 질문에 명확히 대답할 수 있는 깊이
+- 실무 경험을 체계적으로 정리하여 차별화된 무기로
 
 ## Repository Structure (Recommended)
 
@@ -54,18 +59,56 @@ pytest tests/test_file.py::test_function_name -v
 - Docstring: Google style 사용
 - 노트북 파일명: `01_topic_name.ipynb` 형식으로 번호 prefix 사용
 
-## ML Implementation Guidelines
+## Learning Strategy (학습 전략)
 
-### 알고리즘 구현 시
-1. 수학적 배경/이론 먼저 마크다운으로 정리
-2. NumPy로 직접 구현 (scratch implementation)
-3. scikit-learn/PyTorch 등 프레임워크 버전과 비교
-4. 시각화 및 실험 결과 포함
+**"Deep Understanding" 방식** - 면접에서 설명할 수 있는 깊이로
+
+### 학습 우선순위
+
+**1순위 - 면접 단골 & 핵심 원리:**
+- [ ] Gradient Descent & Optimization (SGD, Momentum, Adam)
+- [ ] Regularization (L1/L2 수학적 차이, 언제 뭘 쓰는지)
+- [ ] Bias-Variance Tradeoff
+- [ ] Tree 계열 (Decision Tree → RF → GBM → XGBoost/LightGBM)
+- [ ] Neural Network (Backpropagation 직접 유도)
+- [ ] Attention & Transformer
+
+**2순위 - 실무 차별화:**
+- [ ] 본인 프로젝트/트러블슈팅 경험 정리
+- [ ] ML System Design
+- [ ] 모델 서빙 & 최적화
+
+### 주제별 정리 템플릿 (면접 대비용)
+
+```markdown
+# [주제명]
+
+## 한 줄 정의
+> 면접에서 30초 안에 설명할 수 있는 정의
+
+## 직관적 이해
+수식 없이 개념 설명 (비유, 그림 활용)
+
+## 수학적 원리
+핵심 수식 유도 및 의미
+
+## Scratch 구현
+numpy로 직접 구현
+
+## 면접 예상 Q&A
+- Q: 왜 X를 쓰나요?
+- A: ...
+- Q: X와 Y의 차이는?
+- A: ...
+
+## 실무 연결
+본인 경험에서 이 개념이 적용된 사례
+```
 
 ### 파일 네이밍
-- 이론 정리: `theory_*.md` 또는 `*_theory.ipynb`
-- 구현 코드: `impl_*.py` 또는 `*_implementation.py`
-- 실험/분석: `exp_*.ipynb` 또는 `*_experiment.ipynb`
+- 핵심 주제: `[분야]/[주제].md` (예: `classical_ml/gradient_descent.md`)
+- 구현 코드: `[분야]/impl_[주제].py`
+- 노트북: `[분야]/[주제].ipynb`
 
 ## Common Libraries
 
