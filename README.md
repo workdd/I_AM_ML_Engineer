@@ -50,6 +50,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2024-12-19 | [Speculative Decoding 적용기](readings/blogs/[20241219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
 | 2024-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20241219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
 | 2024-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20241218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
 | 2024-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20241218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
