@@ -1,6 +1,8 @@
 """
 Transformer Decoder Block 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_07_decoder_block.py -v
+
 목표: Decoder Block을 구현합니다. GPT 스타일 (Decoder-only)에 집중.
 
 Encoder-Decoder vs Decoder-only:

@@ -1,6 +1,8 @@
 """
 Self-Attention 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_01_attention.py -v
+
 목표: Scaled Dot-Product Attention을 직접 구현합니다.
 
 수식:

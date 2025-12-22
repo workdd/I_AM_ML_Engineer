@@ -1,6 +1,8 @@
 """
 Layer Normalization 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_04_layer_norm.py -v
+
 목표: Layer Normalization을 직접 구현합니다.
 
 수식:

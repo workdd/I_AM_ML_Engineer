@@ -1,6 +1,8 @@
 """
 Mini GPT 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_08_mini_gpt.py -v
+
 목표: 지금까지 구현한 모든 것을 조립하여 동작하는 GPT를 만듭니다.
 
 이 파일은:

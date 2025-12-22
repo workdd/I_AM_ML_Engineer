@@ -1,6 +1,8 @@
 """
 Position-wise Feed-Forward Network 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_03_feed_forward.py -v
+
 목표: Transformer의 FFN을 직접 구현합니다.
 
 수식:
