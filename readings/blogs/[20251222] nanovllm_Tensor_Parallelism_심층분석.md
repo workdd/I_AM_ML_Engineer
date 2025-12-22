@@ -2,7 +2,7 @@
 
 - **출처**: [liyuan24 블로그](https://liyuan24.github.io/writings/2025_12_18_nanovllm_tensor_parallel_kernel_fusion.html)
 - **저자**: liyuan24
-- **읽은 날짜**: 2024-12-19
+- **읽은 날짜**: 2025-12-22
 - **태그**: #LLM #TensorParallel #추론최적화 #vLLM #분산처리
 
 ## 핵심 내용
