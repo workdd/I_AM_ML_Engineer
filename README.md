@@ -50,6 +50,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2024-12-19 | [Subagents Supervisor 패턴](readings/blogs/[20241219]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
 | 2024-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20241219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
 | 2024-12-19 | [Speculative Decoding 적용기](readings/blogs/[20241219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
 | 2024-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20241219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
