@@ -58,11 +58,9 @@ get_available_time_slots(date)
 - **이메일 에이전트**: 자연어 → 전문적 이메일 작성
 
 ### 3. 서브 에이전트를 상위 도구로 래핑
-```python
-# 저수준 API가 아닌 고수준 도구로 노출
-schedule_event = CalendarAgent.as_tool()
-manage_email = EmailAgent.as_tool()
-```
+- 각 서브 에이전트를 Supervisor가 호출할 수 있는 **고수준 도구**로 변환
+- 예: `schedule_event`, `manage_email` 등의 이름으로 노출
+- Supervisor는 저수준 API(create_event, send_email)를 직접 호출하지 않음
 
 ### 4. Supervisor 에이전트 생성
 - 다중 도메인 요청 분해
@@ -85,11 +83,9 @@ User: "디자인팀과 화요일 2시 회의하고, 목업 검토 메일 보내�
 
 ## 보안: Human-in-the-Loop
 
-```python
-# middleware + checkpointer 활용
-- 캘린더 이벤트 생성 전 승인 요청
-- 이메일 발송 전 편집/거부 가능
-```
+- **캘린더 이벤트 생성 전**: 사용자 승인 요청
+- **이메일 발송 전**: 내용 편집/거부 가능
+- LangGraph의 `interrupt` 기능 또는 middleware 활용
 
 ## 인상 깊은 부분
 
