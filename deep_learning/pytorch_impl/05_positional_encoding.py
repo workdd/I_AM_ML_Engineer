@@ -1,6 +1,8 @@
 """
 Positional Encoding 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_05_positional_encoding.py -v
+
 목표: Sinusoidal Positional Encoding을 직접 구현합니다.
 
 수식 (원래 Transformer):

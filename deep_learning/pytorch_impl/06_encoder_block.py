@@ -1,6 +1,8 @@
 """
 Transformer Encoder Block 구현
 
+테스트: pytest deep_learning/pytorch_impl/tests/test_06_encoder_block.py -v
+
 목표: 앞서 구현한 컴포넌트들을 조립하여 Encoder Block을 만듭니다.
 
 구조 (Pre-LN, 현대적):
