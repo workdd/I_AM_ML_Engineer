@@ -2,7 +2,7 @@
 
 - **출처**: [LangChain 공식 문서](https://docs.langchain.com/oss/python/langchain/multi-agent/subagents-personal-assistant)
 - **저자**: LangChain 팀
-- **읽은 날짜**: 2024-12-19
+- **읽은 날짜**: 2025-12-22
 - **태그**: #LangChain #MultiAgent #Supervisor #에이전트
 
 ## 핵심 내용

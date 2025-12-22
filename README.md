@@ -50,13 +50,13 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
-| 2024-12-19 | [Subagents Supervisor 패턴](readings/blogs/[20241219]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
-| 2024-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20241219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
-| 2024-12-19 | [Speculative Decoding 적용기](readings/blogs/[20241219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
-| 2024-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20241219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
-| 2024-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20241218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
-| 2024-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20241218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
-| 2024-12-18 | [LLM 버그 트리아지 자동화](readings/blogs/[20241218]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
+| 2025-12-22 | [Subagents Supervisor 패턴](readings/blogs/[20251222]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
+| 2025-12-22 | [LLM 서빙 성능최적화](readings/blogs/[20251222]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
+| 2025-12-22 | [Speculative Decoding 적용기](readings/blogs/[20251222]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
+| 2025-12-22 | [Tensor Parallelism 심층분석](readings/blogs/[20251222]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
+| 2025-12-22 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20251222]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
+| 2025-12-22 | [MCP vs Claude Skills 비교](readings/blogs/[20251222]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
+| 2025-12-22 | [LLM 버그 트리아지 자동화](readings/blogs/[20251222]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
 
 ## Document Template
 
