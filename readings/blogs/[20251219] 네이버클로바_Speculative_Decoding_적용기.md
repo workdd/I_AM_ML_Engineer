@@ -2,7 +2,7 @@
 
 - **출처**: [CLOVA 기술 블로그](https://clova.ai/tech-blog/속도의-한계를-뛰어넘다-hyperclova-x에-적용한-speculative-decoding-이야기)
 - **저자**: 네이버클라우드 CLOVA 팀
-- **읽은 날짜**: 2025-12-22
+- **읽은 날짜**: 2025-12-19
 - **태그**: #LLM #SpeculativeDecoding #추론최적화 #HyperCLOVA
 
 ## 핵심 내용

@@ -2,7 +2,7 @@
 
 - **출처**: [요즘IT](https://yozm.wishket.com/magazine/detail/3508/)
 - **저자**: 스벨트전도사
-- **읽은 날짜**: 2025-12-22
+- **읽은 날짜**: 2025-12-18
 - **태그**: #MCP #ClaudeSkills #LLM #자동화 #Anthropic
 
 ## 핵심 내용
