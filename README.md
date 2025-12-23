@@ -51,6 +51,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2025-12-23 | [머신러닝 테스트 코드 구현](readings/blogs/[20251223]%20velog_ML_테스트코드_구현.md) | velog | `#MLOps` `#Testing` `#pytest` |
 | 2025-12-22 | [Subagents Supervisor 패턴](readings/blogs/[20251222]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
 | 2025-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20251219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
 | 2025-12-19 | [Speculative Decoding 적용기](readings/blogs/[20251219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
