@@ -51,6 +51,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2025-12-24 | [Table Agent 테이블 데이터 처리](readings/blogs/[20251224]%20채널톡_Table_Agent_테이블데이터_처리.md) | 채널톡 | `#RAG` `#Text-to-SQL` `#Agent` |
 | 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
 | 2025-12-23 | [머신러닝 테스트 코드 구현](readings/blogs/[20251223]%20velog_ML_테스트코드_구현.md) | velog | `#MLOps` `#Testing` `#pytest` |
 | 2025-12-22 | [Subagents Supervisor 패턴](readings/blogs/[20251222]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
