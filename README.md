@@ -19,24 +19,29 @@ ML 관련 내용을 **수학적 원리 이해와 구현으로** 깊이 있게 �
 ### LLM Core
 | Topic | Status | Document |
 |-------|--------|----------|
-| Transformer & Self-Attention | ![](https://img.shields.io/badge/status-in%20progress-yellow) | [Link]() |
+| Transformer & Self-Attention | ![](https://img.shields.io/badge/status-done-brightgreen) | [Notebook](experiments/transformer/) |
 | Fine-tuning (LoRA, QLoRA) | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
 | RAG Architecture | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
 | Tokenizer (BPE, SentencePiece) | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Decoding Strategies | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
+| Decoding Strategies | ![](https://img.shields.io/badge/status-done-brightgreen) | [08_mini_gpt](experiments/transformer/08_mini_gpt.ipynb) |
 
 ### ML Fundamentals
 | Topic | Status | Document |
 |-------|--------|----------|
-| Gradient Descent & Optimizers | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Backpropagation | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Bias-Variance Tradeoff | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Regularization (L1/L2) | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
+| Gradient Descent & Optimizers | ![](https://img.shields.io/badge/status-done-brightgreen) | [01_gradient_descent](experiments/basics/01_gradient_descent.ipynb) |
+| Backpropagation | ![](https://img.shields.io/badge/status-done-brightgreen) | [03_backpropagation](experiments/basics/03_backpropagation.ipynb) |
+| Activation Functions | ![](https://img.shields.io/badge/status-done-brightgreen) | [02_activation_functions](experiments/basics/02_activation_functions.ipynb) |
+| Regularization (L1/L2/Dropout) | ![](https://img.shields.io/badge/status-done-brightgreen) | [04_regularization](experiments/basics/04_regularization.ipynb) |
+| Batch/Layer Normalization | ![](https://img.shields.io/badge/status-done-brightgreen) | [05_batch_norm](experiments/basics/05_batch_norm.ipynb) |
+| PCA | ![](https://img.shields.io/badge/status-done-brightgreen) | [06_pca](experiments/basics/06_pca.ipynb) |
 
 ## Repository Structure
 
 ```
 I_AM_ML_Engineer/
+├── experiments/           # 실습 노트북 (직접 구현)
+│   ├── basics/            # ML/DL 기초 (Optimizer, Backprop 등)
+│   └── transformer/       # Transformer 구현 (Attention → GPT)
 ├── deep_learning/         # Transformer, CNN, RNN 등
 ├── classical_ml/          # 전통 ML 알고리즘
 ├── fundamentals/          # 수학적 기초
@@ -44,6 +49,34 @@ I_AM_ML_Engineer/
 ├── practical_tips/        # 실무 경험 및 팁
 └── readings/              # 읽은 글 정리
 ```
+
+## Hands-on Experiments
+
+**직접 구현하며 배우는** 학습 노트북입니다. 각 노트북은 Pre-Quiz → TODO 구현 → 테스트 → 시각화 → Post-Quiz → 정답 구조로 되어 있습니다.
+
+### ML/DL Basics (`experiments/basics/`)
+
+| # | Topic | Key Concepts |
+|---|-------|--------------|
+| 01 | [Gradient Descent](experiments/basics/01_gradient_descent.ipynb) | Vanilla SGD, Momentum, RMSprop, Adam |
+| 02 | [Activation Functions](experiments/basics/02_activation_functions.ipynb) | Sigmoid, ReLU, GELU, XOR 문제 |
+| 03 | [Backpropagation](experiments/basics/03_backpropagation.ipynb) | Chain Rule, Computational Graph, MLP |
+| 04 | [Regularization](experiments/basics/04_regularization.ipynb) | L1/L2, Dropout, Early Stopping |
+| 05 | [Batch Normalization](experiments/basics/05_batch_norm.ipynb) | BatchNorm vs LayerNorm |
+| 06 | [PCA](experiments/basics/06_pca.ipynb) | 공분산, 고유값 분해, 차원 축소 |
+
+### Transformer Implementation (`experiments/transformer/`)
+
+| # | Topic | Key Concepts |
+|---|-------|--------------|
+| 01 | [Self-Attention](experiments/transformer/01_self_attention.ipynb) | Scaled Dot-Product, √d_k 스케일링 |
+| 02 | [Multi-Head Attention](experiments/transformer/02_multihead_attention.ipynb) | Head 분리/병합, Concat |
+| 03 | [Feed Forward](experiments/transformer/03_feed_forward.ipynb) | Position-wise FFN, GELU |
+| 04 | [Layer Normalization](experiments/transformer/04_layer_norm.ipynb) | Pre-LN vs Post-LN |
+| 05 | [Positional Encoding](experiments/transformer/05_positional_encoding.ipynb) | Sinusoidal PE, 위치 정보 |
+| 06 | [Encoder Block](experiments/transformer/06_encoder_block.ipynb) | Residual Connection, 전체 조립 |
+| 07 | [Decoder Block](experiments/transformer/07_decoder_block.ipynb) | Causal Mask, GPT 스타일 |
+| 08 | [Mini GPT](experiments/transformer/08_mini_gpt.ipynb) | 전체 모델, Text Generation |
 
 ## Recent Readings
 
