@@ -84,6 +84,8 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
+| 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
 | 2025-12-25 | [Claude Code 스타일 스킬 시스템](readings/blogs/[20251225]%20AWS_Strands_스킬시스템_Claude_Code_스타일.md) | AWS Samples | `#LLM` `#Agent` `#Skill-System` |
 | 2025-12-24 | [Table Agent 테이블 데이터 처리](readings/blogs/[20251224]%20채널톡_Table_Agent_테이블데이터_처리.md) | 채널톡 | `#RAG` `#Text-to-SQL` `#Agent` |
 | 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
