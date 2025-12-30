@@ -84,6 +84,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2025-12-30 | [OMS Claude AI 워크플로우](readings/blogs/[20251230]%20컬리_OMS_Claude_AI_워크플로우.md) | 컬리 기술블로그 | `#ClaudeAI` `#MSA` `#팀생산성` |
 | 2025-12-29 | [Visa Intelligent Commerce + AgentCore](readings/blogs/[20251229]%20AWS블로그_Visa_Intelligent_Commerce_AgentCore.md) | AWS ML Blog | `#AgenticAI` `#Bedrock` `#MCP` `#MultiAgent` |
 | 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
 | 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
