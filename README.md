@@ -84,6 +84,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-06-14 | [Open Knowledge Format(OKF)](readings/blogs/[20260614]%20PyTorchKR_Open_Knowledge_Format_OKF.md) | PyTorchKR | `#OKF` `#지식표현` `#LLMWiki` `#GoogleCloud` `#MCP` |
 | 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
 | 2026-06-09 | [Logits as Confidence: LLM·VLM 신뢰도 활용](readings/blogs/[20260609]%20Medium_Logits_as_Confidence_LLM_VLM.md) | Medium | `#Logits` `#Confidence` `#LLM` `#VLM` `#LogProbs` |
 | 2026-01-04 | [JSON vs TOON 토큰효율](readings/blogs/[20260104]%20네이버클라우드_JSON_vs_TOON_토큰효율.md) | 네이버클라우드 | `#TOON` `#JSON` `#토큰효율` `#LLM` |
