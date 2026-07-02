@@ -84,6 +84,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-07-02 | [OpenWiki: repo 문서화 에이전트](readings/blogs/[20260702]%20LangChain_OpenWiki_Repo_Documentation_Agent.md) | LangChain Blog | `#OpenWiki` `#AIAgent` `#Documentation` `#DeepAgents` |
 | 2026-07-02 | [LogicRAG: Adaptive Reasoning Structures](readings/papers/[20260702]%20LogicRAG_Adaptive_Reasoning_Structures.md) | arXiv / GitHub | `#RAG` `#GraphRAG` `#MultiHopQA` `#DAG` |
 | 2026-06-14 | [Open Knowledge Format(OKF)](readings/blogs/[20260614]%20PyTorchKR_Open_Knowledge_Format_OKF.md) | PyTorchKR | `#OKF` `#지식표현` `#LLMWiki` `#GoogleCloud` `#MCP` |
 | 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
