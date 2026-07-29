@@ -47,7 +47,10 @@ I_AM_ML_Engineer/
 ├── fundamentals/          # 수학적 기초
 ├── llm_trends/            # LLM 최신 트렌드
 ├── practical_tips/        # 실무 경험 및 팁
-└── readings/              # 읽은 글 정리
+└── readings/              # 읽은 자료 정리
+    ├── blogs/             # 기술 블로그 아티클
+    ├── papers/            # 논문
+    └── repos/             # 오픈소스 레포·도구
 ```
 
 ## Hands-on Experiments
@@ -110,6 +113,14 @@ I_AM_ML_Engineer/
 | 2025-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20251218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
 | 2025-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20251218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
 | 2025-12-18 | [LLM 버그 트리아지 자동화](readings/blogs/[20251218]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
+
+## Repos & Tools
+
+직접 뜯어본 오픈소스 레포·도구 정리입니다.
+
+| 날짜 | 레포 | 조직 | 태그 |
+|------|------|------|------|
+| 2026-07-23 | [AgentENV — 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
 
 ## Document Template
 
