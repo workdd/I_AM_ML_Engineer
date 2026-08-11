@@ -120,6 +120,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
+| 2026-07-31 | [MatrAIx-Persona-8B — 페르소나 인구규모 AI 평가 인프라](readings/repos/[20260731]%20MatrAIx-ai_MatrAIx-Persona-8B_페르소나_인구규모_AI평가인프라.md) | MatrAIx-ai | `#PersonaSimulation` `#AI평가` `#SyntheticData` `#LLMAgent` `#Benchmark` |
 | 2026-07-23 | [AgentENV — 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
 
 ## Document Template
