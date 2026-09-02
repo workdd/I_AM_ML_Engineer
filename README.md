@@ -87,6 +87,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
 | 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
 | 2026-08-31 | [ROGRAG: 다단계 검색 GraphRAG](readings/papers/[20260831]%20ROGRAG_Robustly_Optimized_GraphRAG.md) | arXiv / GitHub | `#GraphRAG` `#LogicForm` `#KnowledgeGraph` `#Ablation` |
 | 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
