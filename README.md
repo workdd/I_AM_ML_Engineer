@@ -87,6 +87,8 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-08-31 | [ROGRAG: 다단계 검색 GraphRAG](readings/papers/[20260831]%20ROGRAG_Robustly_Optimized_GraphRAG.md) | arXiv / GitHub | `#GraphRAG` `#LogicForm` `#KnowledgeGraph` `#Ablation` |
+| 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
 | 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
 | 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
 | 2026-07-06 | [How Many Tools Should an LLM Agent See?](readings/papers/[20260706]%20How_Many_Tools_Should_an_LLM_Agent_See.md) | arXiv | `#LLMAgent` `#ToolSelection` `#Retrieval` `#MCP` `#BoR` |
