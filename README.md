@@ -87,6 +87,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
 | 2026-08-31 | [ROGRAG: 다단계 검색 GraphRAG](readings/papers/[20260831]%20ROGRAG_Robustly_Optimized_GraphRAG.md) | arXiv / GitHub | `#GraphRAG` `#LogicForm` `#KnowledgeGraph` `#Ablation` |
 | 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
 | 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
