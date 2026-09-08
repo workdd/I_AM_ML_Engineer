@@ -87,6 +87,7 @@ I_AM_ML_Engineer/
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
 | 2026-09-08 | [Microsoft GraphRAG 동작원리 단계별 해부](readings/blogs/[20260908]%20TowardsAI_Microsoft_GraphRAG_동작원리_단계별.md) | Towards AI | `#GraphRAG` `#KnowledgeGraph` `#Leiden` `#LocalSearch` `#GlobalSearch` |
 | 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
 | 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
