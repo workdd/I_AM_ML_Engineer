@@ -1,129 +1,93 @@
 # I AM ML Engineer
 
-> ML/LLM 핵심 개념을 **"왜?"** 에 답할 수 있는 깊이로 정리하는 학습 저장소
+> 읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
 
 [![GitHub issues](https://img.shields.io/github/issues/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/issues)
 [![GitHub stars](https://img.shields.io/github/stars/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/stargazers)
 
 ## About
 
-ML 관련 내용을 **수학적 원리 이해와 구현으로** 깊이 있게 정리하고 것이 이 프로젝트의 목표입니다.
+논문, 기술 블로그, 오픈소스 저장소를 읽고 정리합니다. 요약이 아니라 **판단에 쓸 수 있는 형태**로 남기는 것이 목표입니다.
 
-- 핵심 개념의 직관적 이해 + 수학적 유도
-- NumPy/PyTorch Scratch 구현
-- 예상 Q&A 포함
-- LLM을 충분히 활용하여, 질의 응답 및 내용 정리 진행
+정리마다 다음을 지킵니다.
 
-## Learning Roadmap
+- **원문 확인**: 수치와 인용은 원문에서 직접 확인합니다. 2차 자료를 옮겨 적지 않습니다
+- **한계 명시**: 어떤 조건에서 나온 결과인지, 어디까지 일반화되는지 함께 적습니다
+- **상호 연결**: 같은 문제를 다루는 자료끼리 링크로 잇습니다
+- **적용 지점**: 읽은 내용 중 실제로 쓸 수 있는 부분을 따로 뽑습니다
 
-### LLM Core
-| Topic | Status | Document |
-|-------|--------|----------|
-| Transformer & Self-Attention | ![](https://img.shields.io/badge/status-done-brightgreen) | [Notebook](experiments/transformer/) |
-| Fine-tuning (LoRA, QLoRA) | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| RAG Architecture | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Tokenizer (BPE, SentencePiece) | ![](https://img.shields.io/badge/status-todo-lightgrey) | - |
-| Decoding Strategies | ![](https://img.shields.io/badge/status-done-brightgreen) | [08_mini_gpt](experiments/transformer/08_mini_gpt.ipynb) |
+## Readings
 
-### ML Fundamentals
-| Topic | Status | Document |
-|-------|--------|----------|
-| Gradient Descent & Optimizers | ![](https://img.shields.io/badge/status-done-brightgreen) | [01_gradient_descent](experiments/basics/01_gradient_descent.ipynb) |
-| Backpropagation | ![](https://img.shields.io/badge/status-done-brightgreen) | [03_backpropagation](experiments/basics/03_backpropagation.ipynb) |
-| Activation Functions | ![](https://img.shields.io/badge/status-done-brightgreen) | [02_activation_functions](experiments/basics/02_activation_functions.ipynb) |
-| Regularization (L1/L2/Dropout) | ![](https://img.shields.io/badge/status-done-brightgreen) | [04_regularization](experiments/basics/04_regularization.ipynb) |
-| Batch/Layer Normalization | ![](https://img.shields.io/badge/status-done-brightgreen) | [05_batch_norm](experiments/basics/05_batch_norm.ipynb) |
-| PCA | ![](https://img.shields.io/badge/status-done-brightgreen) | [06_pca](experiments/basics/06_pca.ipynb) |
+### 그래프와 지식 표현
 
-## Repository Structure
-
-```
-I_AM_ML_Engineer/
-├── experiments/           # 실습 노트북 (직접 구현)
-│   ├── basics/            # ML/DL 기초 (Optimizer, Backprop 등)
-│   └── transformer/       # Transformer 구현 (Attention → GPT)
-├── deep_learning/         # Transformer, CNN, RNN 등
-├── classical_ml/          # 전통 ML 알고리즘
-├── fundamentals/          # 수학적 기초
-├── llm_trends/            # LLM 최신 트렌드
-├── practical_tips/        # 실무 경험 및 팁
-└── readings/              # 읽은 자료 정리
-    ├── blogs/             # 기술 블로그 아티클
-    ├── papers/            # 논문
-    └── repos/             # 오픈소스 레포·도구
-```
-
-## Hands-on Experiments
-
-**직접 구현하며 배우는** 학습 노트북입니다. 각 노트북은 Pre-Quiz → TODO 구현 → 테스트 → 시각화 → Post-Quiz → 정답 구조로 되어 있습니다.
-
-### ML/DL Basics (`experiments/basics/`)
-
-| # | Topic | Key Concepts |
-|---|-------|--------------|
-| 01 | [Gradient Descent](experiments/basics/01_gradient_descent.ipynb) | Vanilla SGD, Momentum, RMSprop, Adam |
-| 02 | [Activation Functions](experiments/basics/02_activation_functions.ipynb) | Sigmoid, ReLU, GELU, XOR 문제 |
-| 03 | [Backpropagation](experiments/basics/03_backpropagation.ipynb) | Chain Rule, Computational Graph, MLP |
-| 04 | [Regularization](experiments/basics/04_regularization.ipynb) | L1/L2, Dropout, Early Stopping |
-| 05 | [Batch Normalization](experiments/basics/05_batch_norm.ipynb) | BatchNorm vs LayerNorm |
-| 06 | [PCA](experiments/basics/06_pca.ipynb) | 공분산, 고유값 분해, 차원 축소 |
-
-### Transformer Implementation (`experiments/transformer/`)
-
-| # | Topic | Key Concepts |
-|---|-------|--------------|
-| 01 | [Self-Attention](experiments/transformer/01_self_attention.ipynb) | Scaled Dot-Product, √d_k 스케일링 |
-| 02 | [Multi-Head Attention](experiments/transformer/02_multihead_attention.ipynb) | Head 분리/병합, Concat |
-| 03 | [Feed Forward](experiments/transformer/03_feed_forward.ipynb) | Position-wise FFN, GELU |
-| 04 | [Layer Normalization](experiments/transformer/04_layer_norm.ipynb) | Pre-LN vs Post-LN |
-| 05 | [Positional Encoding](experiments/transformer/05_positional_encoding.ipynb) | Sinusoidal PE, 위치 정보 |
-| 06 | [Encoder Block](experiments/transformer/06_encoder_block.ipynb) | Residual Connection, 전체 조립 |
-| 07 | [Decoder Block](experiments/transformer/07_decoder_block.ipynb) | Causal Mask, GPT 스타일 |
-| 08 | [Mini GPT](experiments/transformer/08_mini_gpt.ipynb) | 전체 모델, Text Generation |
-
-## Recent Readings
-
-최근 읽고 정리한 기술 글들입니다.
+GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 묶어서 읽는 편이 낫습니다.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
 | 2026-09-10 | [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) | dev.to | `#GraphRAG` `#RAPTOR` `#DRIFT` `#KnowledgeGraph` `#AWS` |
-| 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
+| 2026-09-10 | [LLM on Graphs 서베이: GraphRAG는 이 지형의 한 칸이다](readings/papers/[20260910]%20LLM_on_Graphs_Comprehensive_Survey.md) | arXiv | `#Survey` `#GraphNeuralNetwork` `#GraphRAG` `#TextAttributedGraph` |
 | 2026-09-08 | [Microsoft GraphRAG 동작원리 단계별 해부](readings/blogs/[20260908]%20TowardsAI_Microsoft_GraphRAG_동작원리_단계별.md) | Towards AI | `#GraphRAG` `#KnowledgeGraph` `#Leiden` `#LocalSearch` `#GlobalSearch` |
-| 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
-| 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
 | 2026-08-31 | [ROGRAG: 다단계 검색 GraphRAG](readings/papers/[20260831]%20ROGRAG_Robustly_Optimized_GraphRAG.md) | arXiv / GitHub | `#GraphRAG` `#LogicForm` `#KnowledgeGraph` `#Ablation` |
-| 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
-| 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
-| 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
-| 2026-07-06 | [How Many Tools Should an LLM Agent See?](readings/papers/[20260706]%20How_Many_Tools_Should_an_LLM_Agent_See.md) | arXiv | `#LLMAgent` `#ToolSelection` `#Retrieval` `#MCP` `#BoR` |
-| 2026-07-02 | [OpenWiki: repo 문서화 에이전트](readings/blogs/[20260702]%20LangChain_OpenWiki_Repo_Documentation_Agent.md) | LangChain Blog | `#OpenWiki` `#AIAgent` `#Documentation` `#DeepAgents` |
 | 2026-07-02 | [LogicRAG: Adaptive Reasoning Structures](readings/papers/[20260702]%20LogicRAG_Adaptive_Reasoning_Structures.md) | arXiv / GitHub | `#RAG` `#GraphRAG` `#MultiHopQA` `#DAG` |
 | 2026-06-14 | [Open Knowledge Format(OKF)](readings/blogs/[20260614]%20PyTorchKR_Open_Knowledge_Format_OKF.md) | PyTorchKR | `#OKF` `#지식표현` `#LLMWiki` `#GoogleCloud` `#MCP` |
-| 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
-| 2026-06-09 | [Logits as Confidence: LLM·VLM 신뢰도 활용](readings/blogs/[20260609]%20Medium_Logits_as_Confidence_LLM_VLM.md) | Medium | `#Logits` `#Confidence` `#LLM` `#VLM` `#LogProbs` |
-| 2026-01-04 | [JSON vs TOON 토큰효율](readings/blogs/[20260104]%20네이버클라우드_JSON_vs_TOON_토큰효율.md) | 네이버클라우드 | `#TOON` `#JSON` `#토큰효율` `#LLM` |
+
+### 에이전트와 도구 연결
+
+MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
+| 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
+| 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
+| 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
+| 2026-07-06 | [How Many Tools Should an LLM Agent See?](readings/papers/[20260706]%20How_Many_Tools_Should_an_LLM_Agent_See.md) | arXiv | `#LLMAgent` `#ToolSelection` `#Retrieval` `#MCP` `#BoR` |
+| 2026-07-02 | [OpenWiki: repo 문서화 에이전트](readings/blogs/[20260702]%20LangChain_OpenWiki_Repo_Documentation_Agent.md) | LangChain Blog | `#OpenWiki` `#AIAgent` `#Documentation` `#DeepAgents` |
 | 2025-12-31 | [AI 테스트 에이전트 구축](readings/blogs/[20251231]%20Medium_AI_테스트_에이전트_구축.md) | Medium | `#TDD` `#AIAgent` `#ClaudeCode` `#SubAgent` |
 | 2025-12-30 | [Context Engineering 핵심역량](readings/blogs/[20251230]%20SKdevocean_Context_Engineering_핵심역량.md) | SK devocean | `#ContextEngineering` `#LLM` `#ContextWindow` |
 | 2025-12-30 | [OMS Claude AI 워크플로우](readings/blogs/[20251230]%20컬리_OMS_Claude_AI_워크플로우.md) | 컬리 기술블로그 | `#ClaudeAI` `#MSA` `#팀생산성` |
 | 2025-12-29 | [Visa Intelligent Commerce + AgentCore](readings/blogs/[20251229]%20AWS블로그_Visa_Intelligent_Commerce_AgentCore.md) | AWS ML Blog | `#AgenticAI` `#Bedrock` `#MCP` `#MultiAgent` |
-| 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
-| 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
 | 2025-12-25 | [Claude Code 스타일 스킬 시스템](readings/blogs/[20251225]%20AWS_Strands_스킬시스템_Claude_Code_스타일.md) | AWS Samples | `#LLM` `#Agent` `#Skill-System` |
 | 2025-12-24 | [Table Agent 테이블 데이터 처리](readings/blogs/[20251224]%20채널톡_Table_Agent_테이블데이터_처리.md) | 채널톡 | `#RAG` `#Text-to-SQL` `#Agent` |
-| 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
-| 2025-12-23 | [머신러닝 테스트 코드 구현](readings/blogs/[20251223]%20velog_ML_테스트코드_구현.md) | velog | `#MLOps` `#Testing` `#pytest` |
 | 2025-12-22 | [Subagents Supervisor 패턴](readings/blogs/[20251222]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
+| 2025-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20251218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
+
+### LLM 서빙과 추론 최적화
+
+처리량, 지연, 메모리. 엔진 설정과 서빙 구조를 나눠 보는 관점.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
+| 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
+| 2026-01-04 | [JSON vs TOON 토큰효율](readings/blogs/[20260104]%20네이버클라우드_JSON_vs_TOON_토큰효율.md) | 네이버클라우드 | `#TOON` `#JSON` `#토큰효율` `#LLM` |
 | 2025-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20251219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
 | 2025-12-19 | [Speculative Decoding 적용기](readings/blogs/[20251219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
 | 2025-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20251219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
 | 2025-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20251218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
-| 2025-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20251218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
+
+### 신뢰도와 환각 탐지
+
+답을 믿어도 되는지 판단하는 신호들.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
+| 2026-06-09 | [Logits as Confidence: LLM·VLM 신뢰도 활용](readings/blogs/[20260609]%20Medium_Logits_as_Confidence_LLM_VLM.md) | Medium | `#Logits` `#Confidence` `#LLM` `#VLM` `#LogProbs` |
+| 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
+
+### 엔지니어링 일반
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
+| 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
+| 2025-12-23 | [머신러닝 테스트 코드 구현](readings/blogs/[20251223]%20velog_ML_테스트코드_구현.md) | velog | `#MLOps` `#Testing` `#pytest` |
 | 2025-12-18 | [LLM 버그 트리아지 자동화](readings/blogs/[20251218]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
 
 ## Repos & Tools
 
-직접 뜯어본 오픈소스 레포·도구 정리입니다.
+직접 뜯어본 오픈소스 저장소와 도구입니다. 코드 규모, 기여자, 라이선스, 실제 구현 여부까지 확인해 적습니다.
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
@@ -133,20 +97,59 @@ I_AM_ML_Engineer/
 | 2026-04-11 | [late.sh — SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
 | 2026-03-22 | [OpenCrab — 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 
-## Document Template
+## Interview Prep
 
-각 주제는 다음 구조로 정리됩니다:
+`interviews/` 에 질문별 답변과 기업별 출제 경향을 정리합니다.
 
-1. **한 줄 정의** - 간단히 설명 가능한 정의
-2. **직관적 이해** - 수식 없이 개념 설명
-3. **수학적 원리** - 핵심 수식 유도
-4. **Scratch 구현** - NumPy/PyTorch 기반 구현
-5. **Q&A** - 예상 질문과 답변
+| 파일 | 내용 |
+|------|------|
+| [01_통계_수학.md](interviews/01_통계_수학.md) | 선형대수, 확률, 통계 |
+| [02_머신러닝.md](interviews/02_머신러닝.md) | ML 알고리즘과 개념 |
+| [03_딥러닝.md](interviews/03_딥러닝.md) | 딥러닝 일반 |
+| [04_자연어처리.md](interviews/04_자연어처리.md) | NLP |
+| [14_OpenAI_MLE_출제경향.md](interviews/14_OpenAI_MLE_출제경향.md) | OpenAI ML Engineer 문제 유형 분포 |
+
+## Hands-on Experiments
+
+직접 구현하며 확인하는 노트북입니다. Pre-Quiz → TODO 구현 → 테스트 → 시각화 → Post-Quiz 구조입니다.
+
+| 분류 | 노트북 |
+|------|--------|
+| ML/DL 기초 | [Gradient Descent](experiments/basics/01_gradient_descent.ipynb) · [Activation](experiments/basics/02_activation_functions.ipynb) · [Backprop](experiments/basics/03_backpropagation.ipynb) · [Regularization](experiments/basics/04_regularization.ipynb) · [BatchNorm](experiments/basics/05_batch_norm.ipynb) · [PCA](experiments/basics/06_pca.ipynb) |
+| Transformer | [Attention → Mini GPT](experiments/transformer/) (8개 노트북, [08_mini_gpt](experiments/transformer/08_mini_gpt.ipynb) 에서 Decoding Strategies 포함) |
+
+## Repository Structure
+
+```
+I_AM_ML_Engineer/
+├── readings/              # 읽은 자료 정리 (이 저장소의 중심)
+│   ├── papers/            # 논문
+│   ├── blogs/             # 기술 블로그
+│   └── repos/             # 오픈소스 저장소·도구
+├── interviews/            # 면접 질문 정리와 기업별 출제 경향
+├── experiments/           # 실습 노트북 (직접 구현)
+│   ├── basics/            # ML/DL 기초
+│   └── transformer/       # Attention 에서 GPT 까지
+├── deep_learning/         # Transformer, CNN, RNN 개념 정리
+└── practical_tips/        # 실무 경험과 팁
+```
+
+## 정리 형식
+
+파일명은 `[YYYYMMDD] 출처_제목.md` 로 통일합니다. 각 정리는 다음 뼈대를 따릅니다.
+
+1. **메타데이터** - 원문 링크, 저자, 발행일, 실험 환경, 읽은 날짜, 태그
+2. **한 줄 요약** - 이 자료가 주장하는 것
+3. **본문** - 원문의 구조를 따라가되 표와 코드로 압축
+4. **읽을 때 감안할 것** - 조건, 표본, 검증되지 않은 전제, 발견한 오기
+5. **내 작업과의 연결** - 실제로 가져다 쓸 지점
+6. **결론** - 이 자료를 어떻게 쓰는 것이 맞는지
+
+4번이 핵심입니다. 벤더 자료의 정량 지표 부재, 단일 환경 실험, 인용 오류 같은 것을 여기 적습니다.
 
 ## Contributing
 
-학습 내용에 대한 피드백이나 토론은 언제든 환영합니다!
-[Issues](https://github.com/workdd/I_AM_ML_Engineer/issues)에 의견을 남겨주세요.
+정리 내용에 대한 피드백이나 토론은 환영합니다. [Issues](https://github.com/workdd/I_AM_ML_Engineer/issues)에 남겨주세요.
 
 ## License
 
