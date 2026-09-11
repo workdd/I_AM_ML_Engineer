@@ -18,6 +18,17 @@
 
 ## Readings
 
+가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
+
+- `2026-09-11` [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) · DeepSeek-AI
+- `2026-09-11` [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) · CL4R1T4S
+- `2026-09-11` [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) · llm-as-a-verifier
+- `2026-09-10` [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) · dev.to
+- `2026-09-10` [LLM on Graphs 서베이: GraphRAG는 이 지형의 한 칸이다](readings/papers/[20260910]%20LLM_on_Graphs_Comprehensive_Survey.md) · arXiv
+- `2026-09-10` [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) · Liner
+- `2026-09-10` [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) · AWS 기술 블로그
+- `2026-09-08` [Microsoft GraphRAG 동작원리 단계별 해부](readings/blogs/[20260908]%20TowardsAI_Microsoft_GraphRAG_동작원리_단계별.md) · Towards AI
+
 ### 그래프와 지식 표현
 
 GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 묶어서 읽는 편이 낫습니다.
