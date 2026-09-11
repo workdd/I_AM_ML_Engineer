@@ -94,6 +94,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
+| 2026-09-11 | [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) | llm-as-a-verifier | `#Verifier` `#LogProbs` `#TestTimeScaling` `#BestOfN` `#PrefixCache` |
 | 2026-09-02 | [reef — 서빙하면서 스스로 학습하는 에이전트 인프라](readings/repos/[20260902]%20Human-Agent-Society_reef_자기개선_에이전트_지속학습_인프라.md) | Human-Agent-Society | `#ContinualLearning` `#SelfImprovingAgent` `#RL` `#HarnessEvolution` `#SGLang` |
 | 2026-07-31 | [MatrAIx-Persona-8B — 페르소나 인구규모 AI 평가 인프라](readings/repos/[20260731]%20MatrAIx-ai_MatrAIx-Persona-8B_페르소나_인구규모_AI평가인프라.md) | MatrAIx-ai | `#PersonaSimulation` `#AI평가` `#SyntheticData` `#LLMAgent` `#Benchmark` |
 | 2026-07-23 | [AgentENV — 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
