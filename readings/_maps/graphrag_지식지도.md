@@ -9,45 +9,81 @@
 
 | 표시 | 뜻 |
 | --- | --- |
-| **읽음** | 저장소에 정리가 있습니다 |
-| **부분** | 다른 노트에서 스쳐 지나갔고 전용 정리는 없습니다 |
-| **빈칸** | 아직 다루지 않았습니다 |
+| 초록 테두리 | 정리가 있습니다 |
+| 노랑 테두리 | 다른 노트에서 스쳐 지나갔고 전용 정리는 없습니다 |
+| 분홍 바탕 | 아직 다루지 않았습니다 |
 
-## 좌표계: 그래프 시나리오 3종 × LLM 역할 3종
+관계도의 모양과 선은 다음을 뜻합니다.
+
+| 요소 | 뜻 |
+| --- | --- |
+| 문서 모양 | 논문 정리 |
+| 둥근 사각형 | 블로그 정리 |
+| 원통 | 저장소 정리 |
+| 굵은 초록 테두리 | 이 계열의 기준선 |
+| 빨간 점선 | 반박 관계 |
+| 초록 실선 | 개선 관계 |
+| 회색 실선 | 계보나 공급 관계 |
+
+## 좌표계: 어디를 읽었나
 
 서베이가 제시한 격자입니다. **무엇이 최종 예측을 내놓느냐**로 역할이 갈립니다.
 
-| | LLM as Predictor<br/>(LLM이 최종 출력) | LLM as Encoder<br/>(GNN이 최종 출력) | LLM as Aligner<br/>(LLM과 GNN을 정렬) |
-| --- | --- | --- | --- |
-| **Pure Graphs**<br/>텍스트 없는 그래프 | **읽음** | 빈칸 | 빈칸 |
-| **Text-Attributed Graphs**<br/>노드·엣지에 텍스트 | **읽음** | 빈칸 | 빈칸 |
-| **Text-Paired Graphs**<br/>그래프 전체에 설명 | 부분 | 빈칸 | 빈칸 |
+```mermaid
+block-beta
+  columns 4
+  space h1["LLM as Predictor<br/>LLM이 최종 출력"] h2["LLM as Encoder<br/>GNN이 최종 출력"] h3["LLM as Aligner<br/>둘을 정렬"]
+  r1["Pure Graphs<br/>텍스트 없는 그래프"] a1["읽음 · 5건<br/>Graph as Sequence"] a2["빈칸"] a3["빈칸"]
+  r2["Text-Attributed<br/>노드·엣지에 텍스트"] b1["읽음 · 2건<br/>Graph as Sequence"] b2["빈칸"] b3["빈칸"]
+  r3["Text-Paired<br/>그래프 전체에 설명"] c1["부분<br/>서베이에서만"] c2["빈칸"] c3["빈칸"]
 
-**읽은 것이 한 열에 몰려 있습니다.** 전부 `LLM as Predictor` 안의 `Graph as Sequence`, 곧 그래프를 텍스트로 풀어 컨텍스트에 넣는 방식입니다. GNN을 학습시키는 나머지 여섯 칸은 손대지 않았습니다.
+  classDef hdr fill:#f0ede7,stroke:#b6b0a6,color:#5b554e
+  classDef row fill:#f0ede7,stroke:#b6b0a6,color:#1e1c1a
+  classDef read fill:#eef3ee,stroke:#3d6b45,stroke-width:2px,color:#1e1c1a
+  classDef part fill:#f9f4e8,stroke:#b8a86a,color:#1e1c1a
+  classDef gap  fill:#fdf6f4,stroke:#d9b3a8,color:#a8503c
+  class h1,h2,h3 hdr
+  class r1,r2,r3 row
+  class a1,b1 read
+  class c1 part
+  class a2,a3,b2,b3,c2,c3 gap
+```
+
+**읽은 것이 한 열에 몰려 있습니다.** 일곱 건 전부 `LLM as Predictor` 안의 `Graph as Sequence`, 곧 그래프를 텍스트로 풀어 컨텍스트에 넣는 방식입니다. GNN 을 학습시키는 나머지 여섯 칸은 손대지 않았습니다.
 
 ## 계열 내부 관계
 
 ```mermaid
 flowchart TB
-    survey["LLM on Graphs 서베이<br/>격자로 전체 지형을 정리한다"]
-    landscape["Graph RAG의 모든 것<br/>패턴 5종과 구현체 3종의 지형도"]
-    ms["Microsoft GraphRAG 해부<br/>인덱싱 8단계와 Local·Global 검색을 코드로 읽는다"]
-    logic["LogicRAG<br/>사전 그래프를 만들지 말고<br/>질의 시점에 하위 문제 DAG를 세운다"]
-    rog["ROGRAG<br/>그래프는 만들되 검색을<br/>logic form 다음 dual-level 로 격하한다"]
-    okf["Open Knowledge Format<br/>지식을 어떤 포맷으로 담을 것인가"]
-    crab["OpenCrab<br/>온톨로지를 MCP 도구로 에이전트에 붙인다"]
+  SUR@{ shape: doc, label: "**LLM on Graphs 서베이**<br/>9칸 격자로 전체 지형을 정의" }
+  LAND@{ shape: rounded, label: "**Graph RAG의 모든 것**<br/>패턴 5종 · 구현체 3종" }
+  MS@{ shape: rounded, label: "**Microsoft GraphRAG**<br/>커뮤니티 요약 · Local · Global · DRIFT" }
+  LOGIC@{ shape: doc, label: "**LogicRAG**<br/>사전 그래프를 만들지 말고<br/>질의 시점에 DAG 를 세운다" }
+  ROG@{ shape: doc, label: "**ROGRAG**<br/>그래프는 두고 검색을<br/>logic form 다음 dual-level 로" }
+  OKF@{ shape: rounded, label: "**Open Knowledge Format**<br/>포맷 표준 제안" }
+  CRAB@{ shape: lin-cyl, label: "**OpenCrab**<br/>온톨로지 공장 · MCP 30종" }
 
-    survey -->|"한 칸으로 좁히면"| landscape
-    landscape -->|"대표 구현"| ms
-    ms -->|"반박: 전처리 그래프가 비싸다"| logic
-    ms -->|"개선: 검색을 여러 겹으로"| rog
-    okf -->|"표현 계층"| crab
-    crab -.->|"지식 그래프를 공급"| ms
+  SUR ==>|"한 칸으로 좁히면"| LAND
+  LAND ==>|"대표 구현"| MS
+  MS -.->|"반박 · 전처리가 비싸다"| LOGIC
+  MS -->|"개선 · 검색을 여러 겹으로"| ROG
+  OKF --> CRAB
+  CRAB -.->|"그래프를 공급"| MS
 
-    classDef read fill:#eef3ee,stroke:#3d6b45,color:#1e1c1a
-    classDef base fill:#f4f2ee,stroke:#8a837a,color:#1e1c1a
-    class survey,landscape,logic,rog,okf,crab read
-    class ms base
+  linkStyle 0,1 stroke:#5b554e,stroke-width:2.5px
+  linkStyle 2 stroke:#a8503c,stroke-width:2.5px
+  linkStyle 3 stroke:#3d6b45,stroke-width:2.5px
+  linkStyle 4 stroke:#8a837a,stroke-width:1.5px
+  linkStyle 5 stroke:#b6b0a6,stroke-width:1.5px
+
+  classDef paper fill:#ffffff,stroke:#3d6b45,stroke-width:2px,color:#1e1c1a
+  classDef blog  fill:#f7f5f0,stroke:#8a837a,stroke-width:1.5px,color:#1e1c1a
+  classDef repo  fill:#f2f0ea,stroke:#5b554e,stroke-width:1.5px,color:#1e1c1a
+  classDef base  fill:#eef3ee,stroke:#3d6b45,stroke-width:3px,color:#1e1c1a
+  class SUR,LOGIC,ROG paper
+  class LAND,OKF blog
+  class CRAB repo
+  class MS base
 ```
 
 가운데 **Microsoft GraphRAG가 기준선**입니다. LogicRAG는 그 전처리 비용을 문제 삼아 그래프를 아예 없애자는 쪽이고, ROGRAG는 그래프를 유지한 채 검색 단계를 쌓는 쪽입니다. **같은 대상을 두고 정반대 방향으로 갈라집니다.**
