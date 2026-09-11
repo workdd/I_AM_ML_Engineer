@@ -1,4 +1,4 @@
-# AgentENV — 에이전트 환경을 대규모로 굴리는 플랫폼
+# AgentENV: 에이전트 환경을 대규모로 굴리는 플랫폼
 
 - **레포**: [kvcache-ai/AgentENV](https://github.com/kvcache-ai/AgentENV) · [공식 문서](https://kvcache-ai.github.io/AgentENV/)
 - **제작**: kvcache-ai (Mooncake·KTransformers 조직)

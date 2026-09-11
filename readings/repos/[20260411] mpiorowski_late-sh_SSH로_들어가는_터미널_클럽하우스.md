@@ -1,4 +1,4 @@
-# late.sh — SSH 한 줄로 들어가는 터미널 클럽하우스
+# late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스
 
 - **레포**: [mpiorowski/late-sh](https://github.com/mpiorowski/late-sh) · [late.sh](https://late.sh)
 - **제작**: Mateusz Piórowski (단독 메인테이너 · 커밋 527/713, 컨트리뷰터 36명)

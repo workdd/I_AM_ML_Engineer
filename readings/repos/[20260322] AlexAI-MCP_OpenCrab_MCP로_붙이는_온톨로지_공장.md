@@ -1,4 +1,4 @@
-# OpenCrab — 에이전트에 MCP로 붙이는 온톨로지 공장
+# OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장
 
 - **레포**: [AlexAI-MCP/OpenCrab](https://github.com/AlexAI-MCP/OpenCrab) · [opencrab.sh](https://opencrab.sh)
 - **제작**: AlexAI-MCP (컨트리뷰터 5명 · 커밋 37개 중 25개가 `claude` 명의)

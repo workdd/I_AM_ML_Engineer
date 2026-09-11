@@ -1,4 +1,4 @@
-# MatrAIx-Persona-8B — 시뮬레이션된 인구 집단으로 AI 제품을 평가한다
+# MatrAIx-Persona-8B: 시뮬레이션된 인구 집단으로 AI 제품을 평가한다
 
 - **레포**: [MatrAIx-ai/MatrAIx-Persona-8B](https://github.com/MatrAIx-ai/MatrAIx-Persona-8B) · [공식 사이트](https://matraix.ai/) · [핸드북](https://github.com/MatrAIx-ai/MatrAIx-Persona-8B/tree/main/docs)
 - **제작**: MatrAIx-ai
