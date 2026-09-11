@@ -59,6 +59,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-11 | [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) | DeepSeek-AI | `#KVCache` `#SparseAttention` `#MoE` `#LongContext` `#FP4` |
 | 2026-09-10 | [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) | AWS 기술 블로그 | `#vLLM` `#EKS` `#ColdStart` `#Karpenter` `#SleepMode` |
 | 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
 | 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
