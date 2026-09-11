@@ -14,6 +14,8 @@ LLM과 그래프를 엮는 연구 전체를 **그래프 시나리오 3종 × LLM
 
 ## 왜 이 서베이를 먼저 읽어야 하나
 
+> 이 서베이의 격자에 저장소의 GraphRAG 노트들을 얹어 본 결과는 [GraphRAG 지식 지도](../_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md)에 있습니다.
+
 저장소에 GraphRAG 계열 정리가 여럿 쌓였다. [Microsoft GraphRAG 해부](../blogs/%5B20260908%5D%20TowardsAI_Microsoft_GraphRAG_%EB%8F%99%EC%9E%91%EC%9B%90%EB%A6%AC_%EB%8B%A8%EA%B3%84%EB%B3%84.md), [Graph RAG의 모든 것](../blogs/%5B20260910%5D%20devto_Graph_RAG%EC%9D%98_%EB%AA%A8%EB%93%A0_%EA%B2%83.md), [LogicRAG](%5B20260702%5D%20LogicRAG_Adaptive_Reasoning_Structures.md), [ROGRAG](%5B20260831%5D%20ROGRAG_Robustly_Optimized_GraphRAG.md)다.
 
 이 서베이의 격자로 보면 그것들이 **모두 같은 칸**에 있다. 그래프를 텍스트로 직렬화해 LLM 컨텍스트에 넣는 방식, 즉 `LLM as Predictor` 안의 `Graph as Sequence`다. 나머지 여덟 칸은 GNN을 쓰는 완전히 다른 계열이고, GraphRAG 자료만 읽어서는 존재조차 모르게 된다.
