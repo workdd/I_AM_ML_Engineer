@@ -1,0 +1,79 @@
+site_name: I AM ML Engineer
+site_description: 읽은 것을 판단에 쓸 수 있는 형태로 정리하는 저장소
+site_url: https://workdd.github.io/I_AM_ML_Engineer/
+repo_url: https://github.com/workdd/I_AM_ML_Engineer
+repo_name: workdd/I_AM_ML_Engineer
+edit_uri: ""
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: ko
+  font:
+    text: Noto Sans KR
+    code: JetBrains Mono
+  features:
+    - navigation.tracking
+    - navigation.top           # 맨 위로 버튼
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+  palette:
+    # 1) 시스템 설정을 따른다 (기본값)
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: 시스템 설정을 따르는 중. 눌러서 라이트로
+    # 2) 라이트 고정
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: 라이트 모드. 눌러서 다크로
+    # 3) 다크 고정
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: 다크 모드. 눌러서 시스템 설정으로
+
+plugins:
+  - search:
+      # 한글은 공백으로 끊기므로 기본 분리자에 맡기되 영문 식별자도 쪼갠다
+      separator: '[\s\-\.\_,:!=\[\]()"/]+'
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mermaid2:
+      version: 11.12.0
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/workdd/I_AM_ML_Engineer

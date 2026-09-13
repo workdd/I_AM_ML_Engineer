@@ -22,3 +22,6 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+# MkDocs 생성물
+docs/
+site/
