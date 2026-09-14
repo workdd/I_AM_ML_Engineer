@@ -79,6 +79,33 @@ def bucket_of(path: Path) -> str:
     return "eng"
 
 
+MERMAID_FENCE = re.compile(r"(```mermaid\n)(.*?)(```)", re.S)
+
+
+def _escape_mermaid_br(text: str) -> str:
+    """mermaid 펜스 안의 <br/> 를 HTML 엔티티로 바꾼다.
+
+    mermaid2 는 펜스 내용을 escape 없이 내보낸다. 그러면 브라우저가 <br/> 를
+    DOM 요소로 파싱해 버리고, mermaid 가 읽는 textContent 에서 사라져 라벨이
+    한 줄로 붙는다. 엔티티로 넣으면 textContent 단계에서 <br/> 로 되돌아온다.
+    저장소 원본은 건드리지 않으므로 GitHub 자체 렌더도 그대로 동작한다.
+    """
+
+    def fix(m: re.Match[str]) -> str:
+        body = m.group(2).replace("<br/>", "&lt;br/&gt;").replace("<br>", "&lt;br&gt;")
+        return m.group(1) + body + m.group(3)
+
+    return MERMAID_FENCE.sub(fix, text)
+
+
+def _postprocess(root: Path) -> None:
+    for md in root.rglob("*.md"):
+        text = md.read_text(encoding="utf-8")
+        fixed = _escape_mermaid_br(text)
+        if fixed != text:
+            md.write_text(fixed, encoding="utf-8")
+
+
 def copy_trees() -> None:
     if DOCS.exists():
         shutil.rmtree(DOCS)
@@ -89,24 +116,25 @@ def copy_trees() -> None:
             # README.md 는 목차 역할이라 SUMMARY.md 가 대신한다
             shutil.copytree(src, DOCS / dst_name,
                             ignore=shutil.ignore_patterns("README.md"))
+    _postprocess(DOCS)
     index = DOCS / "index.md"
     shutil.copy(ROOT / "README.md", index)
     _link_out(index)
 
 
-# 사이트 안에서는 자기 자신을 가리키므로 index.md 에서 걷어낸다
-SELF_REFS = [
-    re.compile(r"^\[!\[문서 사이트\].*$\n?", re.M),
-    re.compile(r"^\*\*웹에서 읽기: .*$\n?", re.M),
-    re.compile(r"^전문 검색, 주제별 목차, 다이어그램 렌더가 됩니다\..*$\n?", re.M),
-]
+# README 최상단의 중앙 정렬 블록은 사이트 링크와 미리보기라
+# 사이트 안에서는 자기 자신을 가리킨다. 간단한 머리말로 갈아 끼운다
+HERO = re.compile(r"\A<div align=\"center\">.*?</div>\n+", re.S)
+HERO_REPLACEMENT = """# I AM ML Engineer
+
+읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
+
+"""
 
 
 def _link_out(path: Path) -> None:
     """사이트에 없는 경로를 가리키는 링크를 GitHub 원본으로 돌린다."""
-    text = path.read_text(encoding="utf-8")
-    for pat in SELF_REFS:
-        text = pat.sub("", text)
+    text = HERO.sub(HERO_REPLACEMENT, path.read_text(encoding="utf-8"))
 
     def repl(m: re.Match[str]) -> str:
         target = m.group(2)
