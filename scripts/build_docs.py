@@ -94,9 +94,19 @@ def copy_trees() -> None:
     _link_out(index)
 
 
+# 사이트 안에서는 자기 자신을 가리키므로 index.md 에서 걷어낸다
+SELF_REFS = [
+    re.compile(r"^\[!\[문서 사이트\].*$\n?", re.M),
+    re.compile(r"^\*\*웹에서 읽기: .*$\n?", re.M),
+    re.compile(r"^전문 검색, 주제별 목차, 다이어그램 렌더가 됩니다\..*$\n?", re.M),
+]
+
+
 def _link_out(path: Path) -> None:
     """사이트에 없는 경로를 가리키는 링크를 GitHub 원본으로 돌린다."""
     text = path.read_text(encoding="utf-8")
+    for pat in SELF_REFS:
+        text = pat.sub("", text)
 
     def repl(m: re.Match[str]) -> str:
         target = m.group(2)
