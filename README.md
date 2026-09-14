@@ -1,15 +1,30 @@
+<div align="center">
+
 # I AM ML Engineer
 
-> 읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
+읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
 
-[![문서 사이트](https://img.shields.io/badge/읽기-workdd.github.io-3d6b45?logo=materialformkdocs&logoColor=white)](https://workdd.github.io/I_AM_ML_Engineer/)
+<a href="https://workdd.github.io/I_AM_ML_Engineer/">
+  <img src="https://img.shields.io/badge/%F0%9F%93%96%20%EC%9B%B9%EC%97%90%EC%84%9C%20%EC%9D%BD%EA%B8%B0-workdd.github.io-3d6b45?style=for-the-badge&labelColor=1e1c1a" alt="웹에서 읽기">
+</a>
+
 [![Deploy docs](https://github.com/workdd/I_AM_ML_Engineer/actions/workflows/docs.yml/badge.svg)](https://github.com/workdd/I_AM_ML_Engineer/actions/workflows/docs.yml)
-[![GitHub issues](https://img.shields.io/github/issues/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/issues)
-[![GitHub stars](https://img.shields.io/github/stars/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/stargazers)
+[![Issues](https://img.shields.io/github/issues/workdd/I_AM_ML_Engineer?labelColor=1e1c1a&color=8a837a)](https://github.com/workdd/I_AM_ML_Engineer/issues)
+[![Stars](https://img.shields.io/github/stars/workdd/I_AM_ML_Engineer?labelColor=1e1c1a&color=8a837a)](https://github.com/workdd/I_AM_ML_Engineer/stargazers)
 
-**웹에서 읽기: [workdd.github.io/I_AM_ML_Engineer](https://workdd.github.io/I_AM_ML_Engineer/)**
+<br>
 
-전문 검색, 주제별 목차, 다이어그램 렌더가 됩니다. 휴대폰에서도 그대로 읽힙니다.
+<a href="https://workdd.github.io/I_AM_ML_Engineer/">
+  <img src="docs_assets/site-preview.png" alt="문서 사이트 미리보기" width="88%">
+</a>
+
+<br><br>
+
+**전문 검색** · **주제별 목차** · **다이어그램 렌더** · **시스템 테마 자동 추종**
+
+휴대폰에서도 그대로 읽힙니다.
+
+</div>
 
 ## About
 
