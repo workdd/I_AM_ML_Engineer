@@ -2,8 +2,14 @@
 
 > 읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
 
+[![문서 사이트](https://img.shields.io/badge/읽기-workdd.github.io-3d6b45?logo=materialformkdocs&logoColor=white)](https://workdd.github.io/I_AM_ML_Engineer/)
+[![Deploy docs](https://github.com/workdd/I_AM_ML_Engineer/actions/workflows/docs.yml/badge.svg)](https://github.com/workdd/I_AM_ML_Engineer/actions/workflows/docs.yml)
 [![GitHub issues](https://img.shields.io/github/issues/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/issues)
 [![GitHub stars](https://img.shields.io/github/stars/workdd/I_AM_ML_Engineer)](https://github.com/workdd/I_AM_ML_Engineer/stargazers)
+
+**웹에서 읽기: [workdd.github.io/I_AM_ML_Engineer](https://workdd.github.io/I_AM_ML_Engineer/)**
+
+전문 검색, 주제별 목차, 다이어그램 렌더가 됩니다. 휴대폰에서도 그대로 읽힙니다.
 
 ## About
 
