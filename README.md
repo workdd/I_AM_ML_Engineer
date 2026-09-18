@@ -35,12 +35,13 @@
 - **원문 확인**: 수치와 인용은 원문에서 직접 확인합니다. 2차 자료를 옮겨 적지 않습니다
 - **한계 명시**: 어떤 조건에서 나온 결과인지, 어디까지 일반화되는지 함께 적습니다
 - **상호 연결**: 같은 문제를 다루는 자료끼리 링크로 잇습니다
-- **적용 지점**: 읽은 내용 중 실제로 쓸 수 있는 부분을 따로 뽑습니다
+- **적용 지점**: 읽은 내용 중 다른 곳에 옮길 수 있는 원리를 따로 뽑습니다
 
 ## Readings
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-09-18` [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) · arXiv / ICLR 2026
 - `2026-09-14` [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) · arXiv
 - `2026-09-11` [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) · DeepSeek-AI
 - `2026-09-11` [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) · CL4R1T4S
@@ -48,7 +49,6 @@
 - `2026-09-10` [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) · dev.to
 - `2026-09-10` [LLM on Graphs 서베이: GraphRAG는 이 지형의 한 칸이다](readings/papers/[20260910]%20LLM_on_Graphs_Comprehensive_Survey.md) · arXiv
 - `2026-09-10` [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) · Liner
-- `2026-09-10` [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) · AWS 기술 블로그
 
 ### 그래프와 지식 표현
 
@@ -92,6 +92,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-18 | [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) | arXiv / ICLR 2026 | `#MultiLLM` `#KVCache` `#ModelCommunication` `#Inference` |
 | 2026-09-14 | [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) | arXiv | `#LatentSpaceLM` `#NextConceptPrediction` `#VectorQuantization` `#Pretraining` |
 | 2026-09-11 | [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) | DeepSeek-AI | `#KVCache` `#SparseAttention` `#MoE` `#LongContext` `#FP4` |
 | 2026-09-10 | [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) | AWS 기술 블로그 | `#vLLM` `#EKS` `#ColdStart` `#Karpenter` `#SleepMode` |
@@ -182,7 +183,7 @@ I_AM_ML_Engineer/
 2. **한 줄 요약** - 이 자료가 주장하는 것
 3. **본문** - 아래 본문 규칙을 따릅니다
 4. **읽을 때 감안할 것** - 조건, 표본, 검증되지 않은 전제, 발견한 오기
-5. **내 작업과의 연결** - 실제로 가져다 쓸 지점
+5. **가져갈 지점** - 다른 자료에 옮길 수 있는 원리와 저장소 내 관련 정리 연결
 6. **결론** - 이 자료를 어떻게 쓰는 것이 맞는지
 
 4번이 핵심입니다. 벤더 자료의 정량 지표 부재, 단일 환경 실험, 인용 오류 같은 것을 여기 적습니다.
