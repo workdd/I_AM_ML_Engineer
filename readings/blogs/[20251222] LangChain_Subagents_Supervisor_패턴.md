@@ -109,7 +109,7 @@ User: "디자인팀과 화요일 2시 회의하고, 목업 검토 메일 보내�
 3. **Human-in-the-loop** 필수 - 중요 작업에 승인 단계
 
 ### 실무 연결
-- 사내 챗봇에 적용 가능
+- 도메인이 여러 갈래인 챗봇에 적용할 수 있는 구조
   - HR Agent, IT Agent, Finance Agent 등 분리
   - Supervisor가 의도 파악 후 적절한 Agent 호출
 - LangGraph로 구현 시 상태 관리 용이

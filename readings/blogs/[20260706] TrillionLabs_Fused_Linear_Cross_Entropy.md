@@ -211,7 +211,7 @@ backward에서는 이미 계산된 `dx`, `dw`를 upstream scalar gradient로 sca
 | kernel fusion의 가치 | matmul, CE, dlogits, dx/dw 계산을 가까운 시점에 묶어 materialization을 피함 |
 | chunk size tuning 필요 | 너무 작은 chunk는 memory는 줄이지만 latency가 증가 |
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 이 글은 LLM 학습/서빙 최적화에서 "수식상 같은 계산"과 "시스템상 같은 계산"이 다르다는 점을 잘 보여준다.
 

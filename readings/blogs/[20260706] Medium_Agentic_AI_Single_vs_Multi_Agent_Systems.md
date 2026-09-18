@@ -182,7 +182,7 @@ multi-agent workflow에서 state는 성능과 비용에 직접 영향을 준다.
 
 이 개선점들은 실제 production agent에서 거의 필수에 가깝다.
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 이 글은 최근 정리한 tool selection, OpenWiki, LogicRAG와 같은 흐름으로 볼 수 있다.
 

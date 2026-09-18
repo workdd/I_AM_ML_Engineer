@@ -179,7 +179,7 @@ Stanford, 2024 ([arXiv:2401.18059](https://arxiv.org/abs/2401.18059)). 그래프
 - **제목만큼 전부는 아니다.** LightRAG, HippoRAG, KAG처럼 자주 인용되는 구현이 빠져 있다. 저장소에 있는 [ROGRAG](../papers/%5B20260831%5D%20ROGRAG_Robustly_Optimized_GraphRAG.md)나 [LogicRAG](../papers/%5B20260702%5D%20LogicRAG_Adaptive_Reasoning_Structures.md) 계열의 문제의식도 다루지 않는다.
 - **2025년 4월 기준이다.** GraphRAG는 변화가 빠른 영역이라 세부는 지금과 다를 수 있다.
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 1. **저장소의 GraphRAG 노트들을 꿰는 지도**
 

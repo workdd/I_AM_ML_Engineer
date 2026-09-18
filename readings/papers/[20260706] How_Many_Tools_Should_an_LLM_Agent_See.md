@@ -169,7 +169,7 @@ medium difficulty query에서는 차이가 더 명확하다. FK=5는 정답 도�
 | scorer가 너무 약하면 깊게 본다 | MetaTool+BM25처럼 scorer 품질이 낮으면 BoR agent가 거의 전체 도구를 보려 할 수 있다. |
 | multi-tool query 일반화 | 실험은 대부분 query당 정답 도구 하나인 설정이다. 여러 도구 조합이 필요한 agent task에는 추가 설계가 필요하다. |
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 이 논문은 MCP/tool registry를 쓰는 agent 설계와 바로 연결된다.
 
@@ -211,7 +211,7 @@ query
 }
 ```
 
-이 로그를 쌓으면 scorer별, domain별, query 난이도별로 "우리 시스템이 랜덤 대비 얼마나 선택적인가"를 볼 수 있다. 이후 충분한 데이터가 쌓이면 heuristic adaptive-K나 학습 기반 policy로 넘어갈 수 있다.
+이 로그를 쌓으면 scorer별, domain별, query 난이도별로 "선택기가 랜덤 대비 얼마나 선택적인가"를 볼 수 있다. 이후 충분한 데이터가 쌓이면 heuristic adaptive-K나 학습 기반 policy로 넘어갈 수 있다.
 
 ## 결론
 
