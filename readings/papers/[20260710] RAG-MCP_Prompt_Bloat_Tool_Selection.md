@@ -110,7 +110,7 @@ Stress test 분석에서는 MCP 위치가 30 이하일 때는 성공률이 높�
 | 낮은 절대 정확도 | 43.13%는 baseline 대비 크지만, 실서비스 자동 도구 선택 기준으로는 아직 낮음 |
 | Metadata 품질 문제 | MCP 설명이 부실하거나 서로 비슷하면 semantic retrieval도 흔들릴 수 있음 |
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 이 논문은 Codex/Claude Code 스타일의 tool ecosystem, MCP, skill/plugin 구조와 직접 연결된다. 도구가 많아지는 환경에서는 모델에게 모든 도구 설명을 한 번에 보여주는 방식보다, **도구 탐색 자체를 별도 retrieval layer로 빼는 구조**가 운영상 자연스럽다.
 

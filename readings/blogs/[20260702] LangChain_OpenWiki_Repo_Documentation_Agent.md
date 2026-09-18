@@ -144,7 +144,7 @@ OpenWiki의 문서는 README 보강용이 아니라 코딩 에이전트가 반�
 | secret 관리 | 로컬은 `~/.openwiki/.env`, GitHub Action은 repository secrets 관리 필요 |
 | 문서 표준화 부족 | `openwiki/` 내부 포맷이 장기 표준으로 굳을지는 더 봐야 함 |
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 최근 정리한 OKF, LogicRAG와 같은 흐름으로 볼 수 있다.
 

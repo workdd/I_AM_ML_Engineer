@@ -126,7 +126,7 @@ agentic RAG는 불확실한 상태에서 비슷한 subquery를 반복 생성하�
 | 실무 구현 격차 | 공개 코드가 논문 알고리즘의 모든 pruning/dynamic adaptation을 완전하게 담았는지는 확인 필요 |
 | 단순 질문 overhead | 질문이 단순하면 vanilla RAG보다 느릴 수 있음 |
 
-## 내 작업과의 연결
+## 가져갈 지점
 
 이 레포에서 고민 중인 RAG/환각/검증 흐름과 직접 연결된다.
 

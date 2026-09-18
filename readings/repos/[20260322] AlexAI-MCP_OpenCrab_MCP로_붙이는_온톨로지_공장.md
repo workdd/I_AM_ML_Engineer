@@ -118,7 +118,7 @@ MCP 서버는 줄 단위 JSON-RPC를 stdin/stdout으로 주고받는 직접 구�
 
 ## 제약
 
-- **LICENSE 파일이 없다.** README와 pyproject는 MIT라고 적었지만 파일이 없어 GitHub는 라이선스 미표기로 잡는다. 사내에 들이려면 확인이 필요하다.
+- **LICENSE 파일이 없다.** README와 pyproject는 MIT라고 적었지만 파일이 없어 GitHub는 라이선스 미표기로 잡는다. 도입 전에 확인이 필요하다.
 - **Pack v1은 계약서만 있고 구현이 없다.** 문서는 필수 엔트리 11개와 `validate → Neo4j 임포트 → 익스포트 → 정규화 → ZIP` 5단계를 규정하지만 코드에는 Neo4j 내보내기 한 단계(`export_neo4j_opencrab_ingest`)만 있다. 레포 어디에도 zipfile 호출이 없다.
 - **`.env.example`의 `STORAGE_MODE`는 죽은 설정이다.** Settings에 그 필드가 없고 `extra="ignore"`라 조용히 버려진다. 팩토리는 언제나 로컬 저장소를 돌려준다. Neo4j·Mongo 어댑터는 남아 있지만 `export-neo4j-pack` 명령과 Obsidian 임포터에서만 쓰인다. `query.py` 주석은 여전히 그래프 순회를 Neo4j가 한다고 적어 뒀다.
 - **예제 워커 3개 중 github_trending은 `echo` 스텁이다.** 실제로 도는 것은 landscape와 soeak 둘이다.
@@ -128,7 +128,7 @@ MCP 서버는 줄 단위 JSON-RPC를 stdin/stdout으로 주고받는 직접 구�
 
 ## 메모 — 내 관심사와의 접점
 
-- **CMP 온톨로지와 대비된다.** 이쪽은 TTL과 SPARQL로 쓰는데 OpenCrab은 OWL/RDF가 아니라 프로퍼티 그래프에 파이썬 상수로 문법을 박는다. 추론기가 없는 대신 "에이전트가 노드를 넣으려 할 때 거절당한다"는 쓰기 경로 검증이 있다. IaaS 온톨로지에 없는 축이 정확히 이 쓰기 검증과 승격 수명주기다.
+- **RDF 계열 온톨로지와 대비된다.** TTL과 SPARQL을 쓰는 쪽은 OWL/RDF 표준 위에 서는데, OpenCrab은 프로퍼티 그래프에 파이썬 상수로 문법을 박는다. 추론기가 없는 대신 "에이전트가 노드를 넣으려 할 때 거절당한다"는 쓰기 경로 검증이 있다. 표준 온톨로지 쪽에 대체로 없는 축이 정확히 이 쓰기 검증과 승격 수명주기다.
 - **evidence → claim 결속은 Agentic RAG의 근거 추적과 같은 문제를 다룬다.** Claim에 `status`를 달아 candidate → validated → promoted로 굴리는 방식은 평가 파이프라인의 판정 상태 관리에 그대로 옮겨 써도 되겠다.
 - **I1~I7은 온톨로지 변경 리뷰 체크리스트로 쓸 만하다.** 특히 I6 캐시·인덱스와 I7 다운스트림은 TTL만 고칠 때 놓치기 쉬운 자리다.
 - **RRF k=60 + alpha 0.7 조합은 그대로 베낄 만한 기본값이다.** 한글 2·3그램 토크나이저도 형태소 분석기 없이 굴릴 때의 현실적인 절충으로 참고할 만하다.
