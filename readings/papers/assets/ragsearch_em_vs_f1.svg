@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="466" viewBox="0 0 800 466" role="img" aria-label="같은 답, 다른 지표: Contain-EM과 F1">
+<title>같은 답, 다른 지표: Contain-EM과 F1</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="800" height="466" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">같은 답, 다른 지표: Contain-EM과 F1</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">NQ · TriviaQA · HotpotQA · Musique 평균 (F1이 보고된 네 데이터셋)</text>
+<line class="grid" x1="220.0" y1="110" x2="220.0" y2="368"/>
+<text x="220.0" y="384.0" text-anchor="middle" class="mu">0</text>
+<line class="grid" x1="280.0" y1="110" x2="280.0" y2="368"/>
+<text x="280.0" y="384.0" text-anchor="middle" class="mu">10</text>
+<line class="grid" x1="340.0" y1="110" x2="340.0" y2="368"/>
+<text x="340.0" y="384.0" text-anchor="middle" class="mu">20</text>
+<line class="grid" x1="400.0" y1="110" x2="400.0" y2="368"/>
+<text x="400.0" y="384.0" text-anchor="middle" class="mu">30</text>
+<line class="grid" x1="460.0" y1="110" x2="460.0" y2="368"/>
+<text x="460.0" y="384.0" text-anchor="middle" class="mu">40</text>
+<line class="grid" x1="520.0" y1="110" x2="520.0" y2="368"/>
+<text x="520.0" y="384.0" text-anchor="middle" class="mu">50</text>
+<line class="grid" x1="580.0" y1="110" x2="580.0" y2="368"/>
+<text x="580.0" y="384.0" text-anchor="middle" class="mu">60</text>
+<line class="grid" x1="640.0" y1="110" x2="640.0" y2="368"/>
+<text x="640.0" y="384.0" text-anchor="middle" class="mu">70</text>
+<text x="700.0" y="104.0" text-anchor="middle" class="t2" style="font-size:12px">차이</text>
+<text x="206.0" y="128.0" text-anchor="end">단일 검색 Dense</text>
+<line class="inkS" x1="437.8" y1="124" x2="444.4" y2="124" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="444.4" cy="124" r="6"/>
+<circle class="s1f ring" cx="437.8" cy="124" r="6"/>
+<text x="700.0" y="128.0" text-anchor="middle" class="t2">-1.1</text>
+<text x="206.0" y="160.0" text-anchor="end">단일 검색 GraphRAG</text>
+<line class="inkS" x1="448.0" y1="156" x2="520.9" y2="156" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="448.0" cy="156" r="6"/>
+<circle class="s1f ring" cx="520.9" cy="156" r="6"/>
+<text x="700.0" y="160.0" text-anchor="middle" class="t2">+12.1</text>
+<text x="206.0" y="192.0" text-anchor="end">Search-o1 Dense</text>
+<line class="inkS" x1="435.0" y1="188" x2="449.2" y2="188" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="449.2" cy="188" r="6"/>
+<circle class="s1f ring" cx="435.0" cy="188" r="6"/>
+<text x="700.0" y="192.0" text-anchor="middle" class="t2">-2.4</text>
+<text x="206.0" y="224.0" text-anchor="end">Search-o1 GraphRAG</text>
+<line class="inkS" x1="479.5" y1="220" x2="480.1" y2="220" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="480.1" cy="220" r="6"/>
+<circle class="s1f ring" cx="479.5" cy="220" r="6"/>
+<text x="700.0" y="224.0" text-anchor="middle" class="t2">-0.1</text>
+<text x="206.0" y="256.0" text-anchor="end" class="b">GraphSearch Dense</text>
+<line class="inkS" x1="265.3" y1="252" x2="487.8" y2="252" style="stroke-width:3;opacity:0.9"/>
+<circle class="s2f ring" cx="265.3" cy="252" r="6"/>
+<circle class="s1f ring" cx="487.8" cy="252" r="6"/>
+<text x="700.0" y="256.0" text-anchor="middle" class="b">+37.1</text>
+<text x="206.0" y="288.0" text-anchor="end" class="b">GraphSearch GraphRAG</text>
+<line class="inkS" x1="262.7" y1="284" x2="591.4" y2="284" style="stroke-width:3;opacity:0.9"/>
+<circle class="s2f ring" cx="262.7" cy="284" r="6"/>
+<circle class="s1f ring" cx="591.4" cy="284" r="6"/>
+<text x="700.0" y="288.0" text-anchor="middle" class="b">+54.8</text>
+<text x="206.0" y="320.0" text-anchor="end">Search-R1</text>
+<line class="inkS" x1="459.4" y1="316" x2="464.3" y2="316" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="459.4" cy="316" r="6"/>
+<circle class="s1f ring" cx="464.3" cy="316" r="6"/>
+<text x="700.0" y="320.0" text-anchor="middle" class="t2">+0.8</text>
+<text x="206.0" y="352.0" text-anchor="end">Graph-R1</text>
+<line class="inkS" x1="497.0" y1="348" x2="530.7" y2="348" style="stroke-width:2;opacity:0.35"/>
+<circle class="s2f ring" cx="497.0" cy="348" r="6"/>
+<circle class="s1f ring" cx="530.7" cy="348" r="6"/>
+<text x="700.0" y="352.0" text-anchor="middle" class="t2">+5.6</text>
+<circle class="s1f" cx="220" cy="80" r="6"/>
+<text x="232.0" y="84.0" text-anchor="start" style="font-size:12px">Contain-EM (정답 문자열이 응답 안에 있으면 정답)</text>
+<circle class="s2f" cx="550" cy="80" r="6"/>
+<text x="562.0" y="84.0" text-anchor="start" style="font-size:12px">토큰 F1</text>
+<text x="24.0" y="410.0" text-anchor="start" class="t2" style="font-size:12px">GraphSearch는 Contain-EM으로 1위지만 F1은 한 자릿수입니다. 답을 길게 늘어놓아 정답이 우연히 포함됐을 가능성이 큽니다.</text>
+<text x="24.0" y="440.0" text-anchor="start" class="mu">출처: RAGSearch (arXiv:2604.09666) Table 1, Table 7에서 계산</text>
+<text x="24.0" y="455.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

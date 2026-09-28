@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="350" viewBox="0 0 780 350" role="img" aria-label="멀티홉 QA에서 GraphRAG가 dense RAG보다 높은 폭">
+<title>멀티홉 QA에서 GraphRAG가 dense RAG보다 높은 폭</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="780" height="350" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">멀티홉 QA에서 GraphRAG가 dense RAG보다 높은 폭</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">HotpotQA · 2Wiki · Musique 평균 Contain-EM 차. 회색 = 에이전트 없는 단일 검색 기준</text>
+<line class="grid" x1="230.0" y1="80" x2="230.0" y2="244"/>
+<text x="230.0" y="260.0" text-anchor="middle" class="mu">0</text>
+<line class="grid" x1="291.4" y1="80" x2="291.4" y2="244"/>
+<text x="291.4" y="260.0" text-anchor="middle" class="mu">5</text>
+<line class="grid" x1="352.9" y1="80" x2="352.9" y2="244"/>
+<text x="352.9" y="260.0" text-anchor="middle" class="mu">10</text>
+<line class="grid" x1="414.3" y1="80" x2="414.3" y2="244"/>
+<text x="414.3" y="260.0" text-anchor="middle" class="mu">15</text>
+<line class="grid" x1="475.7" y1="80" x2="475.7" y2="244"/>
+<text x="475.7" y="260.0" text-anchor="middle" class="mu">20</text>
+<line class="grid" x1="537.1" y1="80" x2="537.1" y2="244"/>
+<text x="537.1" y="260.0" text-anchor="middle" class="mu">25</text>
+<line class="grid" x1="598.6" y1="80" x2="598.6" y2="244"/>
+<text x="598.6" y="260.0" text-anchor="middle" class="mu">30</text>
+<line class="grid" x1="660.0" y1="80" x2="660.0" y2="244"/>
+<text x="660.0" y="260.0" text-anchor="middle" class="mu">35</text>
+<text x="218.0" y="106.0" text-anchor="end">단일 검색</text>
+<rect class="faintf" x="230" y="92" width="334.5" height="20" rx="4"/>
+<text x="572.5" y="107.0" text-anchor="start" class="b">27.23</text>
+<text x="218.0" y="146.0" text-anchor="end">Search-o1</text>
+<rect class="s1f" x="230" y="132" width="265.1" height="20" rx="4"/>
+<text x="503.1" y="147.0" text-anchor="start" class="b">21.58</text>
+<text x="553.1" y="147.0" text-anchor="start" class="t2" style="font-size:12px">기준 대비 -5.65</text>
+<text x="218.0" y="186.0" text-anchor="end">GraphSearch</text>
+<rect class="s1f" x="230" y="172" width="388.2" height="20" rx="4"/>
+<text x="626.2" y="187.0" text-anchor="start" class="b">31.60</text>
+<text x="676.2" y="187.0" text-anchor="start" class="t2" style="font-size:12px">기준 대비 +4.37</text>
+<text x="218.0" y="226.0" text-anchor="end">RL (Search-R1 · Graph-R1)</text>
+<rect class="s1f" x="230" y="212" width="314.3" height="20" rx="4"/>
+<text x="552.3" y="227.0" text-anchor="start" class="b">25.58</text>
+<text x="602.3" y="227.0" text-anchor="start" class="t2" style="font-size:12px">기준 대비 -1.65</text>
+<text x="24.0" y="292.0" text-anchor="start" class="t2" style="font-size:12px">저자가 보고한 '에이전트 적용 후 26.59'는 Search-o1과 GraphSearch 격차의 평균(26.59)입니다. GraphSearch만 보면 격차는 더 커졌습니다.</text>
+<text x="24.0" y="324.0" text-anchor="start" class="mu">출처: RAGSearch (arXiv:2604.09666) Table 1에서 계산</text>
+<text x="24.0" y="339.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

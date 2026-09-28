@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="440" viewBox="0 0 780 440" role="img" aria-label="구축 비용과 멀티홉 성능은 비례하지 않는다">
+<title>구축 비용과 멀티홉 성능은 비례하지 않는다</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="780" height="440" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">구축 비용과 멀티홉 성능은 비례하지 않는다</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">가장 비싼 MS GraphRAG($13.19)보다 HippoRAG2($2.85)가 두 에이전트 모두에서 높다</text>
+<line class="grid" x1="90" y1="360.0" x2="720" y2="360.0"/>
+<text x="80.0" y="364.0" text-anchor="end" class="mu">20</text>
+<line class="grid" x1="90" y1="306.0" x2="720" y2="306.0"/>
+<text x="80.0" y="310.0" text-anchor="end" class="mu">30</text>
+<line class="grid" x1="90" y1="252.0" x2="720" y2="252.0"/>
+<text x="80.0" y="256.0" text-anchor="end" class="mu">40</text>
+<line class="grid" x1="90" y1="198.0" x2="720" y2="198.0"/>
+<text x="80.0" y="202.0" text-anchor="end" class="mu">50</text>
+<line class="grid" x1="90" y1="144.0" x2="720" y2="144.0"/>
+<text x="80.0" y="148.0" text-anchor="end" class="mu">60</text>
+<line class="grid" x1="90" y1="90.0" x2="720" y2="90.0"/>
+<text x="80.0" y="94.0" text-anchor="end" class="mu">70</text>
+<text x="90.0" y="378.0" text-anchor="middle" class="mu">$0</text>
+<text x="180.0" y="378.0" text-anchor="middle" class="mu">$2</text>
+<text x="270.0" y="378.0" text-anchor="middle" class="mu">$4</text>
+<text x="360.0" y="378.0" text-anchor="middle" class="mu">$6</text>
+<text x="450.0" y="378.0" text-anchor="middle" class="mu">$8</text>
+<text x="540.0" y="378.0" text-anchor="middle" class="mu">$10</text>
+<text x="630.0" y="378.0" text-anchor="middle" class="mu">$12</text>
+<text x="720.0" y="378.0" text-anchor="middle" class="mu">$14</text>
+<text x="405.0" y="400.0" text-anchor="middle" class="t2" style="font-size:12px">그래프 구축 비용 (NQ, 100만 토큰당, GPT-4o-mini)</text>
+<text x="38" y="225.0" text-anchor="middle" class="t2" style="font-size:12px" transform="rotate(-90 38 225.0)">멀티홉 평균 Contain-EM</text>
+<line class="s2s" x1="90" y1="331.2" x2="720" y2="331.2" style="stroke-width:1.5;opacity:.55"/>
+<text x="720.0" y="325.2" text-anchor="end" class="t2" style="font-size:11.5px">Search-o1 + dense 25.3</text>
+<line class="s1s" x1="90" y1="289.8" x2="720" y2="289.8" style="stroke-width:1.5;opacity:.55"/>
+<text x="720.0" y="283.8" text-anchor="end" class="t2" style="font-size:11.5px">GraphSearch + dense 33.0</text>
+<line class="inkS" x1="266.9" y1="265.4" x2="266.9" y2="152.6" style="stroke-width:1;opacity:.4"/>
+<circle class="s2f ring" cx="266.9" cy="265.4" r="6"/>
+<circle class="s1f ring" cx="266.9" cy="152.6" r="7"/>
+<text x="278.9" y="148.6" text-anchor="start">HyperGraphRAG</text>
+<text x="278.9" y="164.6" text-anchor="start" class="mu">$3.93 · 1,680 토큰</text>
+<line class="inkS" x1="218.2" y1="214.7" x2="218.2" y2="119.5" style="stroke-width:1;opacity:.4"/>
+<circle class="s2f ring" cx="218.2" cy="214.7" r="6"/>
+<circle class="s1f ring" cx="218.2" cy="119.5" r="7"/>
+<text x="230.2" y="115.5" text-anchor="start" class="b">HippoRAG2</text>
+<text x="230.2" y="131.5" text-anchor="start" class="mu">$2.85 · 3,229 토큰</text>
+<line class="inkS" x1="90.0" y1="244.5" x2="90.0" y2="177.7" style="stroke-width:1;opacity:.4"/>
+<circle class="s2f ring" cx="90.0" cy="244.5" r="6"/>
+<circle class="s1f ring" cx="90.0" cy="177.7" r="7"/>
+<text x="102.0" y="173.7" text-anchor="start">LinearRAG</text>
+<text x="102.0" y="189.7" text-anchor="start" class="mu">$0.00 · 4,600 토큰</text>
+<line class="inkS" x1="377.1" y1="308.0" x2="377.1" y2="168.0" style="stroke-width:1;opacity:.4"/>
+<circle class="s2f ring" cx="377.1" cy="308.0" r="6"/>
+<circle class="s1f ring" cx="377.1" cy="168.0" r="7"/>
+<text x="389.1" y="164.0" text-anchor="start">RAPTOR</text>
+<text x="389.1" y="180.0" text-anchor="start" class="mu">$6.38 · 814 토큰</text>
+<line class="inkS" x1="683.5" y1="263.8" x2="683.5" y2="177.5" style="stroke-width:1;opacity:.4"/>
+<circle class="s2f ring" cx="683.5" cy="263.8" r="6"/>
+<circle class="s1f ring" cx="683.5" cy="177.5" r="7"/>
+<text x="671.5" y="173.5" text-anchor="end">MS GraphRAG</text>
+<text x="671.5" y="189.5" text-anchor="end" class="mu">$13.19 · 22,160 토큰</text>
+<circle class="s1f" cx="100" cy="72" r="6"/>
+<text x="112.0" y="76.0" text-anchor="start" style="font-size:12px">GraphSearch</text>
+<circle class="s2f" cx="220" cy="72" r="6"/>
+<text x="232.0" y="76.0" text-anchor="start" style="font-size:12px">Search-o1</text>
+<text x="320.0" y="76.0" text-anchor="start" class="mu">토큰 = 검색 시 평균 컨텍스트 · 가로선 = 같은 에이전트의 dense RAG</text>
+<text x="24.0" y="414.0" text-anchor="start" class="mu">출처: RAGSearch (arXiv:2604.09666) Table 2, Table 8</text>
+<text x="24.0" y="429.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

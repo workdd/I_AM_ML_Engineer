@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="280" viewBox="0 0 760 280" role="img" aria-label="질의당 토큰: LightRAG 대비">
+<title>질의당 토큰: LightRAG 대비</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="760" height="280" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">질의당 토큰: LightRAG 대비</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">PathRAG는 N=40, K=15, PathRAG-lt는 N=20, K=5. 승률은 각각의 LightRAG 대비 값</text>
+<line class="grid" x1="150.0" y1="86" x2="150.0" y2="212"/>
+<text x="150.0" y="228.0" text-anchor="middle" class="mu">0k</text>
+<line class="grid" x1="228.3" y1="86" x2="228.3" y2="212"/>
+<text x="228.3" y="228.0" text-anchor="middle" class="mu">3k</text>
+<line class="grid" x1="306.7" y1="86" x2="306.7" y2="212"/>
+<text x="306.7" y="228.0" text-anchor="middle" class="mu">6k</text>
+<line class="grid" x1="385.0" y1="86" x2="385.0" y2="212"/>
+<text x="385.0" y="228.0" text-anchor="middle" class="mu">9k</text>
+<line class="grid" x1="463.3" y1="86" x2="463.3" y2="212"/>
+<text x="463.3" y="228.0" text-anchor="middle" class="mu">12k</text>
+<line class="grid" x1="541.7" y1="86" x2="541.7" y2="212"/>
+<text x="541.7" y="228.0" text-anchor="middle" class="mu">15k</text>
+<line class="grid" x1="620.0" y1="86" x2="620.0" y2="212"/>
+<text x="620.0" y="228.0" text-anchor="middle" class="mu">18k</text>
+<text x="138.0" y="111.0" text-anchor="end">LightRAG</text>
+<rect class="faintf" x="150" y="96" width="436.8" height="22" rx="4"/>
+<text x="594.8" y="112.0" text-anchor="start" class="b">16,728</text>
+<text x="646.8" y="112.0" text-anchor="start" class="t2" style="font-size:12px">기준</text>
+<text x="138.0" y="155.0" text-anchor="end">PathRAG-lt</text>
+<rect class="s1f" x="150" y="140" width="260.3" height="22" rx="4"/>
+<text x="418.3" y="156.0" text-anchor="start" class="b">9,968</text>
+<text x="470.3" y="156.0" text-anchor="start" class="t2" style="font-size:12px">토큰 40.41% 절감 · 승률 50.56%</text>
+<text x="138.0" y="199.0" text-anchor="end" class="b">PathRAG</text>
+<rect class="s1f" x="150" y="184" width="377.0" height="22" rx="4"/>
+<text x="535.0" y="200.0" text-anchor="start" class="b">14,438</text>
+<text x="587.0" y="200.0" text-anchor="start" class="t2" style="font-size:12px">토큰 13.69% 절감 · 승률 57.09%</text>
+<text x="24.0" y="254.0" text-anchor="start" class="mu">출처: PathRAG (arXiv:2502.14902) Table 6, Table 1</text>
+<text x="24.0" y="269.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>
