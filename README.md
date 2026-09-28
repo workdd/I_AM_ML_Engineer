@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-09-28` [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) · arXiv
 - `2026-09-18` [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) · arXiv / ICLR 2026
 - `2026-09-14` [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) · arXiv
 - `2026-09-11` [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) · DeepSeek-AI
@@ -48,7 +49,6 @@
 - `2026-09-11` [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) · llm-as-a-verifier
 - `2026-09-10` [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) · dev.to
 - `2026-09-10` [LLM on Graphs 서베이: GraphRAG는 이 지형의 한 칸이다](readings/papers/[20260910]%20LLM_on_Graphs_Comprehensive_Survey.md) · arXiv
-- `2026-09-10` [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) · Liner
 
 ### 그래프와 지식 표현
 
@@ -110,6 +110,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-28 | [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) | arXiv | `#LLMasJudge` `#Calibration` `#Cascade` `#EvalCost` |
 | 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
 | 2026-06-09 | [Logits as Confidence: LLM·VLM 신뢰도 활용](readings/blogs/[20260609]%20Medium_Logits_as_Confidence_LLM_VLM.md) | Medium | `#Logits` `#Confidence` `#LLM` `#VLM` `#LogProbs` |
 | 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
