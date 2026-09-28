@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="388" viewBox="0 0 800 388" role="img" aria-label="기준선 × 데이터셋별 PathRAG 승률">
+<title>기준선 × 데이터셋별 PathRAG 승률</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="800" height="388" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">기준선 × 데이터셋별 PathRAG 승률</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">평가 축 5개(포괄성·다양성·논리성·관련성·일관성) 평균</text>
+<text x="204.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">Legal</text>
+<text x="304.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">History</text>
+<text x="404.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">Biology</text>
+<text x="504.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">Mix</text>
+<text x="604.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">SQuALITY</text>
+<text x="704.0" y="88.0" text-anchor="middle" class="t2" style="font-size:12px">SummScreen</text>
+<text x="142.0" y="119.0" text-anchor="end">NaiveRAG</text>
+<rect x="155.0" y="99.0" width="98" height="30" rx="3" fill="#104281"/>
+<text x="204.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">69.5%</text>
+<rect x="255.0" y="99.0" width="98" height="30" rx="3" fill="#3987e5"/>
+<text x="304.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">61.7%</text>
+<rect x="355.0" y="99.0" width="98" height="30" rx="3" fill="#256abf"/>
+<text x="404.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">64.0%</text>
+<rect x="455.0" y="99.0" width="98" height="30" rx="3" fill="#256abf"/>
+<text x="504.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">64.8%</text>
+<rect x="555.0" y="99.0" width="98" height="30" rx="3" fill="#1c5cab"/>
+<text x="604.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">66.5%</text>
+<rect x="655.0" y="99.0" width="98" height="30" rx="3" fill="#104281"/>
+<text x="704.0" y="119.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">70.5%</text>
+<text x="142.0" y="151.0" text-anchor="end">HyDE</text>
+<rect x="155.0" y="131.0" width="98" height="30" rx="3" fill="#1c5cab"/>
+<text x="204.0" y="151.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">66.4%</text>
+<rect x="255.0" y="131.0" width="98" height="30" rx="3" fill="#2a78d6"/>
+<text x="304.0" y="151.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">63.1%</text>
+<rect x="355.0" y="131.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="404.0" y="151.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">59.4%</text>
+<rect x="455.0" y="131.0" width="98" height="30" rx="3" fill="#6da7ec"/>
+<text x="504.0" y="151.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">57.8%</text>
+<rect x="555.0" y="131.0" width="98" height="30" rx="3" fill="#2a78d6"/>
+<text x="604.0" y="151.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">62.7%</text>
+<rect x="655.0" y="131.0" width="98" height="30" rx="3" fill="#184f95"/>
+<text x="704.0" y="151.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">67.5%</text>
+<text x="142.0" y="183.0" text-anchor="end">G-retriever</text>
+<rect x="155.0" y="163.0" width="98" height="30" rx="3" fill="#256abf"/>
+<text x="204.0" y="183.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">64.6%</text>
+<rect x="255.0" y="163.0" width="98" height="30" rx="3" fill="#6da7ec"/>
+<text x="304.0" y="183.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">56.5%</text>
+<rect x="355.0" y="163.0" width="98" height="30" rx="3" fill="#2a78d6"/>
+<text x="404.0" y="183.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">62.2%</text>
+<rect x="455.0" y="163.0" width="98" height="30" rx="3" fill="#104281"/>
+<text x="504.0" y="183.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">69.5%</text>
+<rect x="555.0" y="163.0" width="98" height="30" rx="3" fill="#3987e5"/>
+<text x="604.0" y="183.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">61.8%</text>
+<rect x="655.0" y="163.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="704.0" y="183.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">59.2%</text>
+<text x="142.0" y="215.0" text-anchor="end">HippoRAG</text>
+<rect x="155.0" y="195.0" width="98" height="30" rx="3" fill="#2a78d6"/>
+<text x="204.0" y="215.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">62.4%</text>
+<rect x="255.0" y="195.0" width="98" height="30" rx="3" fill="#6da7ec"/>
+<text x="304.0" y="215.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">57.0%</text>
+<rect x="355.0" y="195.0" width="98" height="30" rx="3" fill="#3987e5"/>
+<text x="404.0" y="215.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">60.8%</text>
+<rect x="455.0" y="195.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="504.0" y="215.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">59.5%</text>
+<rect x="555.0" y="195.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="604.0" y="215.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">58.7%</text>
+<rect x="655.0" y="195.0" width="98" height="30" rx="3" fill="#184f95"/>
+<text x="704.0" y="215.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">68.9%</text>
+<text x="142.0" y="247.0" text-anchor="end">MS GraphRAG</text>
+<rect x="155.0" y="227.0" width="98" height="30" rx="3" fill="#2a78d6"/>
+<text x="204.0" y="247.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">63.2%</text>
+<rect x="255.0" y="227.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="304.0" y="247.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">58.8%</text>
+<rect x="355.0" y="227.0" width="98" height="30" rx="3" fill="#3987e5"/>
+<text x="404.0" y="247.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">60.4%</text>
+<rect x="455.0" y="227.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="504.0" y="247.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">59.7%</text>
+<rect x="555.0" y="227.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="604.0" y="247.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">58.7%</text>
+<rect x="655.0" y="227.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="704.0" y="247.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">58.8%</text>
+<text x="142.0" y="279.0" text-anchor="end">LightRAG</text>
+<rect x="155.0" y="259.0" width="98" height="30" rx="3" fill="#3987e5"/>
+<text x="204.0" y="279.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">61.8%</text>
+<rect x="255.0" y="259.0" width="98" height="30" rx="3" fill="#6da7ec"/>
+<text x="304.0" y="279.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">56.6%</text>
+<rect x="355.0" y="259.0" width="98" height="30" rx="3" fill="#86b6ef"/>
+<text x="404.0" y="279.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">55.9%</text>
+<rect x="455.0" y="259.0" width="98" height="30" rx="3" fill="#5598e7"/>
+<text x="504.0" y="279.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">58.3%</text>
+<rect x="555.0" y="259.0" width="98" height="30" rx="3" fill="#86b6ef"/>
+<text x="604.0" y="279.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">55.6%</text>
+<rect x="655.0" y="259.0" width="98" height="30" rx="3" fill="#9ec5f4"/>
+<text x="704.0" y="279.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">54.3%</text>
+<text x="24.0" y="323.0" text-anchor="start" class="t2" style="font-size:12px">승률:</text>
+<rect x="70" y="312" width="16" height="14" fill="#cde2fb"/>
+<rect x="86" y="312" width="16" height="14" fill="#b7d3f6"/>
+<rect x="102" y="312" width="16" height="14" fill="#9ec5f4"/>
+<rect x="118" y="312" width="16" height="14" fill="#86b6ef"/>
+<rect x="134" y="312" width="16" height="14" fill="#6da7ec"/>
+<rect x="150" y="312" width="16" height="14" fill="#5598e7"/>
+<rect x="166" y="312" width="16" height="14" fill="#3987e5"/>
+<rect x="182" y="312" width="16" height="14" fill="#2a78d6"/>
+<rect x="198" y="312" width="16" height="14" fill="#256abf"/>
+<rect x="214" y="312" width="16" height="14" fill="#1c5cab"/>
+<rect x="230" y="312" width="16" height="14" fill="#184f95"/>
+<rect x="246" y="312" width="16" height="14" fill="#104281"/>
+<rect x="262" y="312" width="16" height="14" fill="#0d366b"/>
+<text x="70.0" y="342.0" text-anchor="start" class="mu">50%</text>
+<text x="278.0" y="342.0" text-anchor="end" class="mu">72%</text>
+<text x="300.0" y="323.0" text-anchor="start" class="t2" style="font-size:12px">아래로 갈수록 강한 기준선입니다. LightRAG 행은 54.3~61.8%입니다.</text>
+<text x="24.0" y="362.0" text-anchor="start" class="mu">출처: PathRAG (arXiv:2502.14902) Table 1에서 계산</text>
+<text x="24.0" y="377.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

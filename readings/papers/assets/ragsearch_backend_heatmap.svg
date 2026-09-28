@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="678" viewBox="0 0 800 678" role="img" aria-label="백엔드별 Contain-EM: 에이전트는 고정, 검색 백엔드만 교체">
+<title>백엔드별 Contain-EM: 에이전트는 고정, 검색 백엔드만 교체</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="800" height="678" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">백엔드별 Contain-EM: 에이전트는 고정, 검색 백엔드만 교체</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">Qwen2.5-7B. 멀티홉 세 열에서 dense는 두 에이전트 모두 하위권, HippoRAG2는 대부분 1위</text>
+<text x="24.0" y="84.0" text-anchor="start" class="b" style="font-size:14px">Search-o1</text>
+<text x="318.0" y="106.0" text-anchor="middle" class="t2" style="font-size:12px">일반 QA</text>
+<text x="606.0" y="106.0" text-anchor="middle" class="t2" style="font-size:12px">멀티홉 QA</text>
+<text x="222.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">NQ</text>
+<text x="318.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">PopQA</text>
+<text x="414.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">TriviaQA</text>
+<text x="510.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">HotpotQA</text>
+<text x="606.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">2Wiki</text>
+<text x="702.0" y="124.0" text-anchor="middle" class="t2" style="font-size:12px">Musique</text>
+<text x="162.0" y="152.0" text-anchor="end">Dense</text>
+<rect x="175.0" y="133.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="222.0" y="152.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">38.20</text>
+<rect x="271.0" y="133.0" width="94" height="28" rx="3" fill="#3987e5"/>
+<text x="318.0" y="152.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">25.78</text>
+<rect x="367.0" y="133.0" width="94" height="28" rx="3" fill="#104281"/>
+<text x="414.0" y="152.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">58.74</text>
+<rect x="463.0" y="133.0" width="94" height="28" rx="3" fill="#6da7ec"/>
+<text x="510.0" y="152.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">33.76</text>
+<rect x="559.0" y="133.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="606.0" y="152.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">29.64</text>
+<rect x="655.0" y="133.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="702.0" y="152.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">12.62</text>
+<text x="162.0" y="182.0" text-anchor="end">HyperGraphRAG</text>
+<rect x="175.0" y="163.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="222.0" y="182.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">33.02</text>
+<rect x="271.0" y="163.0" width="94" height="28" rx="3" fill="#3987e5"/>
+<text x="318.0" y="182.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">25.57</text>
+<rect x="367.0" y="163.0" width="94" height="28" rx="3" fill="#2a78d6"/>
+<text x="414.0" y="182.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">56.72</text>
+<rect x="463.0" y="163.0" width="94" height="28" rx="3" fill="#6da7ec"/>
+<text x="510.0" y="182.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">33.90</text>
+<rect x="559.0" y="163.0" width="94" height="28" rx="3" fill="#2a78d6"/>
+<text x="606.0" y="182.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">50.58</text>
+<rect x="655.0" y="163.0" width="94" height="28" rx="3" fill="#1c5cab"/>
+<text x="702.0" y="182.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">28.05</text>
+<text x="162.0" y="212.0" text-anchor="end" class="b">HippoRAG2</text>
+<rect x="175.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="222.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">38.34 ▲</text>
+<rect x="271.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="318.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">28.01 ▲</text>
+<rect x="367.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="414.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">59.50 ▲</text>
+<rect x="463.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="510.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">42.75 ▲</text>
+<rect x="559.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="606.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">65.56 ▲</text>
+<rect x="655.0" y="193.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="702.0" y="212.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">32.44 ▲</text>
+<text x="162.0" y="242.0" text-anchor="end">LinearRAG</text>
+<rect x="175.0" y="223.0" width="94" height="28" rx="3" fill="#86b6ef"/>
+<text x="222.0" y="242.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">34.32</text>
+<rect x="271.0" y="223.0" width="94" height="28" rx="3" fill="#3987e5"/>
+<text x="318.0" y="242.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">25.69</text>
+<rect x="367.0" y="223.0" width="94" height="28" rx="3" fill="#256abf"/>
+<text x="414.0" y="242.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">57.03</text>
+<rect x="463.0" y="223.0" width="94" height="28" rx="3" fill="#3987e5"/>
+<text x="510.0" y="242.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">35.76</text>
+<rect x="559.0" y="223.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="606.0" y="242.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">58.94</text>
+<rect x="655.0" y="223.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="702.0" y="242.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">29.46</text>
+<text x="162.0" y="272.0" text-anchor="end">RAPTOR</text>
+<rect x="175.0" y="253.0" width="94" height="28" rx="3" fill="#6da7ec"/>
+<text x="222.0" y="272.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">34.82</text>
+<rect x="271.0" y="253.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="318.0" y="272.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">23.20</text>
+<rect x="367.0" y="253.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="414.0" y="272.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">52.52</text>
+<rect x="463.0" y="253.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="510.0" y="272.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">29.51</text>
+<rect x="559.0" y="253.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="606.0" y="272.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">29.87</text>
+<rect x="655.0" y="253.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="702.0" y="272.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">29.50</text>
+<text x="162.0" y="302.0" text-anchor="end">MS GraphRAG</text>
+<rect x="175.0" y="283.0" width="94" height="28" rx="3" fill="#5598e7"/>
+<text x="222.0" y="302.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">35.10</text>
+<rect x="271.0" y="283.0" width="94" height="28" rx="3" fill="#2a78d6"/>
+<text x="318.0" y="302.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">26.10</text>
+<rect x="367.0" y="283.0" width="94" height="28" rx="3" fill="#256abf"/>
+<text x="414.0" y="302.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">56.89</text>
+<rect x="463.0" y="283.0" width="94" height="28" rx="3" fill="#86b6ef"/>
+<text x="510.0" y="302.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">32.73</text>
+<rect x="559.0" y="283.0" width="94" height="28" rx="3" fill="#256abf"/>
+<text x="606.0" y="302.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">54.25</text>
+<rect x="655.0" y="283.0" width="94" height="28" rx="3" fill="#256abf"/>
+<text x="702.0" y="302.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">26.48</text>
+<line class="rule" x1="462.0" y1="112" x2="462.0" y2="312"/>
+<text x="24.0" y="348.0" text-anchor="start" class="b" style="font-size:14px">GraphSearch</text>
+<text x="318.0" y="370.0" text-anchor="middle" class="t2" style="font-size:12px">일반 QA</text>
+<text x="606.0" y="370.0" text-anchor="middle" class="t2" style="font-size:12px">멀티홉 QA</text>
+<text x="222.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">NQ</text>
+<text x="318.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">PopQA</text>
+<text x="414.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">TriviaQA</text>
+<text x="510.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">HotpotQA</text>
+<text x="606.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">2Wiki</text>
+<text x="702.0" y="388.0" text-anchor="middle" class="t2" style="font-size:12px">Musique</text>
+<text x="162.0" y="416.0" text-anchor="end">Dense</text>
+<rect x="175.0" y="397.0" width="94" height="28" rx="3" fill="#1c5cab"/>
+<text x="222.0" y="416.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">58.27</text>
+<rect x="271.0" y="397.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="318.0" y="416.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">36.29</text>
+<rect x="367.0" y="397.0" width="94" height="28" rx="3" fill="#b7d3f6"/>
+<text x="414.0" y="416.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">68.70</text>
+<rect x="463.0" y="397.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="510.0" y="416.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">38.22</text>
+<rect x="559.0" y="397.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="606.0" y="416.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">47.43</text>
+<rect x="655.0" y="397.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="702.0" y="416.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">13.33</text>
+<text x="162.0" y="446.0" text-anchor="end">HyperGraphRAG</text>
+<rect x="175.0" y="427.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="222.0" y="446.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">51.04</text>
+<rect x="271.0" y="427.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="318.0" y="446.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">44.72</text>
+<rect x="367.0" y="427.0" width="94" height="28" rx="3" fill="#6da7ec"/>
+<text x="414.0" y="446.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">69.97</text>
+<rect x="463.0" y="427.0" width="94" height="28" rx="3" fill="#5598e7"/>
+<text x="510.0" y="446.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">46.83</text>
+<rect x="559.0" y="427.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="606.0" y="446.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">73.62</text>
+<rect x="655.0" y="427.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="702.0" y="446.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">54.80</text>
+<text x="162.0" y="476.0" text-anchor="end" class="b">HippoRAG2</text>
+<rect x="175.0" y="457.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="222.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">61.22 ▲</text>
+<rect x="271.0" y="457.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="318.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">43.65</text>
+<rect x="367.0" y="457.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="414.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">72.47 ▲</text>
+<rect x="463.0" y="457.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="510.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">58.64 ▲</text>
+<rect x="559.0" y="457.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="606.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">79.88 ▲</text>
+<rect x="655.0" y="457.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="702.0" y="476.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">55.10</text>
+<text x="162.0" y="506.0" text-anchor="end">LinearRAG</text>
+<rect x="175.0" y="487.0" width="94" height="28" rx="3" fill="#b7d3f6"/>
+<text x="222.0" y="506.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">52.12</text>
+<rect x="271.0" y="487.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="318.0" y="506.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">44.77 ▲</text>
+<rect x="367.0" y="487.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="414.0" y="506.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">68.52</text>
+<rect x="463.0" y="487.0" width="94" height="28" rx="3" fill="#9ec5f4"/>
+<text x="510.0" y="506.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">41.65</text>
+<rect x="559.0" y="487.0" width="94" height="28" rx="3" fill="#256abf"/>
+<text x="606.0" y="506.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">70.26</text>
+<rect x="655.0" y="487.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="702.0" y="506.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">49.35</text>
+<text x="162.0" y="536.0" text-anchor="end">RAPTOR</text>
+<rect x="175.0" y="517.0" width="94" height="28" rx="3" fill="#86b6ef"/>
+<text x="222.0" y="536.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">53.80</text>
+<rect x="271.0" y="517.0" width="94" height="28" rx="3" fill="#1c5cab"/>
+<text x="318.0" y="536.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">42.38</text>
+<rect x="367.0" y="517.0" width="94" height="28" rx="3" fill="#cde2fb"/>
+<text x="414.0" y="536.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">68.56</text>
+<rect x="463.0" y="517.0" width="94" height="28" rx="3" fill="#b7d3f6"/>
+<text x="510.0" y="536.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">40.14</text>
+<rect x="559.0" y="517.0" width="94" height="28" rx="3" fill="#1c5cab"/>
+<text x="606.0" y="536.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">71.24</text>
+<rect x="655.0" y="517.0" width="94" height="28" rx="3" fill="#0d366b"/>
+<text x="702.0" y="536.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px;font-weight:700">55.26 ▲</text>
+<text x="162.0" y="566.0" text-anchor="end">MS GraphRAG</text>
+<rect x="175.0" y="547.0" width="94" height="28" rx="3" fill="#9ec5f4"/>
+<text x="222.0" y="566.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">52.78</text>
+<rect x="271.0" y="547.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="318.0" y="566.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">43.60</text>
+<rect x="367.0" y="547.0" width="94" height="28" rx="3" fill="#86b6ef"/>
+<text x="414.0" y="566.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">69.64</text>
+<rect x="463.0" y="547.0" width="94" height="28" rx="3" fill="#9ec5f4"/>
+<text x="510.0" y="566.0" text-anchor="middle" style="fill:#0b0b0b;font-size:12.5px">42.25</text>
+<rect x="559.0" y="547.0" width="94" height="28" rx="3" fill="#1c5cab"/>
+<text x="606.0" y="566.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">72.41</text>
+<rect x="655.0" y="547.0" width="94" height="28" rx="3" fill="#184f95"/>
+<text x="702.0" y="566.0" text-anchor="middle" style="fill:#ffffff;font-size:12.5px">46.73</text>
+<line class="rule" x1="462.0" y1="376" x2="462.0" y2="576"/>
+<text x="24.0" y="613.0" text-anchor="start" class="t2" style="font-size:12px">열 안 상대 위치:</text>
+<rect x="130" y="602" width="16" height="14" fill="#cde2fb"/>
+<rect x="146" y="602" width="16" height="14" fill="#b7d3f6"/>
+<rect x="162" y="602" width="16" height="14" fill="#9ec5f4"/>
+<rect x="178" y="602" width="16" height="14" fill="#86b6ef"/>
+<rect x="194" y="602" width="16" height="14" fill="#6da7ec"/>
+<rect x="210" y="602" width="16" height="14" fill="#5598e7"/>
+<rect x="226" y="602" width="16" height="14" fill="#3987e5"/>
+<rect x="242" y="602" width="16" height="14" fill="#2a78d6"/>
+<rect x="258" y="602" width="16" height="14" fill="#256abf"/>
+<rect x="274" y="602" width="16" height="14" fill="#1c5cab"/>
+<rect x="290" y="602" width="16" height="14" fill="#184f95"/>
+<rect x="306" y="602" width="16" height="14" fill="#104281"/>
+<rect x="322" y="602" width="16" height="14" fill="#0d366b"/>
+<text x="130.0" y="632.0" text-anchor="start" class="mu">열 최저</text>
+<text x="338.0" y="632.0" text-anchor="end" class="mu">열 최고</text>
+<text x="360.0" y="613.0" text-anchor="start" class="t2" style="font-size:12px">▲ 굵은 숫자 = 열 1위. 색은 데이터셋마다 따로 맞췄으므로 열끼리 비교하지 않습니다.</text>
+<text x="24.0" y="652.0" text-anchor="start" class="mu">출처: RAGSearch (arXiv:2604.09666) Table 2</text>
+<text x="24.0" y="667.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

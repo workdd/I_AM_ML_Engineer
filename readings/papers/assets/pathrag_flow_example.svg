@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="570" viewBox="0 0 860 570" role="img" aria-label="흐름 전파 예시: 짧은 경로보다 갈림 없는 경로">
+<title>흐름 전파 예시: 짧은 경로보다 갈림 없는 경로</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="860" height="570" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">흐름 전파 예시: 짧은 경로보다 갈림 없는 경로</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">PathRAG 공개 코드(operate.py)의 경로 점수 계산을 그대로 옮겨 계산한 값</text>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink2)"/></marker><marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--s1)"/></marker></defs>
+<line class="inkS" x1="110.1" y1="291.0" x2="267.2" y2="220.3" style="stroke-width:1.6" marker-end="url(#ar)"/>
+<rect class="bg" x="169.0" y="244.0" width="42" height="20" rx="4"/>
+<text x="190.0" y="259.0" text-anchor="middle" class="t2" style="font-size:12.5px">0.50</text>
+<line class="inkS" x1="310.9" y1="217.0" x2="536.3" y2="292.1" style="stroke-width:1.6" marker-end="url(#ar)"/>
+<rect class="bg" x="404.0" y="244.0" width="42" height="20" rx="4"/>
+<text x="425.0" y="259.0" text-anchor="middle" class="t2" style="font-size:12.5px">0.20</text>
+<line class="inkS" x1="311.0" y1="203.4" x2="426.1" y2="167.5" style="stroke-width:1.6" marker-end="url(#ar)"/>
+<rect class="bg" x="349.0" y="174.0" width="42" height="20" rx="4"/>
+<text x="370.0" y="189.0" text-anchor="middle" class="t2" style="font-size:12.5px">0.20</text>
+<line class="inkS" x1="463.6" y1="177.3" x2="544.6" y2="280.3" style="stroke-width:1.6" marker-end="url(#ar)"/>
+<rect class="bg" x="476.0" y="219.0" width="58" height="20" rx="4"/>
+<text x="505.0" y="234.0" text-anchor="middle" class="t2" style="font-size:12.5px">0 · 중단</text>
+<line class="s1s" x1="107.9" y1="312.8" x2="209.7" y2="385.5" style="stroke-width:3" marker-end="url(#arb)"/>
+<rect class="bg" x="139.0" y="339.0" width="42" height="20" rx="4"/>
+<text x="160.0" y="354.0" text-anchor="middle" class="b" style="font-size:12.5px">0.50</text>
+<line class="s1s" x1="252.0" y1="400.0" x2="395.0" y2="400.0" style="stroke-width:3" marker-end="url(#arb)"/>
+<rect class="bg" x="304.0" y="389.0" width="42" height="20" rx="4"/>
+<text x="325.0" y="404.0" text-anchor="middle" class="b" style="font-size:12.5px">0.40</text>
+<line class="s1s" x1="437.9" y1="387.2" x2="539.7" y2="314.5" style="stroke-width:3" marker-end="url(#arb)"/>
+<rect class="bg" x="469.0" y="339.0" width="42" height="20" rx="4"/>
+<text x="490.0" y="354.0" text-anchor="middle" class="b" style="font-size:12.5px">0.32</text>
+<line class="fainte" x1="273.6" y1="195.4" x2="218.7" y2="146.6" style="stroke-width:1.5"/>
+<line class="fainte" x1="294.5" y1="188.5" x2="304.8" y2="139.5" style="stroke-width:1.5"/>
+<circle cx="90" cy="300" r="22" class="bg" style="stroke:var(--s1);stroke-width:2.5"/>
+<text x="90.0" y="305.0" text-anchor="middle" class="b" style="font-size:14px">A</text>
+<circle cx="290" cy="210" r="22" class="bg" style="stroke:var(--ink2);stroke-width:1.5"/>
+<text x="290.0" y="215.0" text-anchor="middle" class="b" style="font-size:14px">H</text>
+<circle cx="560" cy="300" r="22" class="bg" style="stroke:var(--s1);stroke-width:2.5"/>
+<text x="560.0" y="305.0" text-anchor="middle" class="b" style="font-size:14px">T</text>
+<circle cx="450" cy="160" r="22" class="bg" style="stroke:var(--ink2);stroke-width:1.5"/>
+<text x="450.0" y="165.0" text-anchor="middle" class="b" style="font-size:14px">D</text>
+<circle cx="230" cy="400" r="22" class="bg" style="stroke:var(--ink2);stroke-width:1.5"/>
+<text x="230.0" y="405.0" text-anchor="middle" class="b" style="font-size:14px">B</text>
+<circle cx="420" cy="400" r="22" class="bg" style="stroke:var(--ink2);stroke-width:1.5"/>
+<text x="420.0" y="405.0" text-anchor="middle" class="b" style="font-size:14px">C</text>
+<circle cx="200" cy="130" r="22" class="faintf" style="stroke:var(--faint);stroke-width:1.5"/>
+<text x="200.0" y="135.0" text-anchor="middle" class="mu" style="font-size:12px">x1</text>
+<circle cx="310" cy="115" r="22" class="faintf" style="stroke:var(--faint);stroke-width:1.5"/>
+<text x="310.0" y="120.0" text-anchor="middle" class="mu" style="font-size:12px">x2</text>
+<text x="342.0" y="119.0" text-anchor="start" class="mu">← H의 다른 이웃은 후보 경로 밖이라 나눗셈에서 빠짐</text>
+<text x="232.0" y="218.0" text-anchor="end" class="mu">갈래 2</text>
+<text x="630.0" y="170.0" text-anchor="start" class="b">후보 경로 (3홉 이하)</text>
+<text x="630.0" y="190.0" text-anchor="start" class="mu">점수 = 경로 엣지 가중치의 평균</text>
+<text x="630.0" y="222.0" text-anchor="start" class="b" style="font-size:13px">A → B → C → T</text>
+<text x="830.0" y="222.0" text-anchor="end" class="b" style="font-size:13px">0.407</text>
+<text x="630.0" y="252.0" text-anchor="start" style="font-size:13px">A → H → T</text>
+<text x="830.0" y="252.0" text-anchor="end" class="t2" style="font-size:13px">0.350</text>
+<text x="630.0" y="282.0" text-anchor="start" style="font-size:13px">A → H → D → T</text>
+<text x="830.0" y="282.0" text-anchor="end" class="t2" style="font-size:13px">0.233</text>
+<text x="630.0" y="318.0" text-anchor="start" class="t2" style="font-size:12px">채택 = 파란 경로</text>
+<text x="24.0" y="470.0" text-anchor="start" class="t2" style="font-size:12.5px">A에서 나가는 엣지는 1 ÷ (A의 갈래 수)로 시작하고, 한 홉마다 × α(0.8) ÷ (다음 노드의 갈래 수)로 줄어듭니다.</text>
+<text x="24.0" y="490.0" text-anchor="start" class="t2" style="font-size:12.5px">가중치가 θ(0.3) 이하인 엣지에서는 더 전파하지 않습니다. 갈래 수는 A와 T 사이 후보 경로에서만 셉니다.</text>
+<text x="24.0" y="510.0" text-anchor="start" class="t2" style="font-size:12.5px">2홉인 A→H→T가 H의 갈림 때문에 약해지고, 3홉이지만 갈림 없는 A→B→C→T가 채택됩니다.</text>
+<text x="24.0" y="544.0" text-anchor="start" class="mu">출처: BUPT-GAMMA/PathRAG PathRAG/operate.py bfs_weighted_paths 이식, 예시 그래프는 임의 구성</text>
+<text x="24.0" y="559.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>
