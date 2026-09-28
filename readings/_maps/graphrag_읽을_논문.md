@@ -32,7 +32,7 @@ A1 → A2 → D1 → D4 → B1 → 나머지
 
 | ID | 우선 | 논문 | arXiv | 요지 | 상태 |
 |---|---|---|---|---|---|
-| A1 | 1 | Do We Still Need GraphRAG? Benchmarking RAG and GraphRAG for Agentic Search Systems | [2604.09666](https://arxiv.org/abs/2604.09666) | 에이전트형 검색에서 일반 RAG와 GraphRAG를 같은 조건으로 비교 (RAGSearch) | 대기 |
+| A1 | 1 | [Do We Still Need GraphRAG? Benchmarking RAG and GraphRAG for Agentic Search Systems](../papers/%5B20260928%5D%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | [2604.09666](https://arxiv.org/abs/2604.09666) | 에이전트형 검색에서 일반 RAG와 GraphRAG를 같은 조건으로 비교 (RAGSearch) | 정리 완료 |
 | A2 | 1 | When to use Graphs in RAG (ICLR 2026) | [2506.05690](https://arxiv.org/abs/2506.05690) | GraphRAG-Bench. 그래프가 이기는 조건과 지는 조건. [코드](https://github.com/GraphRAG-Bench/GraphRAG-Benchmark) | 대기 |
 | A3 | 2 | WildGraphBench | [2602.02053](https://arxiv.org/abs/2602.02053) | 다듬은 짧은 지문이 아니라 길고 이질적인 실제 문서로 평가 | 대기 |
 | A4 | 3 | RAG vs. GraphRAG: A Systematic Evaluation and Key Insights | [2502.11371](https://arxiv.org/abs/2502.11371) | RAG와 GraphRAG의 초기 체계적 비교 | 대기 |
@@ -46,6 +46,7 @@ A1 → A2 → D1 → D4 → B1 → 나머지
 | B2 | 2 | Pruning Minimal Reasoning Graphs for Efficient RAG | [2602.04926](https://arxiv.org/abs/2602.04926) | 추론에 필요한 최소 그래프만 남기는 가지치기 | 대기 |
 | B3 | 3 | Efficient RAG via Token Co-occurrence Graphs | [2606.30093](https://arxiv.org/abs/2606.30093) | LLM 추출 없이 토큰 동시 출현으로 그래프 구성 | 대기 |
 | B4 | 3 | EraRAG: Efficient and Incremental RAG for Growing Corpora | [2506.20963](https://arxiv.org/abs/2506.20963) | 코퍼스가 늘 때 전체 재구축 없이 증분 갱신 | 대기 |
+| B5 | - | [PathRAG: Pruning Graph-based RAG with Relational Paths](../papers/%5B20260928%5D%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | [2502.14902](https://arxiv.org/abs/2502.14902) | 노드 쌍 사이 핵심 경로만 흐름 전파로 골라 토큰 절감. 대기열 밖에서 추가 | 정리 완료 |
 
 ## C. 에이전트 결합과 확장
 
