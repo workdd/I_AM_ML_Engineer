@@ -108,6 +108,49 @@ Search-R1과 Graph-R1을 따라 에이전트 검색을 RL 문제로 둔다. 정�
 
 모든 GraphRAG 백엔드는 **백엔드별 에이전트 수정 없이** 같은 상호작용 프로토콜로 접근한다.
 
+벤치마크 전체 구조를 그리면 다음과 같다. 에이전트 4종 중 하나와 백엔드 6종 중 하나를 골라 조합한다.
+
+```mermaid
+flowchart TB
+  Q(["질의"]) --> AG
+
+  subgraph AG["에이전트 (추론 제어)"]
+    direction LR
+    subgraph TF["학습 없음 · Qwen2.5 7B/32B"]
+      SO1["Search-o1<br/>필요할 때 검색 + 검색 결과 요약"]
+      GS["GraphSearch<br/>질의 분해 → 검색 → 검증"]
+    end
+    subgraph RL["GRPO 학습 · Qwen2.5 3B/7B"]
+      SR1["Search-R1"]
+      GR1["Graph-R1"]
+    end
+  end
+
+  AG <-->|"#lt;search#gt; 질의 ⇄ #lt;information#gt; 근거<br/>top-5 · 최대 5턴(RL)"| IF["공통 검색 인터페이스"]
+
+  subgraph BE["검색 백엔드"]
+    direction LR
+    D["dense RAG<br/>청크 + 유사도"]
+    subgraph GR["GraphRAG · 사전 구축"]
+      T1["트리: MS GraphRAG · RAPTOR"]
+      T2["엔티티 그래프: HippoRAG2"]
+      T3["하이퍼그래프: HyperGraphRAG"]
+      T4["Tri-Graph: LinearRAG"]
+    end
+  end
+
+  IF --> D
+  IF --> GR
+  AG --> A(["#lt;answer#gt;"])
+
+  classDef agent fill:#eef3fb,stroke:#2a78d6,color:#0b0b0b
+  classDef dense fill:#f4f3f0,stroke:#8a8984,color:#0b0b0b
+  classDef gnode fill:#eef3fb,stroke:#1c5cab,color:#0b0b0b
+  class SO1,GS,SR1,GR1 agent
+  class D dense
+  class T1,T2,T3,T4 gnode
+```
+
 ## 5. Experiments
 
 연구 질문은 다섯이다. RQ1 에이전트 검색이 그래프 구조 부재를 메우는가, RQ2 학습 없는 에이전트에서도 그래프가 이득인가, RQ3 RL과 백엔드는 어떻게 상호작용하는가, RQ4 안정성은 어떤가, RQ5 모듈별 영향은 어떤가.
@@ -147,6 +190,10 @@ RL 학습에 쓴 NQ와 HotpotQA가 도메인 내(†), 나머지 넷이 도메�
 
 **관찰 2. 학습 없는 에이전트가 dense RAG를 끌어올리는 폭은 에이전트 설계에 달렸다.** Search-o1은 dense RAG를 오히려 떨어뜨린 곳이 있다(NQ 46.62 → 38.20, Musique 20.99 → 12.62). GraphSearch는 Musique를 빼고 크게 올린다. 저자들은 멀티홉 평균 격차가 27.23에서 26.59로 줄었다고 쓴다.
 
+![멀티홉 QA에서 GraphRAG와 dense RAG의 격차. 단일 검색 27.23, Search-o1 21.58, GraphSearch 31.60, RL 25.58](assets/ragsearch_gap.svg)
+
+같은 표로 에이전트별 격차를 따로 계산하면 그림과 같다. 26.59는 Search-o1과 GraphSearch 격차의 평균이다. 가장 강한 에이전트인 GraphSearch에서는 격차가 오히려 벌어진다.
+
 **관찰 3. RL은 대응하는 학습 없는 기준선보다 낫지만, 잘 짠 학습 없는 워크플로를 넘지는 못한다.** GraphSearch 계열이 Search-R1과 Graph-R1을 대부분 앞선다. 질의 분해와 구조화된 검색이라는 설계가 RL 최적화보다 크게 작용한다는 것이다.
 
 정리하면 멀티홉에서는 GraphRAG가 가장 강하고 안정적이며, 일반 QA에서는 에이전트 검색과 GraphRAG의 이득이 모두 작다(저자 표기 +2.43 대 멀티홉 +26.25). 구축 비용을 생각하면 **일반 QA는 잘 설계한 에이전트 + dense RAG가 현실적 선택**이다.
@@ -154,6 +201,10 @@ RL 학습에 쓴 NQ와 HotpotQA가 도메인 내(†), 나머지 넷이 도메�
 ### 5.3 Training-free Agentic Workflow (RQ2)
 
 에이전트는 고정하고 백엔드만 바꾼 결과다(Table 2, Contain-EM, 7B).
+
+![에이전트별, 백엔드별 Contain-EM 히트맵. 색은 데이터셋 안에서의 상대 위치](assets/ragsearch_backend_heatmap.svg)
+
+아래 표는 그림과 같은 수치다.
 
 | 에이전트 | 백엔드 | NQ | PopQA | TriviaQA | 일반 평균 순위 | HotpotQA | 2Wiki | Musique | 멀티홉 평균 순위 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -231,6 +282,8 @@ Figure 3에 백엔드별 RL 결과를 그림으로만 싣는다(텍스트 추출
 
 저자들은 "F1에서도 에이전트가 멀티홉 격차를 좁히고 일반 QA는 dense가 경쟁력 있다"고만 쓴다. **GraphSearch의 F1이 한 자릿수라는 점은 언급하지 않는다.** 이 의미는 아래 "읽을 때 감안할 것"에 정리했다.
 
+![시스템별 Contain-EM과 F1 평균 비교. GraphSearch 두 행만 차이가 37~55점](assets/ragsearch_em_vs_f1.svg)
+
 ### 구축 비용 (Table 8, NQ 기준)
 
 | 방법 | 100만 토큰당 구축 시간 | 100만 토큰당 비용 | 평균 검색 시간 | 평균 컨텍스트 |
@@ -240,6 +293,8 @@ Figure 3에 백엔드별 RL 결과를 그림으로만 싣는다(텍스트 추출
 | LinearRAG | 0.68h | $0 | 1.18s | 4,600 토큰 |
 | RAPTOR | 1.70h | $6.38 | 8.4s | 814 토큰 |
 | MS GraphRAG | 1.72h | **$13.19** | 1.16s | **22,160 토큰** |
+
+![그래프 구축 비용 대비 멀티홉 성능 산점도. HippoRAG2가 싸고 높고, MS GraphRAG는 비싸고 중간](assets/ragsearch_cost_vs_score.svg)
 
 비용은 GPT-4o-mini 기준이다. LinearRAG는 LLM으로 관계를 추출하지 않아 비용이 0이다. **성능 1위인 HippoRAG2가 비용으로도 두 번째로 싸고, MS GraphRAG는 가장 비싸면서 컨텍스트를 가장 많이 쓴다.**
 
