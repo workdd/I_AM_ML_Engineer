@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-09-29` [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) · arXiv / ICLR 2026
 - `2026-09-28` [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) · arXiv
 - `2026-09-28` [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) · arXiv / AAAI 2026
 - `2026-09-28` [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) · arXiv
@@ -48,16 +49,16 @@
 - `2026-09-14` [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) · arXiv
 - `2026-09-11` [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) · DeepSeek-AI
 - `2026-09-11` [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) · CL4R1T4S
-- `2026-09-11` [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) · llm-as-a-verifier
 
 ### 그래프와 지식 표현
 
 GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 묶어서 읽는 편이 낫습니다.
-아홉 건이 서로 어디에 놓이는지는 [GraphRAG 지식 지도](readings/_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md)에 정리했습니다.
+열 건이 서로 어디에 놓이는지는 [GraphRAG 지식 지도](readings/_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md)에 정리했습니다.
 아직 읽지 않은 후보 20건은 [읽을 논문 대기열](readings/_maps/graphrag_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md)에 모아 두고 하나씩 정리합니다.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-09-29 | [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | arXiv / ICLR 2026 | `#GraphRAG` `#Benchmark` `#HippoRAG2` `#ContextRelevance` `#TokenCost` |
 | 2026-09-28 | [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | arXiv | `#GraphRAG` `#AgenticSearch` `#Benchmark` `#HippoRAG2` `#MultiHopQA` |
 | 2026-09-28 | [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | arXiv / AAAI 2026 | `#GraphRAG` `#LightRAG` `#PathRetrieval` `#Pruning` `#TokenCost` |
 | 2026-09-10 | [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) | dev.to | `#GraphRAG` `#RAPTOR` `#DRIFT` `#KnowledgeGraph` `#AWS` |
