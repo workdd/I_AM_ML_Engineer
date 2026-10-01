@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="350" viewBox="0 0 820 350" role="img" aria-label="새로 생긴 오차의 82%가 누적 전에 지워진다">
+<title>새로 생긴 오차의 82%가 누적 전에 지워진다</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="820" height="350" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">새로 생긴 오차의 82%가 누적 전에 지워진다</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">사전학습 Qwen3-32B, 블록 1~64 누적. 상대 은닉 오차의 제곱이 커지는 양을 세 항으로 나눈 Thm. 1</text>
+<line class="grid" x1="230.0" y1="88" x2="230.0" y2="244"/>
+<text x="230.0" y="260.0" text-anchor="middle" class="mu">0%</text>
+<line class="grid" x1="328.0" y1="88" x2="328.0" y2="244"/>
+<text x="328.0" y="260.0" text-anchor="middle" class="mu">20%</text>
+<line class="grid" x1="426.0" y1="88" x2="426.0" y2="244"/>
+<text x="426.0" y="260.0" text-anchor="middle" class="mu">40%</text>
+<line class="grid" x1="524.0" y1="88" x2="524.0" y2="244"/>
+<text x="524.0" y="260.0" text-anchor="middle" class="mu">60%</text>
+<line class="grid" x1="622.0" y1="88" x2="622.0" y2="244"/>
+<text x="622.0" y="260.0" text-anchor="middle" class="mu">80%</text>
+<line class="grid" x1="720.0" y1="88" x2="720.0" y2="244"/>
+<text x="720.0" y="260.0" text-anchor="middle" class="mu">100%</text>
+<text x="216.0" y="111.0" text-anchor="end">새 오차 기여 T_add</text>
+<rect class="faintf" x="230.0" y="96" width="490.0" height="22" rx="4"/>
+<text x="712.0" y="112.0" text-anchor="end" class="b" style="fill:var(--ink)">100%</text>
+<text x="216.0" y="151.0" text-anchor="end">오차 상호작용 T_inter</text>
+<rect class="s1f" x="409.3" y="136" width="310.7" height="22" rx="4"/>
+<text x="728.0" y="152.0" text-anchor="start" class="b" style="fill:var(--ink)">−63.4%</text>
+<text x="216.0" y="191.0" text-anchor="end">은닉 상태 크기 변화 T_align</text>
+<rect class="s1f" x="319.2" y="176" width="90.2" height="22" rx="4"/>
+<text x="417.3" y="192.0" text-anchor="start" class="b" style="fill:var(--ink)">−18.4%</text>
+<text x="216.0" y="231.0" text-anchor="end" class="b">남은 누적 오차</text>
+<rect class="s2f" x="230.0" y="216" width="89.2" height="22" rx="4"/>
+<text x="327.2" y="232.0" text-anchor="start" class="b" style="fill:var(--ink)">18.2%</text>
+<text x="24.0" y="292.0" text-anchor="start" class="t2" style="font-size:12.5px">무작위 초기화에서는 두 상쇄 항의 합이 T_add의 0.09%에 그칩니다.</text>
+<text x="24.0" y="324.0" text-anchor="start" class="mu">출처: Why Does Post-Training Quantization Work? (arXiv:2609.11716) Sec. 3.2, Fig. 2</text>
+<text x="24.0" y="339.0" text-anchor="start" class="mu">생성: python scripts/figures/ptq_figures.py · 손으로 고치지 말 것</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="372" viewBox="0 0 820 372" role="img" aria-label="같은 양자화, 다른 결과: 사전학습이 오차 누적을 늦춘다">
+<title>같은 양자화, 다른 결과: 사전학습이 오차 누적을 늦춘다</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="820" height="372" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">같은 양자화, 다른 결과: 사전학습이 오차 누적을 늦춘다</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">NVFP4 가중치 양자화 후 마지막 블록의 은닉 오차. 막대 길이는 행마다 따로 맞춤</text>
+<text x="216.0" y="114.0" text-anchor="end">Qwen3-32B 절대 오차</text>
+<rect class="faintf" x="230" y="100" width="390.5" height="14" rx="3"/>
+<rect class="s1f" x="230" y="118" width="70.5" height="14" rx="3"/>
+<text x="628.5" y="112.0" text-anchor="start" class="t2" style="font-size:12px">2683</text>
+<text x="308.5" y="130.0" text-anchor="start" class="b" style="font-size:12px">484.1</text>
+<text x="730.0" y="122.0" text-anchor="middle" class="b" style="font-size:14px">5.5배</text>
+<text x="216.0" y="166.0" text-anchor="end">Qwen3-32B 상대 오차</text>
+<rect class="faintf" x="230" y="152" width="390.5" height="14" rx="3"/>
+<rect class="s1f" x="230" y="170" width="58.1" height="14" rx="3"/>
+<text x="628.5" y="164.0" text-anchor="start" class="t2" style="font-size:12px">1.109</text>
+<text x="296.1" y="182.0" text-anchor="start" class="b" style="font-size:12px">0.165</text>
+<text x="730.0" y="174.0" text-anchor="middle" class="b" style="font-size:14px">6.7배</text>
+<text x="216.0" y="218.0" text-anchor="end">OLMo3-7B 절대 오차</text>
+<rect class="faintf" x="230" y="204" width="390.5" height="14" rx="3"/>
+<rect class="s1f" x="230" y="222" width="19.3" height="14" rx="3"/>
+<text x="628.5" y="216.0" text-anchor="start" class="t2" style="font-size:12px">254.9</text>
+<text x="257.3" y="234.0" text-anchor="start" class="b" style="font-size:12px">12.6</text>
+<text x="730.0" y="226.0" text-anchor="middle" class="b" style="font-size:14px">20.2배</text>
+<text x="216.0" y="270.0" text-anchor="end">OLMo3-7B 상대 오차</text>
+<rect class="faintf" x="230" y="256" width="390.5" height="14" rx="3"/>
+<rect class="s1f" x="230" y="274" width="106.6" height="14" rx="3"/>
+<text x="628.5" y="268.0" text-anchor="start" class="t2" style="font-size:12px">0.498</text>
+<text x="344.6" y="286.0" text-anchor="start" class="b" style="font-size:12px">0.136</text>
+<text x="730.0" y="278.0" text-anchor="middle" class="b" style="font-size:14px">3.7배</text>
+<text x="730.0" y="86.0" text-anchor="middle" class="t2" style="font-size:12px">차이</text>
+<rect class="faintf" x="230" y="68" width="14" height="12" rx="3"/>
+<text x="250.0" y="78.0" text-anchor="start" style="font-size:12px">무작위 초기화 (OLMo3는 step 0)</text>
+<rect class="s1f" x="480" y="68" width="14" height="12" rx="3"/>
+<text x="500.0" y="78.0" text-anchor="start" style="font-size:12px">사전학습 완료</text>
+<text x="24.0" y="322.0" text-anchor="start" class="t2" style="font-size:12.5px">가중치 복원 오차는 두 경우가 같습니다(cos 0.9955 대 0.9955, 상대 오차 9.48% 대 9.51%). 차이는 모델 쪽에서 생깁니다.</text>
+<text x="24.0" y="346.0" text-anchor="start" class="mu">출처: Why Does Post-Training Quantization Work? (arXiv:2609.11716) Fig. 1, App. D.2 Table 1</text>
+<text x="24.0" y="361.0" text-anchor="start" class="mu">생성: python scripts/figures/ptq_figures.py · 손으로 고치지 말 것</text>
+</svg>
