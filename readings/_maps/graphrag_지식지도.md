@@ -1,9 +1,9 @@
 # GraphRAG 지식 지도
 
-저장소에 쌓인 GraphRAG 계열 정리 9건이 서로 어디에 놓이는지 그린 지도입니다. 개별 노트는 각자 완결돼 있지만, **어느 것이 어느 것을 반박하고 보완하는지는 본문 링크로만 흩어져 있어** 따로 모았습니다.
+저장소에 쌓인 GraphRAG 계열 정리 10건이 서로 어디에 놓이는지 그린 지도입니다. 개별 노트는 각자 완결돼 있지만, **어느 것이 어느 것을 반박하고 보완하는지는 본문 링크로만 흩어져 있어** 따로 모았습니다.
 
 - **기준 좌표계**: [LLM on Graphs 서베이](../papers/%5B20260910%5D%20LLM_on_Graphs_Comprehensive_Survey.md) (arXiv:2312.02783)
-- **갱신**: 2026-09-28
+- **갱신**: 2026-09-29
 
 ## 범례
 
@@ -34,7 +34,7 @@ block-beta
   columns 4
   space h1["LLM as Predictor<br/>LLM이 최종 출력"] h2["LLM as Encoder<br/>GNN이 최종 출력"] h3["LLM as Aligner<br/>둘을 정렬"]
   r1["Pure Graphs<br/>텍스트 없는 그래프"] a1["읽음 · 5건<br/>Graph as Sequence"] a2["빈칸"] a3["빈칸"]
-  r2["Text-Attributed<br/>노드·엣지에 텍스트"] b1["읽음 · 4건<br/>Graph as Sequence"] b2["빈칸"] b3["빈칸"]
+  r2["Text-Attributed<br/>노드·엣지에 텍스트"] b1["읽음 · 5건<br/>Graph as Sequence"] b2["빈칸"] b3["빈칸"]
   r3["Text-Paired<br/>그래프 전체에 설명"] c1["부분<br/>서베이에서만"] c2["빈칸"] c3["빈칸"]
 
   classDef hdr fill:#f0ede7,stroke:#b6b0a6,color:#5b554e
@@ -49,7 +49,7 @@ block-beta
   class a2,a3,b2,b3,c2,c3 gap
 ```
 
-**읽은 것이 한 열에 몰려 있습니다.** 아홉 건 전부 `LLM as Predictor` 안의 `Graph as Sequence`, 곧 그래프를 텍스트로 풀어 컨텍스트에 넣는 방식입니다. GNN 을 학습시키는 나머지 여섯 칸은 손대지 않았습니다.
+**읽은 것이 한 열에 몰려 있습니다.** 열 건 전부 `LLM as Predictor` 안의 `Graph as Sequence`, 곧 그래프를 텍스트로 풀어 컨텍스트에 넣는 방식입니다. GNN 을 학습시키는 나머지 여섯 칸은 손대지 않았습니다.
 
 ## 계열 내부 관계
 
@@ -63,6 +63,7 @@ flowchart TB
   OKF@{ shape: rounded, label: "**Open Knowledge Format**<br/>포맷 표준 제안" }
   CRAB@{ shape: lin-cyl, label: "**OpenCrab**<br/>온톨로지 공장 · MCP 30종" }
   PATH@{ shape: doc, label: "**PathRAG**<br/>이웃 전부가 아니라<br/>노드 쌍 사이 핵심 경로만" }
+  GB@{ shape: doc, label: "**GraphRAG-Bench**<br/>난도 4단계 · 11종 비교<br/>관련도와 토큰까지" }
   RSB@{ shape: doc, label: "**RAGSearch**<br/>에이전트 검색 아래서<br/>dense 대 GraphRAG 5종 비교" }
 
   SUR ==>|"한 칸으로 좁히면"| LAND
@@ -73,6 +74,7 @@ flowchart TB
   CRAB -.->|"그래프를 공급"| MS
   MS -->|"개선 · 검색량을 줄인다"| PATH
   RSB -.->|"반박 · 멀티홉에선 그래프가 필요"| LOGIC
+  GB -->|"같은 결론 · 다른 데이터"| RSB
 
   linkStyle 0,1 stroke:#5b554e,stroke-width:2.5px
   linkStyle 2 stroke:#a8503c,stroke-width:2.5px
@@ -81,12 +83,13 @@ flowchart TB
   linkStyle 5 stroke:#b6b0a6,stroke-width:1.5px
   linkStyle 6 stroke:#3d6b45,stroke-width:2.5px
   linkStyle 7 stroke:#a8503c,stroke-width:2.5px
+  linkStyle 8 stroke:#8a837a,stroke-width:1.5px
 
   classDef paper fill:#ffffff,stroke:#3d6b45,stroke-width:2px,color:#1e1c1a
   classDef blog  fill:#f7f5f0,stroke:#8a837a,stroke-width:1.5px,color:#1e1c1a
   classDef repo  fill:#f2f0ea,stroke:#5b554e,stroke-width:1.5px,color:#1e1c1a
   classDef base  fill:#eef3ee,stroke:#3d6b45,stroke-width:3px,color:#1e1c1a
-  class SUR,LOGIC,ROG,PATH,RSB paper
+  class SUR,LOGIC,ROG,PATH,RSB,GB paper
   class LAND,OKF blog
   class CRAB repo
   class MS base
@@ -105,6 +108,7 @@ flowchart TB
 | [ROGRAG](../papers/%5B20260831%5D%20ROGRAG_Robustly_Optimized_GraphRAG.md) | 개선 | dual-level과 logic form 다단계, ablation |
 | [PathRAG](../papers/%5B20260928%5D%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | 개선 | 흐름 전파 경로 가지치기, 경로 단위 프롬프트, 토큰 비용 |
 | [RAGSearch](../papers/%5B20260928%5D%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | 실측 비교 | 에이전트 4종 × 백엔드 6종, 구축 비용표 |
+| [GraphRAG-Bench](../papers/%5B20260929%5D%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | 실측 비교 | 난도 4단계, 재현율 대 관련도, 프롬프트 토큰, 색인 비용 |
 | [Open Knowledge Format](../blogs/%5B20260614%5D%20PyTorchKR_Open_Knowledge_Format_OKF.md) | 표현 계층 | 지식 포맷 표준 제안 |
 | [OpenCrab](../repos/%5B20260322%5D%20AlexAI-MCP_OpenCrab_MCP%EB%A1%9C_%EB%B6%99%EC%9D%B4%EB%8A%94_%EC%98%A8%ED%86%A8%EB%A1%9C%EC%A7%80_%EA%B3%B5%EC%9E%A5.md) | 구축 도구 | 온톨로지 공장, MCP 도구 30종 |
 
@@ -117,7 +121,7 @@ flowchart LR
     A["1. Graph RAG의 모든 것<br/>전체 판을 먼저 잡는다"]
     B["2. Microsoft GraphRAG 해부<br/>기준선이 실제로 어떻게 도는지 본다"]
     C["3. LogicRAG · ROGRAG · PathRAG<br/>세 갈래 반응을 대조한다"]
-    E["4. RAGSearch<br/>어느 쪽이 맞는지 실측으로 확인한다"]
+    E["4. RAGSearch · GraphRAG-Bench<br/>어느 쪽이 맞는지 실측으로 확인한다"]
     D["5. LLM on Graphs 서베이<br/>지금 읽은 것이 전체의 어디인지 확인한다"]
     A --> B --> C --> E --> D
 ```

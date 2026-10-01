@@ -33,7 +33,7 @@ A1 → A2 → D1 → D4 → B1 → 나머지
 | ID | 우선 | 논문 | arXiv | 요지 | 상태 |
 |---|---|---|---|---|---|
 | A1 | 1 | [Do We Still Need GraphRAG? Benchmarking RAG and GraphRAG for Agentic Search Systems](../papers/%5B20260928%5D%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | [2604.09666](https://arxiv.org/abs/2604.09666) | 에이전트형 검색에서 일반 RAG와 GraphRAG를 같은 조건으로 비교 (RAGSearch) | 정리 완료 |
-| A2 | 1 | When to use Graphs in RAG (ICLR 2026) | [2506.05690](https://arxiv.org/abs/2506.05690) | GraphRAG-Bench. 그래프가 이기는 조건과 지는 조건. [코드](https://github.com/GraphRAG-Bench/GraphRAG-Benchmark) | 대기 |
+| A2 | 1 | [When to use Graphs in RAG (ICLR 2026)](../papers/%5B20260929%5D%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | [2506.05690](https://arxiv.org/abs/2506.05690) | GraphRAG-Bench. 그래프가 이기는 조건과 지는 조건. [코드](https://github.com/GraphRAG-Bench/GraphRAG-Benchmark) | 정리 완료 |
 | A3 | 2 | WildGraphBench | [2602.02053](https://arxiv.org/abs/2602.02053) | 다듬은 짧은 지문이 아니라 길고 이질적인 실제 문서로 평가 | 대기 |
 | A4 | 3 | RAG vs. GraphRAG: A Systematic Evaluation and Key Insights | [2502.11371](https://arxiv.org/abs/2502.11371) | RAG와 GraphRAG의 초기 체계적 비교 | 대기 |
 | A5 | 3 | GraphRAG-Bench: Domain-Specific Reasoning | [2506.02404](https://arxiv.org/abs/2506.02404) | 16개 분야 교재 기반 대학 수준 다단계 추론 벤치마크 | 대기 |
