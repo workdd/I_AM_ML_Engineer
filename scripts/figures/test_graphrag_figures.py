@@ -45,3 +45,22 @@ def test_flow_example_prefers_unbranched_path():
 @pytest.mark.parametrize("name", list(g.FIGURES))
 def test_svgs_are_well_formed(name):
     ET.fromstring(g.FIGURES[name]())
+
+
+def test_graphragbench_tables_consistent():
+    for ds in ("Novel", "Medical"):
+        assert set(g.GB_ACC[ds]) == set(g.GB_RET[ds])
+        assert all(len(v) == len(g.GB_TASKS) for v in g.GB_ACC[ds].values())
+    # 부록 G.4 본문 평균값
+    assert sum([57.56, 56.01, 61.95, 60.91]) / 4 == pytest.approx(59.10, abs=0.01)
+
+
+def test_graphragbench_scale_row_copies_medical():
+    # Table 17 의 소설 RAG 56k 행이 의료 Table 9 rerank RAG 값과 같다는 노트의 지적
+    assert g.GB_SCALE["RAG"][0] == g.GB_ACC["Medical"][g.GB_RAG]
+    assert g.GB_SCALE["HippoRAG2"][0] == g.GB_ACC["Novel"]["HippoRAG2"]
+
+
+def test_graphragbench_level_counts():
+    assert g.gb_beats_rag("Novel") == [0, 8, 7, 9]
+    assert g.gb_beats_rag("Medical") == [1, 3, 1, 7]
