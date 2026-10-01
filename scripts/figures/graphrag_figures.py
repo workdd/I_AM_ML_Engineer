@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RAGSearch · PathRAG 노트의 그림을 논문 표 수치에서 생성한다.
+"""RAGSearch · PathRAG · GraphRAG-Bench 노트의 그림을 논문 표 수치에서 생성한다.
 
     python scripts/figures/graphrag_figures.py
 
@@ -10,7 +10,7 @@ readings/papers/assets/ 아래 SVG 를 다시 쓴다. SVG 는 손으로 고치�
 from __future__ import annotations
 
 from pathlib import Path
-from statistics import mean
+from statistics import mean, median
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -591,6 +591,358 @@ def fig_pr_flow():
                body, "출처: BUPT-GAMMA/PathRAG PathRAG/operate.py bfs_weighted_paths 이식, 예시 그래프는 임의 구성")
 
 
+# ---------------------------------------------------------------- 데이터: GraphRAG-Bench (arXiv:2506.05690)
+
+GB_TASKS = ["사실 검색", "복합 추론", "맥락 요약", "창작 생성"]
+GB_RAG = "RAG (rerank)"
+GB_RAG0 = "RAG (rerank 없음)"
+GB_GRAPH = ["MS-GraphRAG local", "MS-GraphRAG global", "HippoRAG", "HippoRAG2", "LightRAG",
+            "Fast-GraphRAG", "RAPTOR", "Lazy-GraphRAG", "KGP", "StructRAG", "KET-RAG"]
+
+# Table 9. 생성 정확도(ACC), GPT-4o-mini. [사실 검색, 복합 추론, 맥락 요약, 창작 생성]
+GB_ACC = {
+    "Novel": {
+        GB_RAG0: [58.76, 41.35, 50.08, 41.52], GB_RAG: [60.92, 42.93, 51.30, 38.26],
+        "MS-GraphRAG local": [49.29, 50.93, 64.40, 39.10], "MS-GraphRAG global": [36.92, 43.17, 56.87, 41.11],
+        "HippoRAG": [52.93, 38.52, 48.70, 38.85], "HippoRAG2": [60.14, 53.38, 64.10, 48.28],
+        "LightRAG": [58.62, 49.07, 48.85, 23.80], "Fast-GraphRAG": [56.95, 48.55, 56.41, 46.18],
+        "RAPTOR": [49.25, 38.59, 47.10, 38.01], "Lazy-GraphRAG": [51.65, 49.22, 58.29, 43.23],
+        "KGP": [54.15, 46.31, 51.21, 40.37], "StructRAG": [53.84, 46.27, 54.28, 42.16],
+        "KET-RAG": [55.39, 36.59, 52.47, 46.03],
+    },
+    "Medical": {
+        GB_RAG0: [63.72, 57.61, 63.72, 58.94], GB_RAG: [64.73, 58.64, 65.75, 60.61],
+        "MS-GraphRAG local": [38.63, 47.04, 41.87, 53.11], "MS-GraphRAG global": [16.42, 15.61, 19.82, 20.81],
+        "HippoRAG": [56.14, 55.87, 59.86, 64.43], "HippoRAG2": [66.28, 61.98, 63.08, 68.05],
+        "LightRAG": [63.32, 61.32, 63.14, 67.91], "Fast-GraphRAG": [60.93, 61.73, 67.88, 65.93],
+        "RAPTOR": [54.07, 53.20, 58.73, 62.38], "Lazy-GraphRAG": [60.25, 47.82, 57.28, 62.22],
+        "KGP": [52.34, 51.53, 54.51, 63.77], "StructRAG": [55.38, 56.17, 62.48, 60.21],
+        "KET-RAG": [60.35, 39.56, 45.27, 43.04],
+    },
+}
+
+# Table 10. 검색 [재현율, 관련도] x 4 과제
+GB_RET = {
+    "Novel": {
+        GB_RAG0: [(61.37, 74.66), (59.80, 80.82), (69.08, 80.05), (32.48, 82.84)],
+        GB_RAG: [(83.21, 77.77), (64.47, 82.08), (73.38, 83.10), (39.59, 78.73)],
+        "MS-GraphRAG local": [(61.04, 27.30), (73.03, 39.09), (82.02, 43.13), (53.55, 35.07)],
+        "MS-GraphRAG global": [(42.27, 9.37), (86.68, 14.36), (89.69, 15.35), (83.14, 19.40)],
+        "HippoRAG": [(80.44, 56.34), (87.91, 58.75), (90.95, 59.46), (65.51, 46.64)],
+        "HippoRAG2": [(70.29, 79.25), (69.77, 85.75), (82.50, 87.82), (42.18, 79.10)],
+        "LightRAG": [(73.69, 33.08), (85.52, 37.46), (87.59, 38.02), (71.72, 38.06)],
+        "Fast-GraphRAG": [(64.48, 47.86), (73.51, 55.21), (78.58, 49.74), (56.31, 46.27)],
+        "RAPTOR": [(62.14, 54.08), (67.80, 61.26), (75.79, 63.00), (58.66, 58.46)],
+        "Lazy-GraphRAG": [(59.25, 30.76), (57.73, 42.98), (77.38, 43.62), (55.24, 31.94)],
+        "KGP": [(55.71, 23.71), (63.51, 31.96), (61.54, 64.20), (67.57, 35.52)],
+        "StructRAG": [(55.38, 27.53), (56.17, 34.79), (62.48, 65.66), (60.21, 42.35)],
+        "KET-RAG": [(63.55, 39.11), (56.93, 32.59), (67.35, 39.05), (53.40, 36.74)],
+    },
+    "Medical": {
+        GB_RAG0: [(86.24, 63.71), (84.97, 84.11), (84.14, 89.94), (44.88, 58.73)],
+        GB_RAG: [(87.83, 64.73), (86.49, 85.56), (85.87, 91.35), (45.23, 60.50)],
+        "MS-GraphRAG local": [(38.06, 5.67), (61.32, 4.25), (59.66, 5.24), (66.59, 2.76)],
+        "MS-GraphRAG global": [(65.98, 7.46), (78.46, 11.72), (89.06, 11.72), (85.28, 2.73)],
+        "HippoRAG": [(87.25, 52.44), (83.80, 42.19), (83.46, 49.13), (81.66, 45.03)],
+        "HippoRAG2": [(78.70, 87.96), (77.00, 80.94), (77.40, 86.85), (61.12, 78.64)],
+        "LightRAG": [(80.32, 41.27), (82.91, 42.79), (85.71, 43.11), (81.34, 45.17)],
+        "Fast-GraphRAG": [(66.82, 45.86), (74.93, 38.80), (77.27, 47.58), (62.99, 25.15)],
+        "RAPTOR": [(85.40, 69.38), (89.70, 53.20), (88.86, 58.73), (72.70, 52.71)],
+        "Lazy-GraphRAG": [(74.29, 19.90), (78.65, 17.50), (78.72, 21.35), (83.41, 15.09)],
+        "KGP": [(57.51, 27.34), (53.51, 26.59), (59.38, 56.20), (68.42, 43.85)],
+        "StructRAG": [(63.25, 37.26), (61.75, 35.68), (62.55, 32.01), (62.76, 46.75)],
+        "KET-RAG": [(86.44, 57.07), (80.62, 30.86), (89.07, 44.59), (44.06, 32.38)],
+    },
+}
+
+# Table 6 · 7. 질의당 평균 프롬프트 토큰 [Novel, Medical]. V-RAG 는 rerank 없는 기본 RAG 로 본다
+GB_TOKENS = {
+    GB_RAG0: (879, 954), "MS-GraphRAG local": (38707, 39821), "MS-GraphRAG global": (331375, 332881),
+    "HippoRAG2": (1008, 1020), "LightRAG": (100832, 100310), "Fast-GraphRAG": (4204, 4298),
+    "RAPTOR": (3441, 3510), "HippoRAG": (7208, 7342),
+}
+
+# Table 15. 소설 한 권(약 5.6만 토큰) 색인: (초, 전체 토큰)
+GB_INDEX = {
+    "MS-GraphRAG": (292.45, 654673), "LightRAG": (710.32, 474172), "Fast-GraphRAG": (281.74, 251817),
+    "HippoRAG": (77.42, 177961), "HippoRAG2": (96.71, 329993), "KGP": (32.01, 89215),
+    "RAPTOR": (135.21, 115541), "KET-RAG": (350.43, 517551), "Lazy-GraphRAG": (253.59, 591150),
+}
+
+# Table 17. Novel 코퍼스 크기별 ACC
+GB_SIZE = ["56k", "603k", "1,132k"]
+GB_SCALE = {
+    "HippoRAG2": [[60.14, 53.38, 64.10, 48.28], [59.99, 56.67, 65.77, 50.06], [59.19, 54.29, 62.63, 51.18]],
+    "RAG": [[64.73, 58.64, 65.75, 60.61], [58.43, 41.33, 62.06, 52.54], [58.04, 43.20, 62.43, 47.19]],
+}
+
+# Table 13. 코퍼스 그래프 밀도: (평균 차수, 고립되지 않은 엔티티 비율)
+GB_DENSITY = {
+    "UltraDomain": (0.86, 0.40), "MultiHop-RAG": (0.76, 0.41), "HotpotQA": (0.65, 0.41),
+    "MuSiQue": (0.60, 0.39), "2WikiMultihopQA": (0.64, 0.40),
+    "GraphRAG-Bench Novel": (2.27, 0.66), "GraphRAG-Bench Medical": (1.05, 0.48),
+}
+
+
+def gb_avg_acc(ds: str, name: str) -> float:
+    return mean(GB_ACC[ds][name])
+
+
+def gb_avg_ret(ds: str, name: str) -> tuple[float, float]:
+    rows = GB_RET[ds][name]
+    return mean(r for r, _ in rows), mean(v for _, v in rows)
+
+
+def gb_graph_band(ds: str) -> list[tuple[float, float, float]]:
+    """과제별 GraphRAG 11종의 (최소, 중앙값, 최대)."""
+    out = []
+    for j in range(len(GB_TASKS)):
+        vals = sorted(GB_ACC[ds][m][j] for m in GB_GRAPH)
+        out.append((vals[0], median(vals), vals[-1]))
+    return out
+
+
+def gb_beats_rag(ds: str) -> list[int]:
+    """과제별로 rerank RAG 보다 ACC 가 높은 GraphRAG 수."""
+    rag = GB_ACC[ds][GB_RAG]
+    return [sum(GB_ACC[ds][m][j] > rag[j] for m in GB_GRAPH) for j in range(len(GB_TASKS))]
+
+
+def place_labels(points, h=15, gap=2):
+    """(x, y, text) 목록을 받아 겹치지 않게 y 를 아래로 민다. 오른쪽 배치 가정."""
+    placed = []
+    out = []
+    for x, y, s in sorted(points, key=lambda p: p[1]):
+        w = 7.2 * len(s) + 4
+        yy = y
+        while any(abs(yy - py) < h + gap and x < px + pw and px < x + w for px, py, pw in placed):
+            yy += 4
+        placed.append((x, yy, w))
+        out.append((x, y, yy, s))
+    return out
+
+
+def fig_gb_levels():
+    W = 880
+    pw, ph = 340, 260
+    body = []
+    for pi, ds in enumerate(("Novel", "Medical")):
+        ox, oy = 70 + pi * (pw + 90), 132
+        vmin, vmax = (10, 70)
+        sx = lambda j: ox + 30 + j * (pw - 60) / 3
+        sy = lambda v: oy + ph - (v - vmin) / (vmax - vmin) * ph
+        body.append(t(ox, oy - 18, "소설 (느슨한 서사)" if ds == "Novel" else "의료 지침 (위계가 뚜렷함)", "b", size=13.5))
+        for v in range(vmin, vmax + 1, 10):
+            body.append(f'<line class="grid" x1="{ox}" y1="{sy(v):.1f}" x2="{ox + pw}" y2="{sy(v):.1f}"/>')
+            body.append(t(ox - 8, sy(v) + 4, v, "mu", "end"))
+        for j, task in enumerate(GB_TASKS):
+            body.append(t(sx(j), oy + ph + 20, f"L{j + 1} {task}", "t2", "middle", size=11.5))
+        band = gb_graph_band(ds)
+        pts_hi = " ".join(f"{sx(j):.1f},{sy(b[2]):.1f}" for j, b in enumerate(band))
+        pts_lo = " ".join(f"{sx(j):.1f},{sy(b[0]):.1f}" for j, b in reversed(list(enumerate(band))))
+        body.append(f'<polygon class="faintf" points="{pts_hi} {pts_lo}" style="opacity:.55"/>')
+        med = " ".join(f"{sx(j):.1f},{sy(b[1]):.1f}" for j, b in enumerate(band))
+        body.append(f'<polyline points="{med}" style="fill:none;stroke:var(--muted);stroke-width:1.5"/>')
+        for name, cls in ((GB_RAG, "s2"), ("HippoRAG2", "s1")):
+            vals = GB_ACC[ds][name]
+            pts = " ".join(f"{sx(j):.1f},{sy(v):.1f}" for j, v in enumerate(vals))
+            body.append(f'<polyline points="{pts}" class="{cls}s" style="fill:none;stroke-width:2"/>')
+            for j, v in enumerate(vals):
+                body.append(f'<circle class="{cls}f ring" cx="{sx(j):.1f}" cy="{sy(v):.1f}" r="5"><title>{escape(name)} {GB_TASKS[j]} {v}</title></circle>')
+        beats = gb_beats_rag(ds)
+        for j, n in enumerate(beats):
+            body.append(t(sx(j), oy + ph + 38, f"RAG 초과 {n}/11", "mu", "middle"))
+    ly = 80
+    items = [("s2f", "RAG (rerank)"), ("s1f", "HippoRAG2"), ("faintf", "GraphRAG 11종 범위"), (None, "11종 중앙값")]
+    x = 70
+    for cls, label in items:
+        if cls:
+            body.append(f'<rect class="{cls}" x="{x}" y="{ly - 10}" width="14" height="12" rx="3"/>')
+        else:
+            body.append(f'<line x1="{x}" y1="{ly - 4}" x2="{x + 14}" y2="{ly - 4}" style="stroke:var(--muted);stroke-width:2"/>')
+        body.append(t(x + 20, ly, label, size=12))
+        x += 20 + 8 * len(label) + 30
+    H = 132 + ph + 90
+    return doc(W, H, "그래프의 이득은 과제 난도와 코퍼스에 달려 있다",
+               "소설에서는 L2부터 대부분 RAG를 넘지만, 의료 지침에서는 L4 말고는 소수만 넘는다. 아래 숫자 = RAG보다 높은 GraphRAG 수",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 9")
+
+
+def fig_gb_retrieval():
+    W = 860
+    pw, ph = 350, 320
+    body = []
+    hl = {GB_RAG: "s2f", GB_RAG0: "s2f", "HippoRAG2": "s1f"}
+    for pi, ds in enumerate(("Novel", "Medical")):
+        ox, oy = 80 + pi * (pw + 90), 100
+        sx = lambda v: ox + (v - 40) / 60 * pw
+        sy = lambda v: oy + ph - v / 100 * ph
+        body.append(t(ox, oy - 14, "소설" if ds == "Novel" else "의료 지침", "b", size=13.5))
+        for v in range(0, 101, 20):
+            body.append(f'<line class="grid" x1="{ox}" y1="{sy(v):.1f}" x2="{ox + pw}" y2="{sy(v):.1f}"/>')
+            body.append(t(ox - 8, sy(v) + 4, v, "mu", "end"))
+        for v in range(40, 101, 20):
+            body.append(t(sx(v), oy + ph + 18, v, "mu", "middle"))
+        body.append(t(ox + pw / 2, oy + ph + 38, "근거 재현율 (4개 과제 평균)", "t2", "middle", size=12))
+        if pi == 0:
+            body.append(f'<text x="{ox - 44}" y="{oy + ph / 2:.1f}" text-anchor="middle" class="t2" style="font-size:12px" '
+                        f'transform="rotate(-90 {ox - 44} {oy + ph / 2:.1f})">문맥 관련도 (4개 과제 평균)</text>')
+        pts = []
+        for name in [GB_RAG0, GB_RAG] + GB_GRAPH:
+            r, rel = gb_avg_ret(ds, name)
+            cls = hl.get(name, "inkF")
+            fill = f'class="{cls} ring"' if cls != "inkF" else 'class="ring" style="fill:var(--muted)"'
+            body.append(f'<circle {fill} cx="{sx(r):.1f}" cy="{sy(rel):.1f}" r="{6 if name in hl else 4.5}">'
+                        f'<title>{escape(name)} 재현율 {r:.1f} 관련도 {rel:.1f}</title></circle>')
+            pts.append((sx(r) + 9, sy(rel) + 4, name))
+        for x, y0, y, s in place_labels(pts):
+            if abs(y - y0) > 2:
+                body.append(f'<line x1="{x - 6:.1f}" y1="{y0 - 4:.1f}" x2="{x - 1:.1f}" y2="{y - 4:.1f}" style="stroke:var(--rule);stroke-width:1"/>')
+            bold = s in hl
+            body.append(t(x, y, s, "b" if bold else "t2", size=11))
+    H = 100 + ph + 80
+    return doc(W, H, "넓게 가져오면 재현율은 오르고 관련도는 무너진다",
+               "오른쪽 위일수록 좋음. 그래프 방식 대부분은 재현율을 얻는 대신 관련도를 잃고, HippoRAG2만 RAG 수준의 관련도를 유지한다",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 10에서 과제 평균 계산")
+
+
+def fig_gb_tokens():
+    W, H = 820, 440
+    x0, x1, y0, y1 = 90, 760, 350, 100
+    import math
+    lx = lambda v: math.log10(v)
+    xmin, xmax = 2.7, 5.7
+    ymin, ymax = 20, 65
+    sx = lambda v: x0 + (lx(v) - xmin) / (xmax - xmin) * (x1 - x0)
+    sy = lambda v: y0 - (v - ymin) / (ymax - ymin) * (y0 - y1)
+    body = []
+    for v in range(ymin, ymax + 1, 10):
+        body.append(f'<line class="grid" x1="{x0}" y1="{sy(v):.1f}" x2="{x1}" y2="{sy(v):.1f}"/>')
+        body.append(t(x0 - 8, sy(v) + 4, v, "mu", "end"))
+    for v, lab in ((1000, "1천"), (10000, "1만"), (100000, "10만")):
+        body.append(f'<line class="grid" x1="{sx(v):.1f}" y1="{y1}" x2="{sx(v):.1f}" y2="{y0}"/>')
+        body.append(t(sx(v), y0 + 18, lab, "mu", "middle"))
+    body.append(t((x0 + x1) / 2, y0 + 40, "질의당 평균 프롬프트 토큰 (로그 눈금, 두 데이터셋 평균)", "t2", "middle", size=12))
+    body.append(f'<text x="{x0 - 50}" y="{(y0 + y1) / 2:.1f}" text-anchor="middle" class="t2" style="font-size:12px" '
+                f'transform="rotate(-90 {x0 - 50} {(y0 + y1) / 2:.1f})">평균 ACC (2개 데이터셋 × 4개 과제)</text>')
+    pts = []
+    for name, (a, b) in GB_TOKENS.items():
+        tok = (a + b) / 2
+        acc = mean([gb_avg_acc("Novel", name), gb_avg_acc("Medical", name)])
+        cls = "s2f" if name == GB_RAG0 else "s1f" if name == "HippoRAG2" else None
+        fill = f'class="{cls} ring"' if cls else 'class="ring" style="fill:var(--muted)"'
+        body.append(f'<circle {fill} cx="{sx(tok):.1f}" cy="{sy(acc):.1f}" r="6"><title>{escape(name)} {tok:,.0f} 토큰, ACC {acc:.1f}</title></circle>')
+        label = f"{name} · {tok:,.0f}"
+        anchor_end = sx(tok) > x1 - 150
+        below = name == "RAPTOR"
+        pts.append((sx(tok), sy(acc), label, anchor_end, cls is not None, below))
+    for x, y, label, end, bold, below in pts:
+        body.append(t(x - 10 if end else x + 10, y + 20 if below else y - 8, label, "b" if bold else "t2", "end" if end else "start", size=11.5))
+    body.append(t(24, 78, "HippoRAG2(파랑)는 RAG(주황)와 같은 1천 토큰대에서 가장 높다. 수만~수십만 토큰을 쓰는 방식은 RAG와 비슷하거나 낮다", "t2", size=12))
+    ratio = mean(GB_TOKENS["MS-GraphRAG global"]) / mean(GB_TOKENS[GB_RAG0])
+    return doc(W, H, "토큰을 더 쓴다고 더 맞히지 않는다",
+               f"MS-GraphRAG global은 RAG보다 약 {ratio:.0f}배 긴 프롬프트를 쓰고 평균 ACC는 가장 낮다",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 6, 7, 9에서 계산")
+
+
+def fig_gb_index():
+    rows = sorted(GB_INDEX.items(), key=lambda kv: -kv[1][1])
+    W = 780
+    x0, x1 = 170, 600
+    top, rowh = 92, 30
+    vmax = 700000
+    sx = lambda v: x0 + (x1 - x0) * v / vmax
+    body = []
+    for v in range(0, vmax + 1, 100000):
+        body.append(f'<line class="grid" x1="{sx(v):.1f}" y1="{top - 8}" x2="{sx(v):.1f}" y2="{top + rowh * len(rows) - 6}"/>')
+        body.append(t(sx(v), top + rowh * len(rows) + 10, f"{v // 1000}k", "mu", "middle"))
+    for i, (name, (sec, tok)) in enumerate(rows):
+        y = top + i * rowh
+        cls = "s1f" if name == "HippoRAG2" else "faintf" if name != "MS-GraphRAG" else "s2f"
+        body.append(t(x0 - 12, y + 14, name, "b" if name in ("HippoRAG2", "MS-GraphRAG") else "", "end"))
+        body.append(f'<rect class="{cls}" x="{x0}" y="{y}" width="{sx(tok) - x0:.1f}" height="20" rx="4"/>')
+        body.append(t(sx(tok) + 8, y + 15, f"{tok:,} 토큰 · {sec:.0f}초", "t2", size=12))
+    H = top + rowh * len(rows) + 64
+    return doc(W, H, "책 한 권 색인 비용",
+               "소설 한 권(약 5.6만 토큰)의 그래프 구축에 쓴 LLM 입출력 토큰과 시간",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 15")
+
+
+def fig_gb_scale():
+    W = 860
+    pw, ph = 170, 170
+    body = []
+    novel_rag = GB_ACC["Novel"][GB_RAG]
+    for j, task in enumerate(GB_TASKS):
+        ox, oy = 60 + j * (pw + 36), 110
+        vmin, vmax = 35, 70
+        sx = lambda k: ox + 16 + k * (pw - 32) / 2
+        sy = lambda v: oy + ph - (v - vmin) / (vmax - vmin) * ph
+        body.append(t(ox, oy - 14, task, "b", size=13))
+        for v in range(40, vmax + 1, 10):
+            body.append(f'<line class="grid" x1="{ox}" y1="{sy(v):.1f}" x2="{ox + pw}" y2="{sy(v):.1f}"/>')
+            if j == 0:
+                body.append(t(ox - 8, sy(v) + 4, v, "mu", "end"))
+        for k, lab in enumerate(GB_SIZE):
+            body.append(t(sx(k), oy + ph + 18, lab, "mu", "middle"))
+        for name, cls in (("RAG", "s2"), ("HippoRAG2", "s1")):
+            vals = [GB_SCALE[name][k][j] for k in range(3)]
+            pts = " ".join(f"{sx(k):.1f},{sy(v):.1f}" for k, v in enumerate(vals))
+            body.append(f'<polyline points="{pts}" class="{cls}s" style="fill:none;stroke-width:2"/>')
+            for k, v in enumerate(vals):
+                body.append(f'<circle class="{cls}f ring" cx="{sx(k):.1f}" cy="{sy(v):.1f}" r="4.5"><title>{name} {GB_SIZE[k]} {v}</title></circle>')
+        v = novel_rag[j]
+        body.append(f'<circle cx="{sx(0):.1f}" cy="{sy(v):.1f}" r="6" class="s2s" style="fill:var(--surface);stroke-width:2"><title>Table 9 Novel RAG {v}</title></circle>')
+    ly = 76
+    body.append(f'<rect class="s2f" x="60" y="{ly - 10}" width="14" height="12" rx="3"/>')
+    body.append(t(80, ly, "RAG (Table 17 보고값)", size=12))
+    body.append(f'<circle cx="260" cy="{ly - 4}" r="6" class="s2s" style="fill:var(--surface);stroke-width:2"/>')
+    body.append(t(272, ly, "같은 소설 데이터셋에서 Table 9가 보고한 RAG 값", size=12))
+    body.append(f'<rect class="s1f" x="600" y="{ly - 10}" width="14" height="12" rx="3"/>')
+    body.append(t(620, ly, "HippoRAG2", size=12))
+    ny = 110 + ph + 46
+    body.append(t(60, ny, "Table 17의 RAG 56k 값(64.73 · 58.64 · 65.75 · 60.61)은 의료 데이터셋 Table 9 값과 네 자리 모두 같습니다.", "t2", size=12.5))
+    body.append(t(60, ny + 20, "빈 원(소설 Table 9 값)으로 바꾸면 복합 추론의 RAG는 42.93 → 41.33 → 43.20으로 거의 평평합니다.", "t2", size=12.5))
+    H = ny + 70
+    return doc(W, H, "코퍼스가 커지면 RAG만 무너지는가",
+               "소설 데이터셋 코퍼스 크기별 ACC. 저자 결론은 'RAG는 크기에 따라 떨어지고 HippoRAG2는 안정적'",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 17, Table 9")
+
+
+def fig_gb_density():
+    W = 860
+    rows = list(GB_DENSITY.items())
+    lab_w = 190
+    top, rowh = 110, 28
+    panels = [("평균 차수", 0, 2.5, [0, 0.5, 1, 1.5, 2, 2.5]), ("고립되지 않은 엔티티 비율", 1, 0.8, [0, 0.2, 0.4, 0.6, 0.8])]
+    body = []
+    pw = 270
+    for pi, (title, idx, vmax, ticks) in enumerate(panels):
+        ox = 24 + lab_w + pi * (pw + 60)
+        sx = lambda v: ox + v / vmax * pw
+        body.append(t(ox, top - 22, title, "b", size=13))
+        for v in ticks:
+            body.append(f'<line class="grid" x1="{sx(v):.1f}" y1="{top - 8}" x2="{sx(v):.1f}" y2="{top + rowh * len(rows) - 10}"/>')
+            body.append(t(sx(v), top + rowh * len(rows) + 6, f"{v:g}", "mu", "middle"))
+        for i, (name, vals) in enumerate(rows):
+            y = top + i * rowh
+            ours = name.startswith("GraphRAG-Bench")
+            if pi == 0:
+                body.append(t(ox - 14, y + 4, name, "b" if ours else "", "end"))
+            v = vals[idx]
+            cls = "s1" if ours else None
+            style = "" if ours else ' style="fill:var(--muted)"'
+            body.append(f'<line x1="{ox}" y1="{y}" x2="{sx(v):.1f}" y2="{y}" style="stroke:var({"--s1" if ours else "--rule"});stroke-width:2"/>')
+            body.append(f'<circle {"class=" + chr(34) + cls + "f ring" + chr(34) if ours else "class=" + chr(34) + "ring" + chr(34)}{style} cx="{sx(v):.1f}" cy="{y}" r="6"/>')
+            body.append(t(sx(v) + 10, y + 4, f"{v:g}", "b" if ours else "t2", size=12))
+    H = top + rowh * len(rows) + 60
+    others = [v[0] for k, v in GB_DENSITY.items() if not k.startswith("GraphRAG-Bench")]
+    nov = GB_DENSITY["GraphRAG-Bench Novel"][0]
+    return doc(W, H, "코퍼스에서 뽑은 그래프가 얼마나 이어져 있는가",
+               f"소설 코퍼스의 평균 차수는 기존 벤치마크의 {nov / max(others):.1f}~{nov / min(others):.1f}배. 의료 코퍼스는 UltraDomain보다 조금 높은 수준",
+               body, "출처: GraphRAG-Bench (arXiv:2506.05690) Table 13")
+
+
 # ----------------------------------------------------------------
 
 FIGURES = {
@@ -602,6 +954,12 @@ FIGURES = {
     "pathrag_winrate_heatmap.svg": fig_pr_heatmap,
     "pathrag_tokens.svg": fig_pr_tokens,
     "pathrag_flow_example.svg": fig_pr_flow,
+    "graphragbench_levels.svg": fig_gb_levels,
+    "graphragbench_retrieval.svg": fig_gb_retrieval,
+    "graphragbench_tokens.svg": fig_gb_tokens,
+    "graphragbench_index_cost.svg": fig_gb_index,
+    "graphragbench_scale_check.svg": fig_gb_scale,
+    "graphragbench_density.svg": fig_gb_density,
 }
 
 

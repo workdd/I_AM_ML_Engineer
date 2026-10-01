@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="426" viewBox="0 0 780 426" role="img" aria-label="책 한 권 색인 비용">
+<title>책 한 권 색인 비용</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="780" height="426" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">책 한 권 색인 비용</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">소설 한 권(약 5.6만 토큰)의 그래프 구축에 쓴 LLM 입출력 토큰과 시간</text>
+<line class="grid" x1="170.0" y1="84" x2="170.0" y2="356"/>
+<text x="170.0" y="372.0" text-anchor="middle" class="mu">0k</text>
+<line class="grid" x1="231.4" y1="84" x2="231.4" y2="356"/>
+<text x="231.4" y="372.0" text-anchor="middle" class="mu">100k</text>
+<line class="grid" x1="292.9" y1="84" x2="292.9" y2="356"/>
+<text x="292.9" y="372.0" text-anchor="middle" class="mu">200k</text>
+<line class="grid" x1="354.3" y1="84" x2="354.3" y2="356"/>
+<text x="354.3" y="372.0" text-anchor="middle" class="mu">300k</text>
+<line class="grid" x1="415.7" y1="84" x2="415.7" y2="356"/>
+<text x="415.7" y="372.0" text-anchor="middle" class="mu">400k</text>
+<line class="grid" x1="477.1" y1="84" x2="477.1" y2="356"/>
+<text x="477.1" y="372.0" text-anchor="middle" class="mu">500k</text>
+<line class="grid" x1="538.6" y1="84" x2="538.6" y2="356"/>
+<text x="538.6" y="372.0" text-anchor="middle" class="mu">600k</text>
+<line class="grid" x1="600.0" y1="84" x2="600.0" y2="356"/>
+<text x="600.0" y="372.0" text-anchor="middle" class="mu">700k</text>
+<text x="158.0" y="106.0" text-anchor="end" class="b">MS-GraphRAG</text>
+<rect class="s2f" x="170" y="92" width="402.2" height="20" rx="4"/>
+<text x="580.2" y="107.0" text-anchor="start" class="t2" style="font-size:12px">654,673 토큰 · 292초</text>
+<text x="158.0" y="136.0" text-anchor="end">Lazy-GraphRAG</text>
+<rect class="faintf" x="170" y="122" width="363.1" height="20" rx="4"/>
+<text x="541.1" y="137.0" text-anchor="start" class="t2" style="font-size:12px">591,150 토큰 · 254초</text>
+<text x="158.0" y="166.0" text-anchor="end">KET-RAG</text>
+<rect class="faintf" x="170" y="152" width="317.9" height="20" rx="4"/>
+<text x="495.9" y="167.0" text-anchor="start" class="t2" style="font-size:12px">517,551 토큰 · 350초</text>
+<text x="158.0" y="196.0" text-anchor="end">LightRAG</text>
+<rect class="faintf" x="170" y="182" width="291.3" height="20" rx="4"/>
+<text x="469.3" y="197.0" text-anchor="start" class="t2" style="font-size:12px">474,172 토큰 · 710초</text>
+<text x="158.0" y="226.0" text-anchor="end" class="b">HippoRAG2</text>
+<rect class="s1f" x="170" y="212" width="202.7" height="20" rx="4"/>
+<text x="380.7" y="227.0" text-anchor="start" class="t2" style="font-size:12px">329,993 토큰 · 97초</text>
+<text x="158.0" y="256.0" text-anchor="end">Fast-GraphRAG</text>
+<rect class="faintf" x="170" y="242" width="154.7" height="20" rx="4"/>
+<text x="332.7" y="257.0" text-anchor="start" class="t2" style="font-size:12px">251,817 토큰 · 282초</text>
+<text x="158.0" y="286.0" text-anchor="end">HippoRAG</text>
+<rect class="faintf" x="170" y="272" width="109.3" height="20" rx="4"/>
+<text x="287.3" y="287.0" text-anchor="start" class="t2" style="font-size:12px">177,961 토큰 · 77초</text>
+<text x="158.0" y="316.0" text-anchor="end">RAPTOR</text>
+<rect class="faintf" x="170" y="302" width="71.0" height="20" rx="4"/>
+<text x="249.0" y="317.0" text-anchor="start" class="t2" style="font-size:12px">115,541 토큰 · 135초</text>
+<text x="158.0" y="346.0" text-anchor="end">KGP</text>
+<rect class="faintf" x="170" y="332" width="54.8" height="20" rx="4"/>
+<text x="232.8" y="347.0" text-anchor="start" class="t2" style="font-size:12px">89,215 토큰 · 32초</text>
+<text x="24.0" y="400.0" text-anchor="start" class="mu">출처: GraphRAG-Bench (arXiv:2506.05690) Table 15</text>
+<text x="24.0" y="415.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="482" viewBox="0 0 880 482" role="img" aria-label="그래프의 이득은 과제 난도와 코퍼스에 달려 있다">
+<title>그래프의 이득은 과제 난도와 코퍼스에 달려 있다</title>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e6e5e1;--rule:#c9c8c3;--s1:#2a78d6;--s2:#eb6834;--faint:#d9d8d3}
+@media (prefers-color-scheme:dark){svg{--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#8f8e88;--grid:#343431;--rule:#4a4945;--s1:#3987e5;--s2:#d95926;--faint:#4a4945}}
+text{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:var(--ink);font-size:13px}
+.bg{fill:var(--surface)} .t2{fill:var(--ink2)} .mu{fill:var(--muted);font-size:11px}
+.ttl{font-size:16px;font-weight:700} .sub{fill:var(--ink2);font-size:12.5px}
+.grid{stroke:var(--grid);stroke-width:1} .rule{stroke:var(--rule);stroke-width:1}
+.s1f{fill:var(--s1)} .s2f{fill:var(--s2)} .s1s{stroke:var(--s1)} .s2s{stroke:var(--s2)}
+.ring{stroke:var(--surface);stroke-width:2} .ref{stroke:var(--ink2);stroke-width:1.5}
+.faintf{fill:var(--faint)} .fainte{stroke:var(--faint)} .inkS{stroke:var(--ink2)}
+.b{font-weight:700}
+</style>
+<rect class="bg" x="0" y="0" width="880" height="482" rx="10"/>
+<text x="24.0" y="34.0" text-anchor="start" class="ttl">그래프의 이득은 과제 난도와 코퍼스에 달려 있다</text>
+<text x="24.0" y="55.0" text-anchor="start" class="sub">소설에서는 L2부터 대부분 RAG를 넘지만, 의료 지침에서는 L4 말고는 소수만 넘는다. 아래 숫자 = RAG보다 높은 GraphRAG 수</text>
+<text x="70.0" y="114.0" text-anchor="start" class="b" style="font-size:13.5px">소설 (느슨한 서사)</text>
+<line class="grid" x1="70" y1="392.0" x2="410" y2="392.0"/>
+<text x="62.0" y="396.0" text-anchor="end" class="mu">10</text>
+<line class="grid" x1="70" y1="348.7" x2="410" y2="348.7"/>
+<text x="62.0" y="352.7" text-anchor="end" class="mu">20</text>
+<line class="grid" x1="70" y1="305.3" x2="410" y2="305.3"/>
+<text x="62.0" y="309.3" text-anchor="end" class="mu">30</text>
+<line class="grid" x1="70" y1="262.0" x2="410" y2="262.0"/>
+<text x="62.0" y="266.0" text-anchor="end" class="mu">40</text>
+<line class="grid" x1="70" y1="218.7" x2="410" y2="218.7"/>
+<text x="62.0" y="222.7" text-anchor="end" class="mu">50</text>
+<line class="grid" x1="70" y1="175.3" x2="410" y2="175.3"/>
+<text x="62.0" y="179.3" text-anchor="end" class="mu">60</text>
+<line class="grid" x1="70" y1="132.0" x2="410" y2="132.0"/>
+<text x="62.0" y="136.0" text-anchor="end" class="mu">70</text>
+<text x="100.0" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L1 사실 검색</text>
+<text x="193.3" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L2 복합 추론</text>
+<text x="286.7" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L3 맥락 요약</text>
+<text x="380.0" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L4 창작 생성</text>
+<polygon class="faintf" points="100.0,174.7 193.3,204.0 286.7,156.3 380.0,226.1 380.0,332.2 286.7,231.2 193.3,276.8 100.0,275.3" style="opacity:.55"/>
+<polyline points="100.0,202.0 193.3,234.7 286.7,200.1 380.0,257.2" style="fill:none;stroke:var(--muted);stroke-width:1.5"/>
+<polyline points="100.0,171.3 193.3,249.3 286.7,213.0 380.0,269.5" class="s2s" style="fill:none;stroke-width:2"/>
+<circle class="s2f ring" cx="100.0" cy="171.3" r="5"><title>RAG (rerank) 사실 검색 60.92</title></circle>
+<circle class="s2f ring" cx="193.3" cy="249.3" r="5"><title>RAG (rerank) 복합 추론 42.93</title></circle>
+<circle class="s2f ring" cx="286.7" cy="213.0" r="5"><title>RAG (rerank) 맥락 요약 51.3</title></circle>
+<circle class="s2f ring" cx="380.0" cy="269.5" r="5"><title>RAG (rerank) 창작 생성 38.26</title></circle>
+<polyline points="100.0,174.7 193.3,204.0 286.7,157.6 380.0,226.1" class="s1s" style="fill:none;stroke-width:2"/>
+<circle class="s1f ring" cx="100.0" cy="174.7" r="5"><title>HippoRAG2 사실 검색 60.14</title></circle>
+<circle class="s1f ring" cx="193.3" cy="204.0" r="5"><title>HippoRAG2 복합 추론 53.38</title></circle>
+<circle class="s1f ring" cx="286.7" cy="157.6" r="5"><title>HippoRAG2 맥락 요약 64.1</title></circle>
+<circle class="s1f ring" cx="380.0" cy="226.1" r="5"><title>HippoRAG2 창작 생성 48.28</title></circle>
+<text x="100.0" y="430.0" text-anchor="middle" class="mu">RAG 초과 0/11</text>
+<text x="193.3" y="430.0" text-anchor="middle" class="mu">RAG 초과 8/11</text>
+<text x="286.7" y="430.0" text-anchor="middle" class="mu">RAG 초과 7/11</text>
+<text x="380.0" y="430.0" text-anchor="middle" class="mu">RAG 초과 9/11</text>
+<text x="500.0" y="114.0" text-anchor="start" class="b" style="font-size:13.5px">의료 지침 (위계가 뚜렷함)</text>
+<line class="grid" x1="500" y1="392.0" x2="840" y2="392.0"/>
+<text x="492.0" y="396.0" text-anchor="end" class="mu">10</text>
+<line class="grid" x1="500" y1="348.7" x2="840" y2="348.7"/>
+<text x="492.0" y="352.7" text-anchor="end" class="mu">20</text>
+<line class="grid" x1="500" y1="305.3" x2="840" y2="305.3"/>
+<text x="492.0" y="309.3" text-anchor="end" class="mu">30</text>
+<line class="grid" x1="500" y1="262.0" x2="840" y2="262.0"/>
+<text x="492.0" y="266.0" text-anchor="end" class="mu">40</text>
+<line class="grid" x1="500" y1="218.7" x2="840" y2="218.7"/>
+<text x="492.0" y="222.7" text-anchor="end" class="mu">50</text>
+<line class="grid" x1="500" y1="175.3" x2="840" y2="175.3"/>
+<text x="492.0" y="179.3" text-anchor="end" class="mu">60</text>
+<line class="grid" x1="500" y1="132.0" x2="840" y2="132.0"/>
+<text x="492.0" y="136.0" text-anchor="end" class="mu">70</text>
+<text x="530.0" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L1 사실 검색</text>
+<text x="623.3" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L2 복합 추론</text>
+<text x="716.7" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L3 맥락 요약</text>
+<text x="810.0" y="412.0" text-anchor="middle" class="t2" style="font-size:11.5px">L4 창작 생성</text>
+<polygon class="faintf" points="530.0,148.1 623.3,166.8 716.7,141.2 810.0,140.5 810.0,345.2 716.7,349.4 623.3,367.7 530.0,364.2" style="opacity:.55"/>
+<polyline points="530.0,192.1 623.3,204.8 716.7,180.8 810.0,165.0" style="fill:none;stroke:var(--muted);stroke-width:1.5"/>
+<polyline points="530.0,154.8 623.3,181.2 716.7,150.4 810.0,172.7" class="s2s" style="fill:none;stroke-width:2"/>
+<circle class="s2f ring" cx="530.0" cy="154.8" r="5"><title>RAG (rerank) 사실 검색 64.73</title></circle>
+<circle class="s2f ring" cx="623.3" cy="181.2" r="5"><title>RAG (rerank) 복합 추론 58.64</title></circle>
+<circle class="s2f ring" cx="716.7" cy="150.4" r="5"><title>RAG (rerank) 맥락 요약 65.75</title></circle>
+<circle class="s2f ring" cx="810.0" cy="172.7" r="5"><title>RAG (rerank) 창작 생성 60.61</title></circle>
+<polyline points="530.0,148.1 623.3,166.8 716.7,162.0 810.0,140.5" class="s1s" style="fill:none;stroke-width:2"/>
+<circle class="s1f ring" cx="530.0" cy="148.1" r="5"><title>HippoRAG2 사실 검색 66.28</title></circle>
+<circle class="s1f ring" cx="623.3" cy="166.8" r="5"><title>HippoRAG2 복합 추론 61.98</title></circle>
+<circle class="s1f ring" cx="716.7" cy="162.0" r="5"><title>HippoRAG2 맥락 요약 63.08</title></circle>
+<circle class="s1f ring" cx="810.0" cy="140.5" r="5"><title>HippoRAG2 창작 생성 68.05</title></circle>
+<text x="530.0" y="430.0" text-anchor="middle" class="mu">RAG 초과 1/11</text>
+<text x="623.3" y="430.0" text-anchor="middle" class="mu">RAG 초과 3/11</text>
+<text x="716.7" y="430.0" text-anchor="middle" class="mu">RAG 초과 1/11</text>
+<text x="810.0" y="430.0" text-anchor="middle" class="mu">RAG 초과 7/11</text>
+<rect class="s2f" x="70" y="70" width="14" height="12" rx="3"/>
+<text x="90.0" y="80.0" text-anchor="start" style="font-size:12px">RAG (rerank)</text>
+<rect class="s1f" x="216" y="70" width="14" height="12" rx="3"/>
+<text x="236.0" y="80.0" text-anchor="start" style="font-size:12px">HippoRAG2</text>
+<rect class="faintf" x="338" y="70" width="14" height="12" rx="3"/>
+<text x="358.0" y="80.0" text-anchor="start" style="font-size:12px">GraphRAG 11종 범위</text>
+<line x1="508" y1="76" x2="522" y2="76" style="stroke:var(--muted);stroke-width:2"/>
+<text x="528.0" y="80.0" text-anchor="start" style="font-size:12px">11종 중앙값</text>
+<text x="24.0" y="456.0" text-anchor="start" class="mu">출처: GraphRAG-Bench (arXiv:2506.05690) Table 9</text>
+<text x="24.0" y="471.0" text-anchor="start" class="mu">생성: python scripts/figures/graphrag_figures.py · 손으로 고치지 말 것</text>
+</svg>
