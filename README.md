@@ -54,7 +54,7 @@
 
 GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 묶어서 읽는 편이 낫습니다.
 열 건이 서로 어디에 놓이는지는 [GraphRAG 지식 지도](readings/_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md)에 정리했습니다.
-아직 읽지 않은 후보 20건은 [읽을 논문 대기열](readings/_maps/graphrag_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md)에 모아 두고 하나씩 정리합니다.
+아직 읽지 않은 후보 68건은 [읽을 논문 대기열](readings/_maps/graphrag_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md)에 모아 두고 하나씩 정리합니다.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
