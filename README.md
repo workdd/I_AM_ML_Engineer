@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-07` [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) · GitHub
 - `2026-10-01` [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) · arXiv
 - `2026-09-29` [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) · arXiv / ICLR 2026
 - `2026-09-28` [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) · arXiv
@@ -48,7 +49,6 @@
 - `2026-09-28` [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) · arXiv
 - `2026-09-18` [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) · arXiv / ICLR 2026
 - `2026-09-14` [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) · arXiv
-- `2026-09-11` [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) · DeepSeek-AI
 
 ### 그래프와 지식 표현
 
