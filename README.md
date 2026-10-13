@@ -41,14 +41,14 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-13` [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) · 토스 기술 블로그
+- `2026-10-13` [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) · MUSINSA techblog
 - `2026-10-07` [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) · 비브로스 기술 블로그
 - `2026-10-07` [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) · GitHub
 - `2026-10-01` [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) · arXiv
 - `2026-09-29` [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) · arXiv / ICLR 2026
 - `2026-09-28` [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) · arXiv
 - `2026-09-28` [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) · arXiv / AAAI 2026
-- `2026-09-28` [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) · arXiv
-- `2026-09-18` [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) · arXiv / ICLR 2026
 
 ### 그래프와 지식 표현
 
@@ -74,6 +74,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-13 | [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) | 토스 기술 블로그 | `#LLMGateway` `#MCP` `#Guardrail` `#RateLimit` `#PTU` |
 | 2026-09-10 | [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) | Liner | `#AIAgent` `#SSE` `#Redis` `#PubSub` `#상태관리` |
 | 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
 | 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
@@ -96,6 +97,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
 | 2026-09-18 | [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) | arXiv / ICLR 2026 | `#MultiLLM` `#KVCache` `#ModelCommunication` `#Inference` |
 | 2026-09-14 | [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) | arXiv | `#LatentSpaceLM` `#NextConceptPrediction` `#VectorQuantization` `#Pretraining` |
