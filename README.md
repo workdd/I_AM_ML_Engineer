@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-16` [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) · GitHub
 - `2026-10-16` [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) · GitHub
 - `2026-10-13` [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) · 토스 기술 블로그
 - `2026-10-13` [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) · MUSINSA techblog
@@ -149,6 +150,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-04-11 | [late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
+| 2019-03-01 | [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) | NationalSecurityAgency | `#ReverseEngineering` `#Decompiler` `#IR` `#BinarySimilarity` `#NSA` |
 
 ## Interview Prep
 
