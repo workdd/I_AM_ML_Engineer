@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-16` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub
 - `2026-10-16` [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) · GitHub
 - `2026-10-16` [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) · GitHub
 - `2026-10-16` [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) · GitHub
@@ -150,6 +151,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-07-23 | [AgentENV: 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
 | 2026-04-14 | [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) | morluto | `#MCP` `#ReverseEngineering` `#Ghidra` `#Evidence` `#PromptInjection` |
 | 2026-04-11 | [late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
+| 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` |
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
 | 2019-03-01 | [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) | NationalSecurityAgency | `#ReverseEngineering` `#Decompiler` `#IR` `#BinarySimilarity` `#NSA` |
