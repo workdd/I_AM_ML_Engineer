@@ -41,6 +41,8 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
+- `2026-10-19` [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) · 티스토리 (일주일만 하면 ...)
 - `2026-10-16` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub
 - `2026-10-16` [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) · GitHub
 - `2026-10-16` [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) · GitHub
@@ -62,6 +64,7 @@ GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-15 | [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) | 티스토리 (일주일만 하면 ...) | `#Ontology` `#OWL` `#KnowledgeGraph` `#SemanticLayer` `#Databricks` |
 | 2026-09-29 | [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | arXiv / ICLR 2026 | `#GraphRAG` `#Benchmark` `#HippoRAG2` `#ContextRelevance` `#TokenCost` |
 | 2026-09-28 | [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | arXiv | `#GraphRAG` `#AgenticSearch` `#Benchmark` `#HippoRAG2` `#MultiHopQA` |
 | 2026-09-28 | [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | arXiv / AAAI 2026 | `#GraphRAG` `#LightRAG` `#PathRetrieval` `#Pruning` `#TokenCost` |
@@ -131,6 +134,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-13 | [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) | 아카라이브 AI 로컬 홈랩 | `#로컬LLM` `#DGXSpark` `#OCR` `#사람평가` `#교차검증` |
 | 2026-10-05 | [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) | 비브로스 기술 블로그 | `#PlatformEngineering` `#GitOps` `#ArgoCD` `#Terraform` `#승인게이트` |
 | 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
 | 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
