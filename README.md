@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-19` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub
 - `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
 - `2026-10-19` [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) · 티스토리 (일주일만 하면 ...)
 - `2026-10-16` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub
@@ -147,6 +148,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
+| 2026-10-14 | [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) | Graphicle-AI | `#CodeGraph` `#AgentMemory` `#MCP` `#Benchmark` `#LocalFirst` |
 | 2026-09-30 | [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) | storytold | `#Rust` `#PSD` `#MCP` `#CommandRegistry` `#AgentReady` |
 | 2026-09-11 | [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) | CL4R1T4S | `#SystemPrompt` `#PromptDesign` `#권한설계` `#PromptInjection` |
 | 2026-09-11 | [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) | llm-as-a-verifier | `#Verifier` `#LogProbs` `#TestTimeScaling` `#BestOfN` `#PrefixCache` |
