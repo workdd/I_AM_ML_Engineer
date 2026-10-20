@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
 - `2026-10-19` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub
 - `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
 - `2026-10-19` [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) · 티스토리 (일주일만 하면 ...)
@@ -65,6 +66,7 @@ GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-20 | [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) | MariaDB 공식 문서 | `#GraphDB` `#OQGRAPH` `#ApacheAGE` `#ShortestPath` `#SQL` |
 | 2026-10-15 | [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) | 티스토리 (일주일만 하면 ...) | `#Ontology` `#OWL` `#KnowledgeGraph` `#SemanticLayer` `#Databricks` |
 | 2026-09-29 | [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | arXiv / ICLR 2026 | `#GraphRAG` `#Benchmark` `#HippoRAG2` `#ContextRelevance` `#TokenCost` |
 | 2026-09-28 | [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | arXiv | `#GraphRAG` `#AgenticSearch` `#Benchmark` `#HippoRAG2` `#MultiHopQA` |
