@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-23` [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) · GitHub
 - `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
 - `2026-10-19` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub
 - `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
@@ -108,6 +109,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
 | 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
+| 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
 | 2026-09-18 | [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) | arXiv / ICLR 2026 | `#MultiLLM` `#KVCache` `#ModelCommunication` `#Inference` |
 | 2026-09-14 | [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) | arXiv | `#LatentSpaceLM` `#NextConceptPrediction` `#VectorQuantization` `#Pretraining` |
@@ -150,6 +152,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
+| 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
 | 2026-10-14 | [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) | Graphicle-AI | `#CodeGraph` `#AgentMemory` `#MCP` `#Benchmark` `#LocalFirst` |
 | 2026-09-30 | [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) | storytold | `#Rust` `#PSD` `#MCP` `#CommandRegistry` `#AgentReady` |
 | 2026-09-11 | [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) | CL4R1T4S | `#SystemPrompt` `#PromptDesign` `#권한설계` `#PromptInjection` |
