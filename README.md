@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-26` [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) · GitHub
 - `2026-10-23` [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) · GitHub
 - `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
 - `2026-10-19` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub
@@ -160,6 +161,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-09-02 | [reef: 서빙하면서 스스로 학습하는 에이전트 인프라](readings/repos/[20260902]%20Human-Agent-Society_reef_자기개선_에이전트_지속학습_인프라.md) | Human-Agent-Society | `#ContinualLearning` `#SelfImprovingAgent` `#RL` `#HarnessEvolution` `#SGLang` |
 | 2026-07-31 | [MatrAIx-Persona-8B: 페르소나 인구규모 AI 평가 인프라](readings/repos/[20260731]%20MatrAIx-ai_MatrAIx-Persona-8B_페르소나_인구규모_AI평가인프라.md) | MatrAIx-ai | `#PersonaSimulation` `#AI평가` `#SyntheticData` `#LLMAgent` `#Benchmark` |
 | 2026-07-23 | [AgentENV: 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
+| 2026-07-08 | [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) | JetBrains | `#CodingAgent` `#AgenticIDE` `#SpecDrivenDevelopment` `#GitWorktree` `#AgentSkills` |
 | 2026-04-14 | [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) | morluto | `#MCP` `#ReverseEngineering` `#Ghidra` `#Evidence` `#PromptInjection` |
 | 2026-04-11 | [late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
 | 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` |

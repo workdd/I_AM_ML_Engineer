@@ -1,0 +1,110 @@
+# ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프
+
+- **레포**: [JetBrains/thinkrail](https://github.com/JetBrains/thinkrail) · [홈페이지](https://thinkrail.ai/) · [Spec graph 블로그 글](https://github.com/JetBrains/thinkrail/blob/main/apps/website/content/blog/2026-09-15-spec-graph/index.md)
+- **제작**: JetBrains 인큐베이터 프로젝트 (기여자 21명, 익명 포함 · 2026-10-26 GitHub API 기준)
+- **공개**: 2026-07-08 저장소 생성일 (TypeScript, Apache-2.0, 별 1,840개 · 2026-10-26 기준)
+- **읽은 날짜**: 2026-10-26 (커밋 `d299f20`, 최신 릴리즈 `v0.3.0-nightly.6`)
+- **원형**: 에이전트 엔진은 오픈소스 코딩 에이전트 [`pi`](https://www.npmjs.com/package/@earendil-works/pi-coding-agent)를 프로세스 안에서 그대로 돌린다. ThinkRail은 그 위의 UI와 워크스페이스 관리를 맡는다
+- **태그**: #CodingAgent #AgenticIDE #SpecDrivenDevelopment #GitWorktree #AgentSkills #MCP
+
+## 한 줄 요약
+
+`pi` 코딩 에이전트에 IDE 화면(Monaco 편집기, 파일 트리, 터미널, diff 리뷰)과 git worktree 기반 병렬 작업 공간을 붙인 데스크톱 앱이다. 기능 대부분은 Claude Code + 워크트리 + 스킬 조합으로 이미 할 수 있다. 눈여겨볼 것은 **SPEC.md 그래프**다. 모듈마다 의도를 적은 문서를 코드 옆에 두고, 머리말의 id로 서로 연결해, 에이전트가 필요한 스펙만 골라 읽게 한다.
+
+## 기능
+
+| 기능 | 내용 |
+|---|---|
+| 격리된 워크스페이스 | 레포를 프로젝트로 열고 워크스페이스마다 `git worktree`와 브랜치를 하나씩 만든다. PR이 머지·종료되거나 일주일 동안 쓰지 않으면 선반으로 내려간다 |
+| PR 흐름 | 상단 바에 `origin`과 PR 상태를 표시하고 publish, push, PR 생성을 버튼 하나로 처리. CI 실패나 브랜치 분기는 에이전트에게 넘긴다. 사용자의 `gh`를 쓴다 |
+| IDE 화면 | 분할 가능한 Monaco 편집기, git 변경 표시가 붙은 파일 트리, 터미널. 파일·diff에 리뷰 코멘트를 달아 채팅에 구조화된 컨텍스트로 보낸다 |
+| 채팅 | 워크스페이스마다 `pi` 세션 여러 개, 세션마다 모델과 토큰·비용 표시. 실행 중인 턴에 끼어들거나 후속 요청을 대기열에 넣는다. 서브에이전트 위임, 사람과 에이전트가 같이 고치는 계획 |
+| Spec graph | `SPEC.md` 그래프를 `spec_*` 도구 7개로 읽고 관리. 화면에 트리로 표시 |
+| 스킬과 워크플로 | 다른 에이전트용으로 둔 Agent Skills를 그 자리에서 읽는다. 프로젝트 설정, 설계 브레인스토밍, PR 출시 워크플로를 기본 제공 |
+| 채팅 안 시각화 | 다이어그램, 선택지 비교, 파일 미리보기를 채팅에 표시. UI 변경을 제안할 때 전후 목업을 보여 주고 diff처럼 코멘트를 받는다 |
+| MCP | `pi`의 `mcp.json`을 쓴다. 읽기 전용 표시가 없는 도구는 호출 전에 확인을 받고, 레포가 정의한 서버는 승인 전까지 꺼 둔다 |
+| 제공자 | JetBrains AI 로그인 또는 `pi`의 인증으로 아무 제공자나 연결. ThinkRail 자체 계정은 없다 |
+| 실행 형태 | 데스크톱 앱(Electrobun) 또는 브라우저로 여는 `thinkrail` CLI. 상태는 `~/.thinkrail`에 둔다 |
+
+구조는 세 겹이다. `Bun.serve` HTTP+WS 서버가 채팅마다 `pi` 세션을 하나씩 돌리고(`packages/server`), 타입이 정해진 프로토콜(`packages/contracts`)로 React 19 웹 UI(`apps/web`)와 통신한다. README는 앱이 "사용자 몰래 프롬프트를 조립하지 않는다"고 적는다. 모델, 스킬, 압축, 비용, 세션 상태는 모두 `pi`가 가진다.
+
+## Spec graph
+
+### 규칙
+
+블로그 글이 `AGENTS.md`에 넣으라고 제안하는 규칙이다.
+
+- 스펙이 원천이고 코드는 스펙과 대조한다. **스펙을 코드에서 생성하지 않는다**
+- 코드보다 스펙을 먼저 읽는다. `goal-and-requirements.md`(목표와 범위), `architecture.md`(구조, 경계, 불변 조건), 가장 가까운 `SPEC.md` 순서다
+- `SPEC.md`는 설명하는 코드 옆에 두고 모듈 하나를 다룬다. 모듈이 무엇을 위한 것인지, 무엇을 소유하는지, 왜 그렇게 정했는지를 적는다
+- 작업 결과가 스펙과 어긋나면 확인을 받고, 코드와 스펙을 **같은 변경에서** 함께 고친다. 조용히 어긋나게 두지 않는다
+
+### 머리말 스키마
+
+```yaml
+---
+id:          # 고유 id. 다른 스펙이 이 값으로 참조한다 (필수)
+type:        # goal-and-requirements | architecture-design | module-design | submodule-design | task-spec (필수)
+title:       # 제목 (필수)
+status:      # draft | active | stale | done | deprecated
+parent:      # 바로 위 범위 스펙의 id
+depends-on:  # 이 스펙에 중요한 다른 스펙 id 목록
+tags:
+---
+```
+
+`parent`가 트리를, `depends-on`이 트리를 가로지르는 엣지를 만든다. ThinkRail 레포 자체가 이 방식으로 되어 있고 `SPEC.md`가 101개 있다.
+
+### 도구 (`packages/spec-graph`)
+
+| 구분 | 도구 | 역할 |
+|---|---|---|
+| 읽기 | `spec_grep` | 본문 검색. 머리말 값으로 좁힐 수 있음 |
+| 읽기 | `spec_get` | 노드 하나의 머리말, 해석된 링크, 경로 (본문 제외) |
+| 읽기 | `spec_graph` | 하위 트리, 조상, 이웃을 범위를 정해 잘라 반환 |
+| 관리 | `spec_create` | 인덱스가 볼 수 없는 경로나 스펙이 아닌 파일이 되는 인자는 거부 |
+| 관리 | `spec_update` | 머리말만 수정. 필드 순서, 주석, 본문은 그대로 둠 |
+| 관리 | `spec_delete` · `spec_validate` | 삭제, 그래프 검증 |
+
+설계에서 볼 만한 점은 다음과 같다.
+
+- **도구는 본문을 고치지 않는다.** 본문은 에이전트의 일반 `read`/`write`/`edit`로 쓴다. 스펙 도구는 머리말과 그래프만 맡는다
+- **파일 시스템이 원천이고 인덱스는 파생 캐시다.** 읽을 때마다 glob을 다시 돌리고 `(mtime, size)`로 바뀐 파일만 다시 파싱한다. `.claude`, `.superpowers` 같은 다른 에이전트의 작업 폴더는 제외한다(그 안의 계획 파일도 비슷한 머리말을 갖고 있어서)
+- **항상 켜진 규칙은 시스템 프롬프트의 이름 붙은 절 하나로 넣는다.** 시스템 프롬프트 전체를 갈아 끼우면 바뀔 때마다 프롬프트 캐시가 깨지기 때문이라고 적는다
+- 패키지는 ThinkRail에 의존하지 않는다. 일반 `pi`에도 `pi install`로 설치할 수 있다. 에이전트와 무관한 읽기 모델(`pi-spec-graph/core`)을 따로 내보내 ThinkRail 서버의 스펙 화면도 같은 코드를 쓴다
+- 하지 않는 것으로 명시한 것: 임베딩 검색, 관련 코드 필드, 스펙 이동·이름 변경
+
+## Claude Code 중심 워크플로와 비교
+
+| 영역 | ThinkRail | Claude Code + 워크트리 + 스킬 |
+|---|---|---|
+| 에이전트 | `pi` (모델은 제공자 선택) | Claude Code (Claude 모델) |
+| 병렬 작업 | 워크스페이스 = worktree, 자동 선반 정리 | worktree를 직접 또는 별도 도구로 관리 |
+| 화면 | 편집기, diff, 터미널, 채팅이 한 창에 | 터미널 + 사용 중인 IDE |
+| 리뷰 피드백 | 파일·diff에 단 코멘트를 채팅에 구조화해 전달 | 사람이 위치를 문장으로 설명 |
+| 프로젝트 지식 | SPEC.md 그래프 (모듈별, 코드 옆, id로 연결) | CLAUDE.md 계층 (디렉터리별 import) + 별도 메모리 도구 |
+| 지식 갱신 | 코드와 스펙을 같은 변경에서 수정, 전용 도구로 검증 | 규칙으로만 요구, 검증 도구 없음 |
+| 스킬 | Agent Skills 형식을 그대로 읽음 | 같은 형식 |
+| MCP | `pi`의 `mcp.json` | Claude Code 설정 |
+
+가장 큰 차이는 프로젝트 지식을 두는 방식이다. CLAUDE.md는 "에이전트가 지켜야 할 규칙"을 디렉터리마다 쌓는다. SPEC.md는 "이 모듈이 무엇이고 왜 이렇게 됐는가"를 모듈마다 적고, 문서끼리 그래프로 이어 필요한 것만 읽게 한다. 규칙 문서와 설계 문서의 차이에 가깝다.
+
+## 읽을 때 감안할 것
+
+- **아직 nightly 단계다.** `v0.3.0-nightly`가 하루에 한두 번씩 나온다. 기능 설명은 README 기준이고 직접 설치해 쓰지는 않았다
+- **기본 사용 통계와 오류 보고는 끌 수 없다.** 프롬프트, 코드, 파일은 보내지 않는다고 적혀 있고, 추가 공유만 끌 수 있다(`--no-analytics`)
+- macOS Intel용 빌드가 없고, Linux 빌드는 서명되지 않았다
+- Spec graph의 효과(컨텍스트 절감, 작업 이탈 감소)를 잰 수치는 없다. 블로그 글은 원리와 사용법만 설명한다
+- `spec-graph`는 `pi` 확장이라 Claude Code에 바로 붙일 수 없다. `core/`는 `pi`에 의존하지 않아 MCP 서버로 감싸는 것이 가능해 보이지만 시도하지는 않았다(추측)
+
+## 가져갈 지점
+
+- **CLAUDE.md는 규칙, SPEC.md는 설계로 나누기**: 모듈이 많은 레포에서 CLAUDE.md 하나에 설계 설명까지 몰리면 매 세션 전부 읽힌다. 모듈 설계는 코드 옆 SPEC.md로 내리고 CLAUDE.md에는 "가장 가까운 SPEC.md를 먼저 읽어라"만 남기는 방식을 시도해 볼 만하다
+- **머리말 id로 문서 연결**: 경로 대신 id로 참조하면 파일을 옮겨도 링크가 깨지지 않고, `parent`와 `depends-on`만으로 트리와 교차 참조를 함께 표현한다
+- **본문과 메타데이터 도구 분리**: 도구는 머리말과 그래프만 다루고 본문은 일반 편집으로 쓰게 하는 경계가 깔끔하다. 위키형 지식 MCP를 만들 때 같은 경계를 쓸 수 있다
+- **시스템 프롬프트에 규칙을 넣을 때 캐시 고려**: 전체 교체 대신 이름 붙은 절 하나만 바꾸는 판단은 [무신사 Prompt Caching 비용 절감기](../blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md)와 같은 문제다
+- 코드 그래프와 메모리를 심볼에 묶는 [Graphicle](./[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md)과 비교하면, Graphicle은 코드에서 지식을 뽑고 ThinkRail은 사람이 쓴 의도를 원천으로 삼는다. 방향이 반대다
+
+## 결론
+
+ThinkRail은 이미 Claude Code와 워크트리로 일하고 있다면 갈아탈 도구가 아니다. 가져갈 것은 SPEC.md 그래프 규칙 하나다. 도구 없이 규칙과 머리말 스키마만으로도 시작할 수 있고, 레포 자체가 SPEC.md 101개짜리 예시다.
