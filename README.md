@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-27` [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) · Q Labs Research
 - `2026-10-27` [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) · GitHub
 - `2026-10-27` [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) · SEC EDGAR
 - `2026-10-26` [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) · GitHub
@@ -112,6 +113,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-02 | [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) | Q Labs Research | `#ZerothOrder` `#EvolutionStrategies` `#Pretraining` `#Backprop` `#EGGROLL` |
 | 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
