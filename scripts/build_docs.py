@@ -19,6 +19,7 @@ TREES = [
     ("readings", "readings"),
     ("interviews", "interviews"),
     ("practical_tips", "practical_tips"),
+    ("docs_assets", "docs_assets"),  # 사이트 스크립트(수식 렌더 설정)
 ]
 
 GITHUB_BLOB = "https://github.com/workdd/I_AM_ML_Engineer/blob/main"
@@ -30,11 +31,14 @@ TOPIC_ORDER = [
     ("그래프와 지식 표현", "graph"),
     ("에이전트와 도구 연결", "agent"),
     ("LLM 서빙과 추론 최적화", "serving"),
+    ("모델 학습", "train"),
     ("신뢰도와 환각 탐지", "trust"),
     ("엔지니어링 일반", "eng"),
 ]
 
 KW = {
+    # README 의 절 배치와 맞춘다. Pretraining 은 서빙 쪽 노트에도 붙어 있어 기준어로 쓰지 않는다
+    "train": ["ZerothOrder", "EvolutionStrategies", "NodePerturbation", "EGGROLL", "Backprop"],
     "graph": ["GraphRAG", "LogicRAG", "ROGRAG", "KnowledgeGraph", "Ontology", "OKF",
               "지식표현", "Leiden", "RAPTOR", "DRIFT", "TextAttributedGraph",
               "GraphNeuralNetwork", "LocalSearch", "GlobalSearch", "MultiHopQA"],
@@ -74,7 +78,7 @@ def date_of(path: Path) -> str:
 
 def bucket_of(path: Path) -> str:
     blob = f"{path.name} {title_of(path)} {tags_of(path)}"
-    for key in ("graph", "serving", "trust", "agent"):
+    for key in ("graph", "train", "serving", "trust", "agent"):
         if any(w.lower() in blob.lower() for w in KW[key]):
             return key
     return "eng"

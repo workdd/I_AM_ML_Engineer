@@ -63,6 +63,9 @@ markdown_extensions:
       permalink: true
       toc_depth: 3
   - pymdownx.details
+  # 수식: 본문의 $...$ · $$...$$ 를 MathJax 로 그린다 (GitHub 에서도 같은 문법이 렌더된다)
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -77,3 +80,7 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/workdd/I_AM_ML_Engineer
+
+extra_javascript:
+  - docs_assets/javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
