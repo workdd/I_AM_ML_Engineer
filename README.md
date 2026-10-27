@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-27` [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) · SEC EDGAR
 - `2026-10-26` [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) · GitHub
 - `2026-10-23` [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) · GitHub
 - `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
@@ -140,6 +141,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-10-26 | [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) | SEC EDGAR | `#Anthropic` `#IPO` `#LLM비즈니스` `#Compute` `#지배구조` |
 | 2026-10-13 | [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) | 아카라이브 AI 로컬 홈랩 | `#로컬LLM` `#DGXSpark` `#OCR` `#사람평가` `#교차검증` |
 | 2026-10-05 | [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) | 비브로스 기술 블로그 | `#PlatformEngineering` `#GitOps` `#ArgoCD` `#Terraform` `#승인게이트` |
 | 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
