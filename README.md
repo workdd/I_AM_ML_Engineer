@@ -113,7 +113,6 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
-| 2026-10-02 | [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) | Q Labs Research | `#ZerothOrder` `#EvolutionStrategies` `#Pretraining` `#Backprop` `#EGGROLL` |
 | 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
@@ -128,6 +127,14 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2025-12-19 | [Speculative Decoding 적용기](readings/blogs/[20251219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
 | 2025-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20251219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
 | 2025-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20251218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
+
+### 모델 학습
+
+사전학습과 최적화 방법. 서빙 쪽과 달리 가중치를 만드는 단계.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-10-02 | [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) | Q Labs Research | `#ZerothOrder` `#EvolutionStrategies` `#Pretraining` `#Backprop` `#EGGROLL` |
 
 ### 신뢰도와 환각 탐지
 
