@@ -38,7 +38,8 @@ TOPIC_ORDER = [
 
 KW = {
     # README 의 절 배치와 맞춘다. Pretraining 은 서빙 쪽 노트에도 붙어 있어 기준어로 쓰지 않는다
-    "train": ["ZerothOrder", "EvolutionStrategies", "NodePerturbation", "EGGROLL", "Backprop"],
+    "train": ["ZerothOrder", "EvolutionStrategies", "NodePerturbation", "EGGROLL", "Backprop",
+              "VLA", "FlowMatching"],
     "graph": ["GraphRAG", "LogicRAG", "ROGRAG", "KnowledgeGraph", "Ontology", "OKF",
               "지식표현", "Leiden", "RAPTOR", "DRIFT", "TextAttributedGraph",
               "GraphNeuralNetwork", "LocalSearch", "GlobalSearch", "MultiHopQA"],
