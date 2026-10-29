@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-29` [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) · MLSys 2026
 - `2026-10-29` [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) · GitHub
 - `2026-10-29` [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) · AWS 기술 블로그
 - `2026-10-29` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub (v0.1.9 기준 갱신)
@@ -129,6 +130,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-09-10 | [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) | AWS 기술 블로그 | `#vLLM` `#EKS` `#ColdStart` `#Karpenter` `#SleepMode` |
 | 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
 | 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
+| 2026-04-18 | [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) | MLSys 2026 | `#KVCache` `#ReasoningModel` `#Eviction` `#ActivationSteering` `#Throughput` |
 | 2026-01-04 | [JSON vs TOON 토큰효율](readings/blogs/[20260104]%20네이버클라우드_JSON_vs_TOON_토큰효율.md) | 네이버클라우드 | `#TOON` `#JSON` `#토큰효율` `#LLM` |
 | 2025-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20251219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
 | 2025-12-19 | [Speculative Decoding 적용기](readings/blogs/[20251219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
