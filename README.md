@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-29` [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) · 로보코 블로그
 - `2026-10-29` [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) · MLSys 2026
 - `2026-10-29` [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) · GitHub
 - `2026-10-29` [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) · AWS 기술 블로그
@@ -121,6 +122,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
 | 2026-10-28 | [토스 SNAP: 작은 모델이 자신 있는 요청만 가져가 LLM 비용 줄이기](readings/blogs/[20261027]%20토스_SNAP_선택적내재화_LLM비용절감.md) | 토스 기술 블로그 | `#LLMCost` `#SelectivePrediction` `#ModelCascade` `#Confidence` `#토큰효율` |
+| 2026-10-28 | [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) | 로보코 블로그 | `#PromptCaching` `#PrefixCaching` `#KVCache` `#LMCache` `#MultiTenant` |
 | 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
