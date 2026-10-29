@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-29` [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) · GitHub
 - `2026-10-29` [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) · AWS 기술 블로그
 - `2026-10-29` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub (v0.1.9 기준 갱신)
 - `2026-10-28` [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) · GitHub
@@ -188,6 +189,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` |
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2026-03-09 | [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) | fabio-rovai | `#Ontology` `#OWL` `#SHACL` `#MCP` `#FormalVerification` |
+| 2024-10-21 | [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) | Physical-Intelligence | `#VLA` `#Robotics` `#FlowMatching` `#PaliGemma` `#LeRobot` |
 | 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
 | 2019-03-01 | [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) | NationalSecurityAgency | `#ReverseEngineering` `#Decompiler` `#IR` `#BinarySimilarity` `#NSA` |
 
