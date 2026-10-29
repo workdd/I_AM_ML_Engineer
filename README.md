@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-29` [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) · AWS 기술 블로그
 - `2026-10-29` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub (v0.1.9 기준 갱신)
 - `2026-10-28` [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) · GitHub
 - `2026-10-28` [NVIDIA Auto Ontology: DB 메타데이터로 만드는 에이전트용 시맨틱 레이어와 Text-to-SQL](readings/repos/[20260427]%20NVIDIA_auto-ontology_에이전트용_시맨틱레이어_TextToSQL.md) · GitHub
@@ -101,6 +102,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
 | 2026-07-06 | [How Many Tools Should an LLM Agent See?](readings/papers/[20260706]%20How_Many_Tools_Should_an_LLM_Agent_See.md) | arXiv | `#LLMAgent` `#ToolSelection` `#Retrieval` `#MCP` `#BoR` |
 | 2026-07-02 | [OpenWiki: repo 문서화 에이전트](readings/blogs/[20260702]%20LangChain_OpenWiki_Repo_Documentation_Agent.md) | LangChain Blog | `#OpenWiki` `#AIAgent` `#Documentation` `#DeepAgents` |
+| 2026-04-01 | [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) | AWS 기술 블로그 | `#MultiAgent` `#StrandsAgents` `#AgentCore` `#HumanInTheLoop` `#PromptCaching` |
 | 2025-12-31 | [AI 테스트 에이전트 구축](readings/blogs/[20251231]%20Medium_AI_테스트_에이전트_구축.md) | Medium | `#TDD` `#AIAgent` `#ClaudeCode` `#SubAgent` |
 | 2025-12-30 | [Context Engineering 핵심역량](readings/blogs/[20251230]%20SKdevocean_Context_Engineering_핵심역량.md) | SK devocean | `#ContextEngineering` `#LLM` `#ContextWindow` |
 | 2025-12-30 | [OMS Claude AI 워크플로우](readings/blogs/[20251230]%20컬리_OMS_Claude_AI_워크플로우.md) | 컬리 기술블로그 | `#ClaudeAI` `#MSA` `#팀생산성` |
