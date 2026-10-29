@@ -3,7 +3,8 @@
     python scripts/figures/llmcache_figures.py              readings/blogs/assets/llmcache_*.svg 를 다시 쓴다
     python scripts/figures/llmcache_figures.py --inline DIR  HTML 보고서용 (접두어·생성 메모 없이 DIR/<이름>.svg)
 
-SVG 는 손으로 고치지 않는다. 원문 7·8절의 가상 예시(문서 10,000토큰, 질문 500토큰, 요청 100개,
+SVG 는 손으로 고치지 않는다. 원문 그림 6(토큰 비교)은 노트에서 원문 이미지로 인용하고,
+여기서는 원문 그림에 없는 사용자별 격리 히트율만 그린다. 원문 7·8절의 가상 예시(문서 10,000토큰, 질문 500토큰, 요청 100개,
 사용자 10명 × 10회, 만료·퇴거·라우팅 미스 없음)를 아래 함수로 계산한다. 실측값이 아니다.
 """
 import sys
@@ -57,25 +58,6 @@ def t(x, y, s, size=12, fill=INK, anchor="start", weight="normal"):
             f'font-weight="{weight}">{s}</text>')
 
 
-def fig_tokens():
-    w, h, L, T, rowh, maxw = 700, 330, 230, 90, 56, 360
-    rows = scenarios()
-    vmax = rows[0][1]
-    out = t(20, 28, "새로 prefill할 입력 토큰 (가상 예시: 요청 100개, 문서 10,000 + 질문 500토큰)", 14.5, INK, weight="bold")
-    out += t(20, 46, "격리해도 같은 사용자 안의 반복은 재사용된다. 막대는 토큰 수이고 시간·비용이 아니다", 11.5, SUB)
-    for i, (name, v, hr, c) in enumerate(rows):
-        y = T + i * rowh
-        out += t(L - 12, y + 22, name, 12.5, INK, "end", "bold")
-        bw = maxw * v / vmax
-        out += f'<rect x="{L}" y="{y + 6}" width="{bw:.1f}" height="26" fill="{c}"/>'
-        out += t(L + bw + 8, y + 24, f"{v:,}", 12, INK, weight="bold")
-        if hr:
-            out += t(L + bw + 8, y + 40, f"토큰 기준 히트율 {hr * 100:.1f}%", 10.5, c)
-    out += t(20, h - 44, "가정: 빈 캐시에서 시작, 만료·퇴거·라우팅 미스·블록 경계 손실 없음, 동일 모델·동일 문서", 11, SUB)
-    out += t(20, h - 26, "히트율 = 캐시에서 읽은 입력 토큰 ÷ 전체 입력 토큰. 비용 절감률이 아니다", 11, SUB)
-    return svg(w, h, out, "새로 prefill할 입력 토큰")
-
-
 def fig_hitrate():
     w, h, L, R, T, B = 680, 400, 60, 640, 80, 290
     ks = list(range(1, 21))
@@ -104,7 +86,7 @@ def fig_hitrate():
     return svg(w, h, out, "사용자당 요청 수와 토큰 히트율")
 
 
-FIGS = [("tokens", fig_tokens), ("hitrate", fig_hitrate)]
+FIGS = [("hitrate", fig_hitrate)]
 
 
 def main(argv):

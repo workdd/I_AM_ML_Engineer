@@ -37,9 +37,21 @@ Deep Insight의 데모는 가상의 식품 판매 데이터(`moon-market-fresh-f
 
 1 · 2번은 에이전트 설계(3 · 4절), 3 · 4 · 5번은 인프라(5 · 6절)에서 다룬다.
 
+![원문 그림 1. 솔루션 아키텍처](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/30/image-5-6-1024x589.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 1](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+- 원문 설명대로 가운데 Strands 멀티 에이전트 영역이 문제 1 · 2를, 그 바깥 인프라(AgentCore, Fargate + ALB, DynamoDB · SNS · Cognito)가 문제 3 · 4 · 5를 맡는다. 에이전트 설계와 배포 인프라가 분리된 구조라 Self-Hosted · Web · AgentCore 세 형태가 같은 에이전트 코드를 쓴다
+
 ## 3. 에이전트 구조
 
 에이전트 8개를 세 계층으로 나눈다. 1계층 Coordinator → Planner → Plan Reviewer가 요청을 분석해 계획을 세우고, 2계층 Supervisor가 계획을 실행하며, 3계층 Coder · Validator · Reporter · Tracker가 실제 작업을 한다. 각 에이전트는 독립된 context에서 일하고 압축된 결과만 넘긴다.
+
+![원문 그림 2. 멀티 에이전트 구조](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/30/image-7-3-1024x400.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 2](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+- 원문 그림은 세 계층의 역할 배치를 보여 준다. 아래 생성 그림은 원문 그림에 없는 것, 즉 저장소 코드의 조건부 엣지 · 수정 횟수 상한 · 자동 승인 시간과 Supervisor 호출 순서별 산출 파일을 보강한다
 
 ![Deep Insight 실행 흐름](assets/deepinsight_flow.svg)
 
@@ -72,6 +84,12 @@ builder.set_max_node_executions(25)
 ```
 
 Web 버전은 모달에 300초 카운트다운을 띄우고, 시간 안에 응답이 없으면 자동 승인한다. 원문이 꼽는 효과는 세 가지다. 사용자가 계획을 고칠 수 있고, 단계별 진행을 실시간으로 볼 수 있고, 실패한 단계만 다시 돌릴 수 있다.
+
+![원문 그림 3. Plan Reviewer 실행 Web 화면](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/28/deep-insight-part01-02.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 3](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+- 사람이 개입하는 지점이 계획 단계 한 곳뿐이라는 점을 본다. 실행 중간 결과나 최종 보고서 전에는 검토 단계가 없다
 
 ## 4. Supervisor와 전문 에이전트
 
@@ -128,6 +146,21 @@ Self-Hosted 버전은 Coder의 코드를 로컬에서 바로 실행하지만, Ag
 
 Web UI는 FastAPI로 만들었고 AgentCore Native Protocol(`boto3.invoke_agent_runtime()`)로 백엔드를 부른다. 진행 상황은 SSE로 스트리밍하고, 계획 검토 모달과 보고서 다운로드를 제공하며, 한국어와 영어를 지원한다. 선택 구성인 Ops 대시보드는 에이전트별 상태 · 도구 호출 이력 · 토큰 사용량 · 소요 시간을 DynamoDB에 남기고, 실패하면 SNS로 관리자에게 메일을 보내며, Cognito JWT로 대시보드를 보호한다. AgentCore 쪽에서는 OpenTelemetry 기반 관측을 쓴다.
 
+![원문 그림 4. Deep Insight Web 버전 화면](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/28/deep-insight-part01-03.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 4](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+![원문 그림 5. Ops 대시보드](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/28/deep-insight-part01-04-1024x406.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 5](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+![원문 그림 6. Ops 대시보드 에이전트별 입출력 상세](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/10/18/Picture1.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 6](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+- 그림 6은 그림 5보다 늦게(2026-10) 추가된 이미지 경로다. 작업 단위가 아니라 에이전트 단위로 입력과 출력을 남긴다는 점이 멀티 에이전트 디버깅에서 핵심이다
+- Ops 대시보드는 선택 구성이다. 품질 지표(보고서 정확도)는 이 화면에 없고 상태 · 토큰 · 시간 같은 운영 지표만 다룬다
+
 ## 7. 확장 사례
 
 원문은 같은 구조를 다른 도메인에 옮긴 사례 두 개를 든다.
@@ -138,6 +171,25 @@ Web UI는 FastAPI로 만들었고 AgentCore Native Protocol(`boto3.invoke_agent_
 | TechRecon (re:Invent 2025 SNR203) | Coder 대신 Researcher(Tavily 검색, 웹 크롤링)가 주 실행 에이전트. 산출물은 신기술 전체 분석과 특정 기술 심층 분석 두 종 | 수치 없음 |
 
 두 사례 모두 에이전트 역할과 프롬프트만 바꾸고 계층형 오케스트레이션과 context 격리는 유지했다는 것이 원문의 요지다.
+
+![원문 그림 7. LG전자 Agentic AI 기반 마케팅 인사이트 추출 활용 사례](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2025/08/21/Picture2-1.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 7](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+![원문 그림 8. LG전자 마케팅 인사이트 추출 시스템 아키텍처](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/04/03/Picture1-9-1024x531-1.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 8](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+![원문 그림 9. TechRecon 실행 화면](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/30/tech-recon-frontend-1024x743.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 9](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+![원문 그림 10. TechRecon 결과물](https://d2908q01vomqb2.cloudfront.net/2a459380709e2fe4ac2dae5733c73225ff6cfee1/2026/03/30/tech-recon-result1-1024x576.png)
+
+출처: [AWS 기술 블로그 Deep Insight Part 1 그림 10](https://aws.amazon.com/ko/blogs/tech/practical-design-lessons-from-the-deep-insight-arch/)
+
+- 그림 8과 그림 1을 나란히 보면 계층 구조가 같다는 원문 주장을 확인할 수 있다. 차이는 실행 에이전트 구성(LG전자는 Coder · Reporter 중심, TechRecon은 Researcher 추가)이다
+- 사례 그림에도 품질 · 비용 수치는 없다. LG전자의 288배는 원문 수치로 계산하면 144배다(8절)
 
 ## 8. 읽을 때 감안할 것
 
