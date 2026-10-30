@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-30` [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) · GitHub
 - `2026-10-29` [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) · 로보코 블로그
 - `2026-10-29` [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) · MLSys 2026
 - `2026-10-29` [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) · GitHub
@@ -180,6 +181,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
 | 2026-10-14 | [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) | Graphicle-AI | `#CodeGraph` `#AgentMemory` `#MCP` `#ContextPacking` `#PromptCache` `#Benchmark` |
 | 2026-09-30 | [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) | storytold | `#Rust` `#PSD` `#MCP` `#CommandRegistry` `#AgentReady` |
+| 2026-09-17 | [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) | realZachi | `#SemanticSQL` `#Postgres` `#Batching` `#Calibration` `#CostModel` |
 | 2026-09-11 | [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) | CL4R1T4S | `#SystemPrompt` `#PromptDesign` `#권한설계` `#PromptInjection` |
 | 2026-09-11 | [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) | llm-as-a-verifier | `#Verifier` `#LogProbs` `#TestTimeScaling` `#BestOfN` `#PrefixCache` |
 | 2026-09-02 | [reef: 서빙하면서 스스로 학습하는 에이전트 인프라](readings/repos/[20260902]%20Human-Agent-Society_reef_자기개선_에이전트_지속학습_인프라.md) | Human-Agent-Society | `#ContinualLearning` `#SelfImprovingAgent` `#RL` `#HarnessEvolution` `#SGLang` |
