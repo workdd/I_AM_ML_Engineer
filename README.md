@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-10-30` [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) · GitHub
 - `2026-10-30` [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) · GitHub
 - `2026-10-29` [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) · 로보코 블로그
 - `2026-10-29` [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) · MLSys 2026
@@ -195,6 +196,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` |
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2026-03-09 | [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) | fabio-rovai | `#Ontology` `#OWL` `#SHACL` `#MCP` `#FormalVerification` |
+| 2025-04-29 | [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) | llm-d (CNCF) | `#DistributedInference` `#vLLM` `#PrefixCaching` `#PDDisaggregation` `#KVCache` |
 | 2024-10-21 | [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) | Physical-Intelligence | `#VLA` `#Robotics` `#FlowMatching` `#PaliGemma` `#LeRobot` |
 | 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
 | 2019-03-01 | [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) | NationalSecurityAgency | `#ReverseEngineering` `#Decompiler` `#IR` `#BinarySimilarity` `#NSA` |
