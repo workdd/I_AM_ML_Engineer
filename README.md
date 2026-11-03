@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-03` [kgdiff: 지식 그래프 버전 간 의미 diff와 리뷰 도구](readings/repos/[20261101]%20iiwish_kgdiff_지식그래프_버전간_의미diff_리뷰.md) · GitHub
 - `2026-11-02` [agent-desktop: OS 접근성 트리 기반 데스크톱 앱 조작 프레임워크](readings/repos/[20260219]%20vercel-labs_agent-desktop_접근성트리기반_데스크톱_컴퓨터유즈.md) · GitHub
 - `2026-10-30` [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) · GitHub
 - `2026-10-30` [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) · GitHub
@@ -127,6 +128,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-10-28 | [토스 SNAP: 작은 모델이 자신 있는 요청만 가져가 LLM 비용 줄이기](readings/blogs/[20261027]%20토스_SNAP_선택적내재화_LLM비용절감.md) | 토스 기술 블로그 | `#LLMCost` `#SelectivePrediction` `#ModelCascade` `#Confidence` `#토큰효율` |
 | 2026-10-28 | [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) | 로보코 블로그 | `#PromptCaching` `#PrefixCaching` `#KVCache` `#LMCache` `#MultiTenant` |
 | 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
+| 2026-11-01 | [kgdiff: 지식 그래프 버전 간 의미 diff와 리뷰 도구](readings/repos/[20261101]%20iiwish_kgdiff_지식그래프_버전간_의미diff_리뷰.md) | iiwish | `#KnowledgeGraph` `#Ontology` `#GraphDiff` `#GraphRAG` `#RDF` `#TypeScript` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
 | 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
 | 2026-09-18 | [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) | arXiv / ICLR 2026 | `#MultiLLM` `#KVCache` `#ModelCommunication` `#Inference` |
