@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) · GitHub
 - `2026-11-06` [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) · GitHub
 - `2026-11-05` [oh-my-hermes: Hermes Agent 위에 얹는 작업 분할 · 모델 라우팅 · 증거 게이트 계층](readings/repos/[20260603]%20rlaope_oh-my-hermes_Hermes_Agent_위_작업분할_모델라우팅_증거게이트.md) · GitHub
 - `2026-11-04` [edgextract: 닫힌 yes/no 질문과 결정 모델로 markdown에서 지식 그래프 추출](readings/repos/[20261003]%20raphaelmansuy_edgextract_닫힌질문_결정모델로_지식그래프추출.md) · GitHub
@@ -201,6 +202,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-07-31 | [MatrAIx-Persona-8B: 페르소나 인구규모 AI 평가 인프라](readings/repos/[20260731]%20MatrAIx-ai_MatrAIx-Persona-8B_페르소나_인구규모_AI평가인프라.md) | MatrAIx-ai | `#PersonaSimulation` `#AI평가` `#SyntheticData` `#LLMAgent` `#Benchmark` |
 | 2026-07-23 | [AgentENV: 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
 | 2026-07-08 | [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) | JetBrains | `#CodingAgent` `#AgenticIDE` `#SpecDrivenDevelopment` `#GitWorktree` `#AgentSkills` |
+| 2026-07-02 | [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) | NVIDIA | `#TextToSQL` `#Evaluation` `#Ontology` `#BIRD` `#NeMoGym` |
 | 2026-06-03 | [oh-my-hermes: Hermes Agent 위에 얹는 작업 분할 · 모델 라우팅 · 증거 게이트 계층](readings/repos/[20260603]%20rlaope_oh-my-hermes_Hermes_Agent_위_작업분할_모델라우팅_증거게이트.md) | rlaope | `#AgentHarness` `#ModelRouting` `#MultiAgent` `#EvidenceGate` `#AgentMemory` |
 | 2026-04-27 | [NVIDIA Auto Ontology: DB 메타데이터로 만드는 에이전트용 시맨틱 레이어와 Text-to-SQL](readings/repos/[20260427]%20NVIDIA_auto-ontology_에이전트용_시맨틱레이어_TextToSQL.md) | NVIDIA | `#Ontology` `#SemanticLayer` `#TextToSQL` `#MCP` `#pgvector` |
 | 2026-04-24 | [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) | bradautomates | `#AgentSkills` `#ClaudeCode` `#Video` `#ffmpeg` `#Whisper` |
