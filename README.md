@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-09` [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) · GitHub
 - `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) · GitHub
 - `2026-11-06` [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) · GitHub
 - `2026-11-05` [oh-my-hermes: Hermes Agent 위에 얹는 작업 분할 · 모델 라우팅 · 증거 게이트 계층](readings/repos/[20260603]%20rlaope_oh-my-hermes_Hermes_Agent_위_작업분할_모델라우팅_증거게이트.md) · GitHub
@@ -189,6 +190,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
 | 2026-10-30 | [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) | amitshekhariitbhu | `#ForwardDeployedEngineer` `#LearningRoadmap` `#AIEngineering` `#VoiceAgent` `#LLMEvaluation` |
+| 2026-10-22 | [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) | Dongbumlee | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#LLMasJudge` `#Neo4j` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
 | 2026-10-14 | [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) | Graphicle-AI | `#CodeGraph` `#AgentMemory` `#MCP` `#ContextPacking` `#PromptCache` `#Benchmark` |
 | 2026-10-03 | [edgextract: 닫힌 yes/no 질문과 결정 모델로 markdown에서 지식 그래프 추출](readings/repos/[20261003]%20raphaelmansuy_edgextract_닫힌질문_결정모델로_지식그래프추출.md) | raphaelmansuy | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#ClosedDecision` `#Calibration` |
