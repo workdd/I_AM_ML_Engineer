@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-09` [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) · GitHub
 - `2026-11-09` [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) · GitHub
 - `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) · GitHub
 - `2026-11-06` [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) · GitHub
@@ -197,6 +198,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-09-30 | [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) | storytold | `#Rust` `#PSD` `#MCP` `#CommandRegistry` `#AgentReady` |
 | 2026-09-28 | [Carrel: 온톨로지 증강 에이전트용 셀프호스팅 지식베이스 (그래프 ablation · 재빌드 안정성)](readings/repos/[20260928]%20FengZhenfei_carrel_온톨로지증강_에이전트용_지식베이스.md) | FengZhenfei | `#KnowledgeGraph` `#Ontology` `#GraphRAG` `#HybridRetrieval` `#AgentSkill` |
 | 2026-09-17 | [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) | realZachi | `#SemanticSQL` `#Postgres` `#Batching` `#Calibration` `#CostModel` |
+| 2026-09-15 | [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) | 8rank | `#KnowledgeGraph` `#PersonalKnowledgeGraph` `#Provenance` `#Privacy` `#Ontology` |
 | 2026-09-13 | [Elephant-Goldfish Model: fresh-context 리뷰어로 설계 문서를 검증하는 에이전트 스킬](readings/repos/[20260913]%20google_elephant-goldfish-model_fresh-context_리뷰어로_설계문서_검증.md) | google | `#AgentWorkflow` `#SpecDrivenDevelopment` `#Subagent` `#DesignReview` `#ClaudeCode` |
 | 2026-09-11 | [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) | CL4R1T4S | `#SystemPrompt` `#PromptDesign` `#권한설계` `#PromptInjection` |
 | 2026-09-11 | [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) | llm-as-a-verifier | `#Verifier` `#LogProbs` `#TestTimeScaling` `#BestOfN` `#PrefixCache` |
