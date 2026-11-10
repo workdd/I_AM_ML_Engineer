@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-10` [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) · if(kakao)26 발표
 - `2026-11-09` [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) · GitHub
 - `2026-11-09` [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) · GitHub
 - `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) · GitHub
@@ -93,6 +94,7 @@ GraphRAG 관련 오픈소스 저장소 38개를 용도별로 나눈 목록은 [G
 |------|------|------|------|
 | 2026-10-20 | [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) | MariaDB 공식 문서 | `#GraphDB` `#OQGRAPH` `#ApacheAGE` `#ShortestPath` `#SQL` |
 | 2026-10-15 | [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) | 티스토리 (일주일만 하면 ...) | `#Ontology` `#OWL` `#KnowledgeGraph` `#SemanticLayer` `#Databricks` |
+| 2026-10-14 | [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) | if(kakao)26 발표 (카카오페이증권) | `#KnowledgeGraph` `#Ontology` `#FinanceAgent` `#ExplainableAI` `#Groundedness` |
 | 2026-09-29 | [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | arXiv / ICLR 2026 | `#GraphRAG` `#Benchmark` `#HippoRAG2` `#ContextRelevance` `#TokenCost` |
 | 2026-09-28 | [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | arXiv | `#GraphRAG` `#AgenticSearch` `#Benchmark` `#HippoRAG2` `#MultiHopQA` |
 | 2026-09-28 | [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | arXiv / AAAI 2026 | `#GraphRAG` `#LightRAG` `#PathRetrieval` `#Pruning` `#TokenCost` |
