@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-11` [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) · GitHub
 - `2026-11-10` [토스 AI-Ready Data: 표준 마트 위에 온톨로지를 얹고 골든셋으로 관리하는 데이터 의미 층](readings/blogs/[20261109]%20토스_AI-Ready_Data_온톨로지_시맨틱레이어.md) · 토스 채용 아티클
 - `2026-11-10` [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) · if(kakao)26 발표
 - `2026-11-09` [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) · GitHub
@@ -194,6 +195,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
+| 2026-11-06 | [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) | gogoymh | `#Ontology` `#SemanticLayer` `#TextToSQL` `#MCP` `#KnowledgeBase` |
 | 2026-10-30 | [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) | amitshekhariitbhu | `#ForwardDeployedEngineer` `#LearningRoadmap` `#AIEngineering` `#VoiceAgent` `#LLMEvaluation` |
 | 2026-10-22 | [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) | Dongbumlee | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#LLMasJudge` `#Neo4j` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
