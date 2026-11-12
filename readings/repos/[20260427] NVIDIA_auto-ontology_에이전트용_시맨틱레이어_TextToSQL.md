@@ -163,6 +163,57 @@ MCP 서버는 Next.js 공개 API의 HTTP 클라이언트이며 자격 증명을 
 | [Open Ontologies](%5B20260309%5D%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) (같은 레포 노트) | RDF/OWL 온톨로지의 변경 계획과 추론 증명이 중심이다. Auto Ontology는 RDF를 쓰지 않고 관계형 DB 메타데이터에서 시작해 Text-to-SQL까지 간다 |
 | [OntoBricks로 이해하는 온톨로지](../blogs/%5B20261015%5D%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) (같은 레포 노트) | 시맨틱 레이어 · 온톨로지 · 지식 그래프의 개념 구분을 다룬다. Auto Ontology의 Term · 속성 · Semantic FK가 그 구분에서 시맨틱 레이어 쪽에 해당한다 |
 
-## 10. 결론
+## 10. 장점과 단점 (2026-11-12 재확인)
+
+공개 2주 남짓 지난 2026-11-12에 저장소(GitHub API), 열린 이슈 62건, 평가 레포, [Hacker News 토론](https://news.ycombinator.com/item?id=50348962)과 [andrew.ooo 리뷰](https://andrew.ooo/posts/nvidia-auto-ontology-review-semantic-layer-agent-sql/)를 다시 확인했다.
+
+![GitHub 별 수 추이](assets/aonto_star_growth.svg)
+
+- 11-03 HN 토론(292점, 댓글 139) 직후 별이 급증했다. 관심도의 근거이지 운영 검증의 근거는 아니다
+- 같은 기간 태그된 릴리스는 없다. 버전 문자열만 1.2.0으로 올렸고([#426](https://github.com/NVIDIA/auto-ontology/pull/426)), 이후 커밋은 README 재작성과 기본 모델 교체([#402](https://github.com/NVIDIA/auto-ontology/pull/402)) 같은 정리 작업이 대부분이다
+
+### 장점
+
+| 항목 | 근거 |
+| --- | --- |
+| 스키마에 없는 업무 정의를 채움 | Term · SqlAttribute · Semantic FK로 "매출", "활성 고객" 같은 정의와 조인 규칙을 준다 (3절) |
+| 그럴듯하게 틀린 SQL을 실제 값으로 잡음 | 리터럴 · 조인 경로 · JSONB 경로를 DB에 probe해 고치고, 값이 겹치지 않는 추론 FK는 지운다 (4절) |
+| 근거가 모자라면 숫자를 만들지 않음 | `check_answerable`이 후보 커버리지를 계산한다. README 예시의 광고비 질문은 coverage 0.5로 판정해 되묻는다 |
+| 어느 에이전트에서나 같은 레이어 | 읽기 전용 MCP 도구 9개, CLI, REST(SSE), 스킬 3종, 커넥터 10종, Apache Ossie YAML 가져오기 · 내보내기, Apache-2.0 |
+| 대조군이 있는 평가 도구 | 같은 질문을 스키마만 받은 모델과 비교하고, 무응답이 5%를 넘으면 헤드라인 수치를 보류한다 (7절) |
+| 저장소가 Postgres 하나 | 그래프 DB 없이 Postgres + pgvector로 운영한다 (5절) |
+
+### 단점
+
+| 항목 | 근거 |
+| --- | --- |
+| 정확도 수치 없음 | 본 레포 · 평가 레포 모두 Text-to-SQL 결과를 싣지 않았다. 2차 보도의 "온톨로지 작성 시간 90% 단축"은 NVIDIA 내부 테스트 주장이고 방법론이 공개되지 않았다 ([besthub.dev](https://www.besthub.dev/articles/nvidia-auto-ontology-open-source-semantic-layer-for-data-agents-90-speedup-claim-analyzed-76595a5cace2), NVIDIA 원문 미확인) |
+| 인증 · 학습 루프는 로드맵 | 메인테이너가 2026-09에 올린 [#268](https://github.com/NVIDIA/auto-ontology/issues/268)(인증과 atomic promotion), [#259](https://github.com/NVIDIA/auto-ontology/issues/259)(rebuild 뒤 인증 수정 보존), [#258](https://github.com/NVIDIA/auto-ontology/issues/258)(증분 갱신), [#427](https://github.com/NVIDIA/auto-ontology/issues/427)(RLS · CLS)이 열려 있다 |
+| 느슨한 보안 기본값 | README가 "FastAPI trusts the user identity the frontend forwards"라고 적고, ingestion 엔드포인트에 자체 인증이 없다. Vault는 선택이다 |
+| 데이터 반출 | `KUMO_RFM_API_KEY`를 설정하면 연결 테이블을 hosted KumoRFM에 올린다. 기본 상한은 테이블 20개, 행 무제한 |
+| 한중일 · 비 ASCII 데이터 | ASCII 글자 없는 테이블명은 Term 이름이 빈 값([#468](https://github.com/NVIDIA/auto-ontology/issues/468)), 비라틴 컬럼명 PII 미분류([#469](https://github.com/NVIDIA/auto-ontology/issues/469)), 비 ASCII 동의어 검색 불가([#472](https://github.com/NVIDIA/auto-ontology/issues/472)), `YYYY.MM.DD` 날짜 미인식([#473](https://github.com/NVIDIA/auto-ontology/issues/473)) |
+| 답 경로 · 커넥터 버그 | 답할 수 있는 질문 거절([#461](https://github.com/NVIDIA/auto-ontology/issues/461)), "데이터에 답이 없음"을 결과로 낼 수 없음([#462](https://github.com/NVIDIA/auto-ontology/issues/462)), `COUNT(*)` 거절([#486](https://github.com/NVIDIA/auto-ontology/issues/486)), 결과 컬럼 이름이 겹치면 틀린 데이터([#408](https://github.com/NVIDIA/auto-ontology/issues/408)) |
+| 도입 마찰과 성숙도 | 서비스 4개 + 선택 Vault, MCP 패키지 PyPI 미배포, hosted NVIDIA API 경로 Text-to-SQL 실패([#440](https://github.com/NVIDIA/auto-ontology/issues/440)), 릴리스 없음, 외부 기여 불가 |
+
+![열린 이슈 유형](assets/aonto_open_issues.svg)
+
+- 가장 큰 묶음은 사용자 버그가 아니라 메인테이너 자신의 거버넌스 로드맵이다. README의 Validate · Learn이 아직 계획 단계라는 직접 근거다
+- 다국어 7건은 11-08~11-09에 한꺼번에 올라왔다. 한국어 테이블명과 값을 쓰는 환경이면 도입 전에 먼저 걸리는 지점이다
+- 보라색(새 커넥터, 예측)은 범위 확장 요청이라 품질 판단에서 뺀다
+
+### 외부 반응
+
+| 구분 | 요지 |
+| --- | --- |
+| 회의 | "Fixing unreliable agents by adding more unreliable agents." ([HN](https://news.ycombinator.com/item?id=50349384)) LLM이 만든 온톨로지 위에 LLM 에이전트를 올리는 구조 자체를 의심한다 |
+| 옹호 | 온톨로지는 의존관계가 명시된 white-box라 어디서 실패했는지 진단할 수 있다 ([HN](https://news.ycombinator.com/item?id=50350114)) |
+| 오해 | NVIDIA API key가 필수라는 반응. OpenAI 호환 엔드포인트나 자체 호스팅 모델도 쓸 수 있다 ([HN](https://news.ycombinator.com/item?id=50349918)) |
+| 리뷰 결론 | "Right problem, young and NVIDIA-first stack." 잘 아는 DB 하나로 파일럿하고 자기 스키마로 eval을 돌린 뒤 신뢰하라고 권한다 ([andrew.ooo](https://andrew.ooo/posts/nvidia-auto-ontology-review-semantic-layer-agent-sql/)) |
+
+대안으로는 플랫폼 내장 시맨틱 레이어(Snowflake Cortex Analyst semantic views, Databricks Genie), 기존 dbt metrics layer, [WrenAI](https://github.com/Canner/WrenAI), Git 파일 온톨로지 [GetCassis/ontology-skills](https://github.com/GetCassis/ontology-skills)가 거론된다 (andrew.ooo 리뷰 기준, 직접 비교하지 않음).
+
+## 11. 결론
 
 Auto Ontology는 "에이전트에게 DB를 그냥 주지 말고, 업무 용어와 조인 규칙을 먼저 만들어 주자" 는 접근이다. 메타데이터 수집, LLM 기반 용어 · 외래키 추론, 검색과 SQL 검증 루프까지 한 저장소에 갖췄고, 그래프 DB 없이 Postgres 테이블과 pgvector로 끝낸 점이 단순하다. 다만 README가 앞세우는 결정적 생성 · 인증 정의 검증 · 학습 루프는 코드에서 아직 그 이름만큼 강하지 않다. 공개된 정확도 수치도 없으니, 도입을 검토한다면 평가 도구로 직접 대조군 대비 차이를 재 보는 것이 먼저다.
+
+2026-11-12 재확인 기준으로는, 영문 스키마와 쿼리 이력이 쌓인 관계형 DB 위 분석 에이전트라면 파일럿 대상이 된다. 한국어 테이블명 · 값이 많거나 그래프 질의가 주 용도라면 통째 도입보다 검증 장치(리터럴 · 조인 경로 probe, 추론 FK 가지치기)만 가져다 쓰는 편이 낫다.
