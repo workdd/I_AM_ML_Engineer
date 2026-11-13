@@ -304,7 +304,7 @@ sequenceDiagram
 
 ### 코드 따라가기: NORMAL 엔진의 prefill 투표
 
-NORMAL 엔진은 한 스텝에 prefill과 decode를 섞지 않는다. 스텝 전체가 prompt 스텝이거나 decode 스텝이고, 모든 DP rank가 같은 종류여야 한다. [csrc/engine/scheduler.hpp#L308-L340](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L308-L335)의 투표 로직을 본다.
+NORMAL 엔진은 한 스텝에 prefill과 decode를 섞지 않는다. 스텝 전체가 prompt 스텝이거나 decode 스텝이고, 모든 DP rank가 같은 종류여야 한다. [csrc/engine/scheduler.hpp#L308-L335](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L308-L335)의 투표 로직을 본다.
 
 ```cpp
             bool is_any_point = (decode_step != 0) && (decode_step % prefill_any_attempt_interval == 0);
