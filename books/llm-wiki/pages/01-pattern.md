@@ -65,12 +65,13 @@ flowchart LR
 
 ## 원본 아키텍처 그림
 
-![원본 그림. LLM Wiki 아키텍처](https://raw.githubusercontent.com/nashsu/llm_wiki/e08cfce65aad8b76b13546a081c1a8d4422b70c3/assets/llm_wiki_arch.jpg)
+![LLM Wiki 방법론 (원본 그림을 한국어로 다시 그림)](../assets/llm_wiki_arch_ko.png)
 
-출처: [llm_wiki assets/llm_wiki_arch.jpg](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/assets/llm_wiki_arch.jpg)
+출처: [llm_wiki assets/llm_wiki_arch.jpg](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/assets/llm_wiki_arch.jpg) (@nash_su, 중국어 원본을 같은 배치로 한국어로 다시 그림)
 
-- 그림의 왼쪽(원본 → 2단계 수집 → 위키)이 04~05장, 가운데(검색 · 그래프)가 06~07장, 오른쪽(채팅 · 리서치 · 리뷰)이 08~10장에 대응한다
-- 그림만 보면 하나의 파이프라인 같지만, 코드에서는 프론트엔드(TypeScript)가 수집 · 그래프를 맡고 백엔드(Rust)가 파일 · 검색 · 에이전트를 맡는 식으로 나뉜다. 그 분담은 03장에서 본다
+- 윗줄의 3층 구조 · 3대 작업 · 인덱스와 로그는 이 장에서 정리한 아이디어 문서의 구성과 같다. 작업별 구현은 수집 04장, 질의 08장, 린트 09장에서 본다
+- 아랫줄 수집 흐름의 "원본 하나가 위키 페이지 10~15개에 영향" 은 아이디어 문서의 문장을 옮긴 것이고, 앱에서 이 갱신을 맡는 단계는 04-3 · 04-4 절의 2단계 생성과 파일 기록이다
+- 그림은 패턴을 설명할 뿐 코드 구조를 보여 주지 않는다. 프론트엔드(TypeScript)와 백엔드(Rust)의 실제 분담은 03장에서 본다
 
 ## 아이디어 문서 대비 추가 기능
 
