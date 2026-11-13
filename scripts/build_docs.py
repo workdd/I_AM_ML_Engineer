@@ -112,6 +112,43 @@ def _postprocess(root: Path) -> None:
             md.write_text(fixed, encoding="utf-8")
 
 
+BOOKS = ROOT / "books"
+TOC_LINE = re.compile(r"^(\s*)- \[([^\]]+)\]\(([^)]+)\)\s*$")
+
+
+def parse_toc(toc: Path) -> list[tuple[int, str, str]]:
+    """위키독스 TOC.md 를 (깊이, 제목, 경로) 목록으로 읽는다. 들여쓰기 2칸이 한 단계다."""
+    items = []
+    for line in toc.read_text(encoding="utf-8").splitlines():
+        m = TOC_LINE.match(line)
+        if m:
+            items.append((len(m.group(1)) // 2, m.group(2), m.group(3)))
+    return items
+
+
+def copy_books() -> list[tuple[str, str, list[tuple[int, str, str]]]]:
+    """books/<책>/ 을 docs/books/<책>/ 로 옮긴다.
+
+    원고는 위키독스 GitHub 연동 책 형식(페이지에 H1 없음, 제목은 TOC.md)이다.
+    사이트에서는 README.md 를 책 첫 화면(index.md)으로 쓰고, 각 페이지 맨 위에
+    TOC 제목을 H1 로 붙인다. 원고 파일은 건드리지 않는다.
+    """
+    books = []
+    if not BOOKS.exists():
+        return books
+    for book in sorted(p for p in BOOKS.iterdir() if (p / "TOC.md").exists()):
+        dst = DOCS / "books" / book.name
+        shutil.copytree(book, dst, ignore=shutil.ignore_patterns("TOC.md", "README.md"))
+        shutil.copy(book / "README.md", dst / "index.md")
+        toc = parse_toc(book / "TOC.md")
+        for _, title, rel in toc:
+            page = dst / rel
+            page.write_text(f"# {title}\n\n" + page.read_text(encoding="utf-8"), encoding="utf-8")
+        books.append((book.name, title_of(book / "README.md"), toc))
+    _postprocess(DOCS / "books")
+    return books
+
+
 def copy_trees() -> None:
     if DOCS.exists():
         shutil.rmtree(DOCS)
@@ -162,9 +199,17 @@ def collect_notes() -> dict[str, list[Path]]:
     return groups
 
 
-def write_summary(groups: dict[str, list[Path]]) -> None:
+def write_summary(groups: dict[str, list[Path]], books=()) -> None:
     """literate-nav 는 빈 줄 없는 하나의 목록을 요구한다."""
     lines = ["* [홈](index.md)"]
+
+    if books:
+        lines.append("* 책")
+        for slug, title, toc in books:
+            lines.append(f"    * {title}")
+            lines.append(f"        * [소개](books/{slug}/index.md)")
+            for depth, page_title, rel in toc:
+                lines.append(f"{'    ' * (depth + 2)}* [{page_title}](books/{slug}/{rel})")
 
     maps_dir = DOCS / "readings" / "_maps"
     maps = sorted(maps_dir.glob("*.md")) if maps_dir.exists() else []
@@ -194,10 +239,11 @@ def write_summary(groups: dict[str, list[Path]]) -> None:
 
 def main() -> None:
     copy_trees()
+    books = copy_books()
     groups = collect_notes()
-    write_summary(groups)
+    write_summary(groups, books)
     total = sum(len(v) for v in groups.values())
-    print(f"docs/ 조립 완료: 노트 {total}건")
+    print(f"docs/ 조립 완료: 노트 {total}건, 책 {len(books)}권")
     for label, key in TOPIC_ORDER:
         print(f"  {label}: {len(groups.get(key, []))}건")
 
