@@ -24,3 +24,17 @@ def test_book_pages_have_no_h1():
     for page in b.BOOKS.glob("*/pages/*.md"):
         first = page.read_text(encoding="utf-8").lstrip().splitlines()[0]
         assert not first.startswith("# "), f"{page} 첫 줄이 H1"
+
+
+def test_draft_book_is_not_copied(tmp_path, monkeypatch):
+    books = tmp_path / "books"
+    for name, draft in (("open", False), ("hidden", True)):
+        (books / name / "pages").mkdir(parents=True)
+        (books / name / "README.md").write_text(f"# {name}\n", encoding="utf-8")
+        (books / name / "TOC.md").write_text("# 목차\n\n- [01. a](pages/01.md)\n", encoding="utf-8")
+        (books / name / "pages" / "01.md").write_text("본문\n", encoding="utf-8")
+        if draft:
+            (books / name / ".draft").write_text("x", encoding="utf-8")
+    monkeypatch.setattr(b, "BOOKS", books)
+    monkeypatch.setattr(b, "DOCS", tmp_path / "docs")
+    assert [slug for slug, _, _ in b.copy_books()] == ["open"]

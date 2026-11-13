@@ -136,7 +136,8 @@ def copy_books() -> list[tuple[str, str, list[tuple[int, str, str]]]]:
     books = []
     if not BOOKS.exists():
         return books
-    for book in sorted(p for p in BOOKS.iterdir() if (p / "TOC.md").exists()):
+    # .draft 파일이 있는 책은 아직 공개하지 않는 원고라 사이트에 싣지 않는다
+    for book in sorted(p for p in BOOKS.iterdir() if (p / "TOC.md").exists() and not (p / ".draft").exists()):
         dst = DOCS / "books" / book.name
         shutil.copytree(book, dst, ignore=shutil.ignore_patterns("TOC.md", "README.md"))
         shutil.copy(book / "README.md", dst / "index.md")
