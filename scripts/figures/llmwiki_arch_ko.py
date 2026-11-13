@@ -100,7 +100,7 @@ h1{{text-align:center;margin:26px 0 4px;font-size:38px}} .sub{{text-align:center
  <div class="panel"><h3>활용 분야</h3><div class="uses">{uses}</div></div>
 </div>
 <div class="ih">핵심 통찰</div><div class="insight">{insight}</div>
-<div class="foot"><span>원본: nashsu/llm_wiki 아키텍처 그림을 한국어로 다시 그림</span><span>@nash_su</span></div>
+<div class="foot"><span></span><span>@nash_su</span></div>
 </body></html>"""
 
 
