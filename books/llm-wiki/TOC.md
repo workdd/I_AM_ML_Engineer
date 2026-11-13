@@ -16,7 +16,7 @@
     - [04-1. 입구와 수집 큐](pages/04-1-entry-queue.md)
     - [04-2. 원본 읽기, 이미지, 증분 캐시](pages/04-2-read-image-cache.md)
     - [04-3. 예산 계산과 2단계 프롬프트](pages/04-3-budget-prompts.md)
-    - [04-4. 출력 파싱과 쓰기](pages/04-4-parse-write.md)
+    - [04-4. 출력 파싱과 파일 기록](pages/04-4-parse-write.md)
   - [05. 위키 페이지와 위키링크: 프론트매터, 템플릿, 원본 수명주기](pages/05-pages-wikilinks.md)
     - [05-1. 템플릿과 frontmatter](pages/05-1-templates-frontmatter.md)
     - [05-2. 페이지 이름, 병합, 위키링크](pages/05-2-names-merge-links.md)
