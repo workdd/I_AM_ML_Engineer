@@ -62,15 +62,47 @@ def box(title, body, color, cls="box"):
     return f'<div class="{cls}" style="background:{bg};border-color:{bd}"><h4 style="color:{bd}">{html.escape(title)}</h4>{b}</div>'
 
 
+def flow_svg():
+    """원본 그림의 수집 흐름. 요점 논의에서 산출물 네 개로 화살표가 갈라진다."""
+    def rect(x, y, w, h, color, title, body=""):
+        bg, bd = COLORS[color]
+        t = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="11" fill="{bg}" stroke="{bd}" stroke-width="2.5"/>'
+        ty = y + (20 if body else h / 2 + 5)
+        t += f'<text x="{x + w / 2}" y="{ty}" text-anchor="middle" font-size="14.5" font-weight="700" fill="{bd}">{html.escape(title)}</text>'
+        if body:
+            t += f'<text x="{x + w / 2}" y="{y + 40}" text-anchor="middle" font-size="12.5" fill="#2d3442">{html.escape(body)}</text>'
+        return t
+
+    def arrow(x1, y1, x2, y2, color="#5b6475"):
+        return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" stroke-width="2" marker-end="url(#ah)"/>'
+
+    top = [(0, 116), (146, 136), (312, 112)]  # (x, w) 새 원본 · LLM 읽기 · 요점 논의
+    out = ['<svg width="730" height="215" viewBox="0 0 730 215" font-family="-apple-system,\'Apple SD Gothic Neo\',sans-serif">',
+           '<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">'
+           '<path d="M0,0 L10,5 L0,10 z" fill="#5b6475"/></marker>'
+           '<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">'
+           '<path d="M0,0 L10,5 L0,10 z" fill="#3f9d55"/></marker></defs>']
+    for (x, w), (t, c) in zip(top, FLOW):
+        out.append(rect(x, 10, w, 44, c, t))
+    out.append(rect(452, 4, 270, 56, "green", FLOW_END[0], FLOW_END[1]))
+    for (x1, w1), (x2, _) in zip(top, top[1:] + [(452, 0)]):
+        out.append(arrow(x1 + w1 + 3, 32, x2 - 4, 32))
+    bottom = [(110, 128), (256, 150), (424, 128), (570, 140)]
+    sx, sy = 312 + 56, 56
+    for (x, w), (t, c) in zip(bottom, OUTPUTS):
+        out.append(rect(x, 140, w, 40, c, t))
+        out.append(f'<line x1="{sx}" y1="{sy}" x2="{x + w / 2}" y2="136" stroke="#3f9d55" stroke-width="2" marker-end="url(#ahg)"/>')
+    out.append(f'<text x="365" y="207" text-anchor="middle" font-size="13.5" fill="#5b6475">{html.escape(FLOW_NOTE)}</text>')
+    out.append("</svg>")
+    return "".join(out)
+
+
 def page():
     e = html.escape
     layers = "<div class='arrow'>↓</div>".join(box(t, e(d), c) for t, d, c in LAYERS)
     ops = "".join(box(t, d, c, "box op") for t, d, c in OPS)
     index = "".join(box(t, d.replace("|", "&#124;"), c) for t, d, c in INDEX)
-    roles = (box(*ROLES[0][:2], ROLES[0][2]) + "<div class='collab'>협업</div>" + box(*ROLES[1][:2], ROLES[1][2]))
-    flow = "<span class='to'>→</span>".join(box(t, "", c, "box sm") for t, c in FLOW)
-    flow += "<span class='to'>→</span>" + box(FLOW_END[0], e(FLOW_END[1]), "green", "box sm")
-    outs = "".join(box(t, "", c, "box sm") for t, c in OUTPUTS)
+    roles = (box(*ROLES[0][:2], ROLES[0][2]) + "<div class='collab'><span>협업</span><svg width='54' height='14' viewBox='0 0 54 14'><line x1='6' y1='7' x2='48' y2='7' stroke='#5b6475' stroke-width='2'/><path d='M0,7 L8,2 L8,12 z M54,7 L46,2 L46,12 z' fill='#5b6475'/></svg></div>" + box(*ROLES[1][:2], ROLES[1][2]))
     uses = "".join(box(t, e(d), c, "box use") for t, d, c in USES)
     insight = "".join(f"<p>{e(s)}</p>" for s in INSIGHT)
     return f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
@@ -80,8 +112,8 @@ h1{{text-align:center;margin:26px 0 4px;font-size:38px}} .sub{{text-align:center
 .row{{display:grid;gap:18px;padding:0 22px;margin-bottom:18px}} .r1{{grid-template-columns:1fr 1fr 1fr}} .r2{{grid-template-columns:1fr 1fr}}
 .panel{{background:#f7f8fb;border-radius:22px;padding:14px 18px 18px}} .panel>h3{{text-align:center;margin:2px 0 12px;font-size:21px;color:#3b4ec8}}
 .box{{border:2.5px solid;border-radius:14px;padding:9px 14px;margin:0}} .box h4{{margin:0 0 4px;font-size:17px}} .box p{{margin:0;font-size:13.5px;line-height:1.5;color:#2d3442}}
-.arrow{{text-align:center;color:#8b6cdb;font-size:18px;line-height:20px}} .op{{margin-bottom:10px}}
-.pair{{display:grid;grid-template-columns:1fr 1fr;gap:12px}} .roles{{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center}} .collab{{font-size:13px;color:#5b6475}}
+.arrow{{text-align:center;color:#6b56c8;font-size:26px;font-weight:700;line-height:30px}} .op{{margin-bottom:10px}}
+.pair{{display:grid;grid-template-columns:1fr 1fr;gap:12px}} .roles{{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center}} .collab{{font-size:13px;color:#5b6475;display:flex;flex-direction:column;align-items:center;gap:2px}}
 .flow{{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}} .sm{{padding:7px 10px}} .sm h4{{font-size:14.5px;margin:0}} .sm p{{font-size:12.5px}} .to{{font-size:20px;color:#5b6475}}
 .outs{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 6px 120px}} .note{{text-align:center;color:#5b6475;font-size:13.5px}}
 .uses{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}}
@@ -96,7 +128,7 @@ h1{{text-align:center;margin:26px 0 4px;font-size:38px}} .sub{{text-align:center
  <div class="panel"><h3>인덱스와 로그</h3><div class="pair">{index}</div><h3 style="margin-top:16px">역할 분담</h3><div class="roles">{roles}</div></div>
 </div>
 <div class="row r2">
- <div class="panel"><h3>Ingest 수집 흐름</h3><div class="flow">{flow}</div><div class="outs">{outs}</div><div class="note">{e(FLOW_NOTE)}</div></div>
+ <div class="panel"><h3>Ingest 수집 흐름</h3>{flow_svg()}</div>
  <div class="panel"><h3>활용 분야</h3><div class="uses">{uses}</div></div>
 </div>
 <div class="ih">핵심 통찰</div><div class="insight">{insight}</div>
@@ -110,7 +142,7 @@ def main():
         h = pathlib.Path(d) / "arch.html"
         h.write_text(page(), encoding="utf-8")
         subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=1.5",
-                        "--window-size=1600,872", f"--screenshot={OUT}", h.as_uri()], check=True, capture_output=True)
+                        "--window-size=1600,948", f"--screenshot={OUT}", h.as_uri()], check=True, capture_output=True)
     print("wrote", OUT)
 
 

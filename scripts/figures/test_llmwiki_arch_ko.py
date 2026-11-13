@@ -18,3 +18,13 @@ def test_numbers_copied_from_original():
 def test_page_is_korean():
     text = re.sub(r"<[^>]+>", "", a.page())
     assert not re.search(r"[一-鿿]", text)  # 한자 없음
+
+
+def test_arrows_match_original():
+    # 원본: 층 사이 화살표 2개, 수집 흐름 직렬 화살표 3개 + 요점 논의에서 산출물 4개로 갈라지는 화살표, 역할 사이 협업 연결선
+    svg = a.flow_svg()
+    assert svg.count('marker-end="url(#ah)"') == 3
+    assert svg.count('marker-end="url(#ahg)"') == len(a.OUTPUTS) == 4
+    page = a.page()
+    assert page.count("<div class='arrow'>") == len(a.LAYERS) - 1
+    assert "협업</span><svg" in page
