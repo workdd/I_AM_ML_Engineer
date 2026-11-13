@@ -1,4 +1,4 @@
-DeepInfer의 KV 캐시는 "블록 캐시"와 "state 캐시" 두 덩어리로 나뉜다. 압축된 main KV와 indexer K는 vLLM처럼 고정 크기 블록에 페이징으로 담고, sliding window KV와 압축 경계의 누적값은 시퀀스마다 슬롯 하나를 통째로 주는 state 캐시에 담는다. 이 장은 [`deepinfer/worker/cache_engine.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cache_engine.py)를 중심으로 두 캐시의 크기가 어떻게 정해지고, 한 블록 안에서 층별 바이트가 어떻게 배치되며, 스케줄러가 블록 번호를 어떻게 나눠 주는지 따라간다.
+DeepInfer의 KV 캐시는 "블록 캐시"와 "state 캐시" 두 덩어리로 나뉜다. 압축된 main KV와 indexer K는 vLLM처럼 고정 크기 블록에 페이징으로 담고, sliding window KV와 압축 경계의 누적값은 시퀀스마다 슬롯 하나를 전체 할당하는 state 캐시에 담는다. 이 장은 [`deepinfer/worker/cache_engine.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cache_engine.py)를 중심으로 두 캐시의 크기가 어떻게 정해지고, 한 블록 안에서 층별 바이트가 어떻게 배치되며, 스케줄러가 블록 번호를 어떻게 나눠 주는지 따라간다.
 
 ## 두 종류의 캐시
 
@@ -45,7 +45,7 @@ flowchart TB
 
 블록 개수는 워커가 모델을 한 번 돌려 본 뒤 정한다. [`worker/base.py`의 `profile_num_available_blocks`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L211-L268)가 그 일을 한다.
 
-### 코드 따라가기: profile_num_available_blocks
+### 코드 분석: profile_num_available_blocks
 
 state 캐시를 먼저 빼고 남는 메모리를 블록 크기로 나누는 부분을 본다.
 
@@ -73,7 +73,7 @@ num_gpu_blocks = int(available_kv_cache_memory // cache_block_size)
 
 블록 크기를 계산하려면 토큰 하나가 몇 바이트인지부터 알아야 한다. 포맷 정의는 [`tilelang_ops/cache_common.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/cache_common.py#L109-L155)에 모여 있다.
 
-### 코드 따라가기: V41_FORMAT
+### 코드 분석: V41_FORMAT
 
 main · SWA KV의 기본 포맷을 본다.
 
@@ -110,7 +110,7 @@ cache_engine 쪽 계산은 이 포맷을 그대로 가져다 쓴다. [`_kv_bytes
 
 블록 하나는 "모든 층의 KV를 한 줄로 이어 붙인 바이트 열"이다. 텐서 모양은 `[num_gpu_blocks, 블록 바이트]`인 `uint8` 2차원이고, 층별 뷰는 그 안에서 오프셋을 잘라 만든다. 이 계산이 [`KVCacheManager.process`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cache_engine.py#L376-L477)다.
 
-### 코드 따라가기: KVCacheManager.process (main KV 부분)
+### 코드 분석: KVCacheManager.process (main KV 부분)
 
 압축 비율 `ratio`인 층이 블록 안에서 차지하는 구간을 잘라내는 부분을 본다.
 
@@ -169,7 +169,7 @@ flowchart LR
     S3 -. 전송 .-> C
 ```
 
-### 코드 따라가기: SWA ring 크기
+### 코드 분석: SWA ring 크기
 
 SWA ring이 창보다 몇 토큰 더 큰지 정하는 두 함수를 본다.
 
@@ -193,7 +193,7 @@ def get_kvstore_swa_block_size(window_size: int) -> int:
 
 배포 문서는 V4.1 기준 숫자를 직접 적는다. [`doc/inference_deployment_qa.md`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/doc/inference_deployment_qa.md#L223)에 따르면 디스크로 가는 `state_size_to_disk`는 "20 layers × 134 tokens × 528 B = 1,415,040 B"이고, 134는 128토큰 창에 6토큰 backtracking을 더한 값이다.
 
-### 코드 따라가기: 슬롯 개수
+### 코드 분석: 슬롯 개수
 
 ```python
 def get_num_state_slots(max_num_seqs: int) -> int:
@@ -208,7 +208,7 @@ SWA ring 뷰를 만드는 방식은 블록 쪽과 같다. [`process`의 SWA 분�
 
 [`GPUCacheInterface._kvcache_layout`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cache_engine.py#L580-L652)은 위 두 계산을 묶는 입구다. 버퍼를 넘기지 않으면 모양만 계산하고, 넘기면 층별 `KVCache` 목록까지 만든다. `block_size=-1`을 넘기면 state 모양만 돌려준다는 관례가 있어서, 프로파일링 단계에서 블록 크기를 모르는 상태로도 state 크기를 얻는다.
 
-### 코드 따라가기: 층 순회
+### 코드 분석: 층 순회
 
 ```python
 kvcache_manager = KVCacheManager(cfg, gpu_blocks, state_blocks)
@@ -240,7 +240,7 @@ if not need_state_shape_only:
 
 어느 블록 번호를 어느 시퀀스에 줄지는 Python이 아니라 [`csrc/engine/block_manager.hpp`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/block_manager.hpp)가 정한다. 구현은 참조 카운트가 붙은 이중 연결 free list 하나다.
 
-### 코드 따라가기: Blocks::allocate / free
+### 코드 분석: Blocks::allocate / free
 
 ```cpp
 int allocate() {
@@ -281,7 +281,7 @@ draft 토큰 수(`nextn_len`)까지 미리 블록을 잡는다. 검증 단계에
 
 fork된 시퀀스가 처음 스케줄될 때는 마지막 블록을 복제해야 한다. 공유 블록에 새 토큰을 쓰면 원본이 오염되기 때문이다.
 
-### 코드 따라가기: fork 시퀀스의 copy-on-write
+### 코드 분석: fork 시퀀스의 copy-on-write
 
 ```cpp
 int num_reserve_blocks = seq->cache.num_tokens / seq->cache.block_size;
@@ -304,7 +304,7 @@ for (size_t i = num_reserve_blocks + (seq->cache.num_tokens % seq->cache.block_s
 
 - 꽉 찬 블록(`num_reserve_blocks`개)은 계속 공유한다. 덜 찬 마지막 블록만 `(src, dst)` 쌍으로 복제 목록에 올린다
 - 그 뒤에 공유하던 블록은 `(src, 0)`으로 올린다. `dst = 0`은 "복사하지 말고 참조만 반납하라"는 뜻이다([`clone_blocks` 설명](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/_C/engine.pyi#L379-L383))
-- state는 SWA ring 전체가 바뀌므로 [`_clone_state`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L203-L212)가 새 슬롯을 잡아 통째로 복제한다
+- state는 SWA ring 전체가 바뀌므로 [`_clone_state`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L203-L212)가 새 슬롯을 할당해 전체를 복제한다
 
 복제 목록은 스케줄 결과에 실려 워커로 간다. 워커는 [`clone_and_zero_states_and_blocks_on_default_stream`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L159-L168)에서 C++ 함수 [`clone_and_zero_states_and_blocks`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L1264-L1313)를 부른다. 이 함수는 블록 · 슬롯 단위로 `cuda_copy_async`를 걸고, `zero_states`에 오른 슬롯은 0으로 지운 뒤, 반납할 원본 번호 목록을 돌려준다. 블록 한 행 전체(모든 층)를 한 번에 복사하므로 층 수만큼 커널을 띄우지 않는다.
 
@@ -330,7 +330,7 @@ sequenceDiagram
 
 prefix 매칭은 공개되지 않았지만, state를 저장 형식과 실행 형식 사이에서 바꾸는 함수는 `GPUCacheInterface`에 남아 있다. 저장 쪽 SWA ring은 `swa_block_size_kvstore`, 실행 쪽은 `swa_block_size_inference` 크기라서 그대로 복사할 수 없다.
 
-### 코드 따라가기: select_state_slice
+### 코드 분석: select_state_slice
 
 ```python
 def select_state_slice_ref(
@@ -357,7 +357,7 @@ def select_state_slice_ref(
 
 캐시에 KV를 쓰고 읽을 때 필요한 "논리 위치에서 물리 슬롯으로" 변환은 TileLang 커널 몇 개가 맡는다. 어텐션 커널은 블록 테이블을 직접 받지 않고, 토큰별 물리 슬롯 번호 배열(`indices`)을 받는다. 그래서 이 변환이 매 스텝 앞단에 붙는다.
 
-### 코드 따라가기: get_kv_ca_index_decode
+### 코드 분석: get_kv_ca_index_decode
 
 압축 main KV의 논리 위치를 블록 테이블로 물리 슬롯으로 바꾸는 참조 구현을 본다.
 

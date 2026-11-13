@@ -99,7 +99,7 @@ BENCH_DEFAULTS = {
 
 값은 [run_eval.py L46-L75](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/run_eval.py#L46-L75)에 있다.
 
-### 엔진 설정: 평가도 서빙 구성으로 돈다
+### 엔진 설정: 서빙 구성 기반 평가
 
 무엇을 보는지: 평가 생성 시 켜는 엔진 기능.
 
@@ -149,7 +149,7 @@ def _setup_env() -> None:
 
 이미지 문항이 섞여 있으면 프롬프트를 문자열로 넘기고, 데이터셋의 `<image>` 자리를 엔진이 쓰는 이미지 토큰 문자열로 바꾼 뒤 `multi_modal_data`(이미지 바이트와 크기)를 요청마다 복사해 넣는다. 엔진이 `multi_modal_data`를 제자리에서 소비하기 때문이다([L211-L221](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/run_eval.py#L211-L221)). 텍스트만 있으면 토큰 id를 직접 넘긴다. 엔진 쪽 이미지 처리는 9장 끝에서 다뤘다.
 
-### 답 추출: 벤치마크마다 다르다
+### 답 추출: 벤치마크별 규칙
 
 | 벤치마크 | 프롬프트 지시 | 규칙 추출 | 대체 경로 |
 |---|---|---|---|
@@ -185,7 +185,7 @@ def _setup_env() -> None:
 | `llm` (기본) | judge 모델이 추출 답과 정답의 동치 여부를 판정 | judge 모델 샘플링에 좌우 |
 | `rule` | 고정 규칙 추출 + 정확 비교 | 완전 결정적 |
 
-기본은 세 벤치마크 모두 `llm`이다([score.py L23-L24](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/score.py#L23-L24)). HLE는 `rule`을 아예 거부한다. 답의 절반 넘게가 자유 서술이라 정확 일치는 같은 뜻의 다른 표현을 틀렸다고 처리해 점수를 체계적으로 깎는다는 이유다([score.py L45-L51](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/score.py#L45-L51), [README L165-L167](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/README.md#L165-L167)).
+기본은 세 벤치마크 모두 `llm`이다([score.py L23-L24](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/score.py#L23-L24)). HLE는 `rule`을 아예 거부한다. 답의 절반 넘게가 자유 서술이라 정확 일치는 같은 뜻의 다른 표현을 틀렸다고 처리해 점수를 체계적으로 낮춘다는 이유다([score.py L45-L51](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/score.py#L45-L51), [README L165-L167](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/README.md#L165-L167)).
 
 judge 입력도 벤치마크마다 다르다. HLE는 공식 프로토콜대로 `</think>` 앞 생각 부분만 버리고 나머지를 자르지 않고 보낸다. AIME · GPQA는 `</think>` 뒤에서 마지막 10문단, 마지막 4000자만 보낸다([score.py L61-L65](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/score.py#L61-L65), [judge.py L167-L170](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/common/judge.py#L167-L170)).
 
@@ -216,7 +216,7 @@ judge 입력도 벤치마크마다 다르다. HLE는 공식 프로토콜대로 `
 
 LLM judge를 쓰면 규칙 판정도 같이 계산해 `rule_vs_llm_agreement`(두 방식이 일치한 rollout 비율)를 요약에 넣는다. README는 AIME 2026에서 두 방식이 960개 rollout 모두에서 일치했다고 적는다([eval/README.md L186-L188](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/eval/README.md#L186-L188)). 960은 30문항 × 32샘플이다.
 
-### coverage: 빠진 결과를 숨기지 않는다
+### coverage: 누락 결과 표시
 
 무엇을 보는지: 점수를 내기 전에 rollout 수를 확인하는 부분.
 
@@ -293,7 +293,7 @@ README가 기본 구성에서 V4.1 모델의 참고값으로 적은 Pass@1은 �
 
 > **주의**: README는 이 값을 "indicative rather than exact"라고 하고, 배포 구성이 맞는지 확인하는 sanity check 용도로 둔다. 같은 설정으로 다시 돌려도 생성의 확률성 때문에 조금 달라질 수 있다. 위 값은 이 책에서 재현하지 않았다.
 
-## examples/benchmark.py: prefill과 decode를 떼어 재기
+## examples/benchmark.py: prefill과 decode 분리 측정
 
 `benchmark.py`는 엔진의 `step()`을 직접 돌리면서 시간을 잰다. 한 실행 안에서 prefill 측정과 decode 측정을 둘 다 하고, `PROFILE=1`(기본)이면 torch profiler trace도 남긴다. 설계 설명은 [examples/README.md L31-L57](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/README.md#L31-L57)에 자세히 있다.
 

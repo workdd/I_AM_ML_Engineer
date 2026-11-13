@@ -44,7 +44,7 @@ flowchart TD
     L --> M["python -m compileall deepinfer"]
 ```
 
-### 코드 따라가기: build.sh
+### 코드 분석: build.sh
 
 최상위 [build.sh#L5-L25](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/build.sh#L5-L25)에서 가속기 변수 검사와 세 단계 호출을 본다.
 
@@ -200,7 +200,7 @@ if os.path.isdir(_so_dir):
 
 > **주의**: `envs.DEEPINFER_ACCELERATOR`의 기본값은 `"nvidia"`다([deepinfer/environ.py#L108](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L108)). 그래서 위 코드의 `if not accelerator:` 분기는 변수가 빈 문자열로 명시된 경우에만 하드웨어 탐지로 넘어간다. Ascend 머신에서 변수를 export하지 않으면 `nvidia-<arch>` 폴더를 찾게 된다. README가 "DeepInfer를 실행하는 환경에서도 export를 유지하라"고 적은 이유다.
 
-### setup.py와 스크립트가 가속기를 판단하는 방식의 차이
+### setup.py와 빌드 스크립트의 가속기 판정 차이
 
 빌드 스크립트는 환경 변수를 보지만 `setup.py`는 하드웨어를 직접 본다([setup.py#L10-L12](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/setup.py#L10-L12)).
 
@@ -240,7 +240,7 @@ python examples/offline_inference.py --ep 2 --cp 8
 
 기본 모델은 `deepseek-ai/DeepSeek-V4.1-Flash-1017`이다. 첫 실행 때 Hugging Face 캐시로 내려받고, `DEEPINFER_HF_MODEL_DIR`를 주면 로컬 사본을 쓴다.
 
-### 실행 흐름 한눈에 보기
+### 실행 흐름 개요
 
 ```mermaid
 sequenceDiagram
@@ -265,7 +265,7 @@ sequenceDiagram
 
 부모 프로세스는 deepinfer를 import하지 않는다. 장치 가시성(`CUDA_VISIBLE_DEVICES`)과 엔진 환경 변수는 자식 프로세스 안에서, deepinfer import 전에 정해져야 하기 때문이다. 이 순서가 예제 코드 전체를 관통하는 제약이다.
 
-### 코드 따라가기: 병렬 크기 계산
+### 코드 분석: 병렬 크기 계산
 
 [examples/offline_inference.py#L10-L31](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/offline_inference.py#L10-L31)에서 인자와 크기 계산을 본다.
 
@@ -309,7 +309,7 @@ assert world_size % ep_size == 0
 | `--long_context` | 꺼짐 | 입력 16389 토큰, 출력 4096 토큰 회귀 시험 |
 | `--check_structured_output` | 꺼짐 | 같은 `LLM`으로 regex, JSON, EBNF 구조화 출력 검사 |
 
-### 코드 따라가기: DP rank 프로세스 분배
+### 코드 분석: DP rank 프로세스 분배
 
 [examples/_launch.py#L15-L50](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_launch.py#L15-L50)에서 노드별로 맡을 DP rank를 고르는 부분을 본다.
 
@@ -339,7 +339,7 @@ def run_dp(main_fn: Callable[[int, int], None], dp_size: int) -> None:
 
 여기서 `RANK`, `WORLD_SIZE`는 torch 관례의 GPU rank가 아니라 노드 번호와 노드 수다. `launch_dp`가 단일 노드 기본값으로 `RANK=0`, `WORLD_SIZE=1`을 넣는다. DP rank는 노드 수로 균등 분할되어 연속 구간을 한 노드가 맡는다. 프로세스 생성 방식이 `spawn`이므로 자식은 깨끗한 인터프리터에서 시작하고, 부모가 CUDA를 건드렸더라도 영향이 없다. DP 크기가 1이면 프로세스를 새로 만들지 않고 현재 프로세스에서 바로 실행한다.
 
-### 코드 따라가기: 공통 환경 변수
+### 코드 분석: 공통 환경 변수
 
 각 DP rank 프로세스의 `main`은 먼저 [examples/_config.py#L66-L83](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_config.py#L66-L83)의 `setup_common_env`를 부른다.
 
@@ -366,7 +366,7 @@ def setup_common_env(
 
 `setdefault`와 직접 대입이 섞여 있다는 점을 구분해 두면 덮어쓰기 규칙이 보인다. MTP 깊이(`DEEPINFER_USE_NEXTN_DECODE`)와 여분 전문가 수는 셸에서 미리 export한 값이 이기고, 샘플러 top-k와 전문가 카운트 창 크기는 스크립트가 항상 덮어쓴다. 이어서 `offline_inference.py`는 NVIDIA에서만 `DEEPINFER_BATCH_INVARIANT=1`을 기본으로 켠다([examples/offline_inference.py#L42-L43](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/offline_inference.py#L42-L43)). 배치 구성과 무관하게 같은 결과를 내도록 하는 설정으로, PPL 기준값을 표본 단위로 정확히 비교하는 회귀 시험의 전제다.
 
-### 코드 따라가기: create_llm의 순서 제약
+### 코드 분석: create_llm의 순서 제약
 
 [examples/_config.py#L86-L125](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_config.py#L86-L125)의 핵심부를 본다.
 
@@ -413,7 +413,7 @@ def setup_cuda_visible_devices(engine_rank: int, cp_size: int, device_count: int
 
 엔진 하나가 연속된 `cp_size`장의 GPU를 보도록 범위를 자른다. 8장짜리 노드에서 `--ep 8`이면 엔진 rank 3은 `CUDA_VISIBLE_DEVICES=3` 한 장만 보고, `--ep 2 --cp 8`이면 유일한 엔진 rank 0이 `0,1,...,7` 여덟 장을 본다. 엔진 내부에서 이 목록의 첫 장이 driver 워커가 되고, 나머지 장에 CP 워커가 붙는다(3장, 4장). `device_count`는 `CUDA_VISIBLE_DEVICES`의 영향을 받지 않는 물리 장치 수(`get_actual_num_gpus`)다. 한 노드에서 여러 작업을 나눠 돌릴 때는 `DEVICE_OFFSET`으로 시작 번호를 옮긴다.
 
-### 코드 따라가기: offline_inference가 넘기는 LLM 인자
+### 코드 분석: offline_inference의 LLM 인자
 
 [examples/offline_inference.py#L45-L57](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/offline_inference.py#L45-L57)에서 실제 엔진 인자를 본다.
 
@@ -537,7 +537,7 @@ DeepInfer는 설정 상당수를 `EngineArgs`가 아닌 환경 변수로 받는�
 - **import 순서**: 예제 밖에서 엔진을 직접 만든다면 `CUDA_VISIBLE_DEVICES`를 정한 뒤에 `import torch`, `import deepinfer.entrypoints.llm` 순서를 지킨다. `deepinfer/__init__.py`가 torch를 import하지 않는 것도 이 때문이다.
 - **프로파일러로 감싸기 금지**: `create_llm` 바깥을 `torch.profiler.profile()`로 감싸면 장치 가시성 설정이 깨진다. 초기화 프로파일이 필요하면 `profile_init=True`를 쓴다.
 
-## benchmark.py 미리 보기
+## benchmark.py 개요
 
 `examples/benchmark.py`도 같은 `create_llm`을 쓰지만 인자가 다르다. `gpu_memory_utilization=0.95`, `max_num_seqs`는 decode 배치 크기, `max_num_batched_tokens`는 `--prefill_batch_size`로 넣는다([examples/benchmark.py#L173-L185](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/benchmark.py#L173-L185)). 병렬 크기는 인자가 아닌 환경에서 정해진다. `ep_size = WORLD_SIZE × len(CUDA_VISIBLE_DEVICES)`이고 `--cp`가 이를 나눠야 한다(examples/README).
 

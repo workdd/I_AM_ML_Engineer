@@ -31,7 +31,7 @@ flowchart TD
 
 프론트엔드 검색 패널은 `searchWiki`를 부르고, 이 함수는 Tauri command `search_project`를 그대로 호출한다. 질의 임베딩은 프론트에서 만들지 않고 `queryEmbedding: null`과 임베딩 설정만 넘긴다.
 
-코드 따라가기: 프론트 진입점이 백엔드에 넘기는 인자를 본다. [src/lib/search.ts#L62-L83](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/search.ts#L62-L83)
+코드 분석: 프론트 진입점이 백엔드에 넘기는 인자를 본다. [src/lib/search.ts#L62-L83](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/search.ts#L62-L83)
 
 ```ts
   const response = await invoke<BackendSearchResponse>("search_project", {
@@ -54,7 +54,7 @@ flowchart TD
 | `MAX_RESULTS` | 50 | `top_k`를 1..50으로 clamp |
 | `RRF_K` | 60.0 | RRF 분모의 상수 |
 | `FILENAME_EXACT_BONUS` | 200.0 | 파일명 stem이 질의 구문과 같을 때 |
-| `PHRASE_IN_TITLE_BONUS` | 50.0 | 제목에 질의 구문이 통째로 있을 때 |
+| `PHRASE_IN_TITLE_BONUS` | 50.0 | 제목에 질의 구문 전체가 있을 때 |
 | `PHRASE_IN_CONTENT_PER_OCC` | 20.0 | 본문에 질의 구문이 나온 횟수당 |
 | `MAX_PHRASE_OCC_COUNTED` | 10 | 본문 구문 횟수 상한 |
 | `TITLE_TOKEN_WEIGHT` | 5.0 | 제목에 들어 있는 토큰 하나당 |
@@ -68,7 +68,7 @@ flowchart TD
 
 `search_project_inner`는 인덱스를 미리 만들어 두지 않는다. 질의가 올 때마다 `wiki/` 아래 `.md` 파일을 `WalkDir`로 전부 읽고, 파일 하나마다 `score_file`을 부른다([search.rs#L349-L413](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L349-L413)). 같은 순회에서 그래프 확장에 쓸 링크 목록도 함께 모은다.
 
-코드 따라가기: 한 파일의 키워드 점수를 어떻게 합산하는지 본다. [search.rs#L960-L970](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L960-L970)
+코드 분석: 한 파일의 키워드 점수를 어떻게 합산하는지 본다. [search.rs#L960-L970](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L960-L970)
 
 ```rust
     let score = (if filename_exact {
@@ -110,11 +110,11 @@ CJK 판정 범위가 `U+3400..U+9FFF`(한자)라서 한글 음절(`U+AC00..U+D7A
 
 프론트의 `tokenizeQuery`([search.ts#L38-L60](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/search.ts#L38-L60))는 같은 규칙의 TypeScript 사본이다. 검색 패널이 결과 snippet에서 일치 구간을 강조할 때만 쓴다.
 
-## 벡터 검색: chunk를 찾고 페이지로 묶는다
+## 벡터 검색: chunk 검색과 페이지 단위 집계
 
 질의 임베딩은 `resolve_query_embedding`이 만든다. 호출자가 벡터를 직접 넘기면 비어 있지 않은지, 모든 값이 유한한지만 검사하고 쓴다. 설정이 꺼져 있거나 endpoint, model이 비어 있으면 `None`을 돌려 키워드 검색만 한다. 임베딩 호출이 실패해도 오류를 올리지 않고 로그만 남긴 채 `None`이 된다([search.rs#L294-L315](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L294-L315)). 질의 쪽은 재시도 횟수 0으로 호출하므로, 입력이 길다는 오류가 와도 절반으로 줄여 다시 보내지 않는다.
 
-코드 따라가기: LanceDB가 돌려준 chunk를 페이지 점수로 바꾸는 부분을 본다. [search.rs#L826-L836](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L826-L836)
+코드 분석: LanceDB가 돌려준 chunk를 페이지 점수로 바꾸는 부분을 본다. [search.rs#L826-L836](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L826-L836)
 
 ```rust
     for (id, mut chunks) in by_page {
@@ -144,7 +144,7 @@ chunk 하나의 점수는 LanceDB가 준 거리 $d$를 $1/(1+d)$로 바꾼 값�
 
 벡터 결과가 하나라도 있으면 키워드 점수를 버리고 순위만 남겨 Reciprocal Rank Fusion으로 다시 매긴다.
 
-코드 따라가기: 한 결과의 최종 점수를 계산하는 부분을 본다. [search.rs#L519-L537](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L519-L537)
+코드 분석: 한 결과의 최종 점수를 계산하는 부분을 본다. [search.rs#L519-L537](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L519-L537)
 
 ```rust
         let mut rrf = 0.0;
@@ -162,11 +162,11 @@ $$
 
 한쪽 순위에만 있는 페이지는 해당 항 하나만 받는다. 순위로만 합치므로 키워드 점수의 절댓값(파일명 일치 보너스 200 등)은 벡터가 켜진 순간 의미를 잃는다. 파일명이 질의와 정확히 같은 페이지는 키워드 1위가 되어 $1/61$을 받지만, 벡터 순위가 낮으면 양쪽 모두 중간쯤인 페이지에 밀릴 수 있다. 벡터 순위를 찾을 때는 경로 기반 page id(`entities/foo`)를 먼저 보고, 예전 형식인 파일명 stem 행은 같은 stem을 가진 파일이 하나뿐일 때만 인정한다([search.rs#L497-L539](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L497-L539)).
 
-## 그래프 확장: 상위 결과의 1홉 이웃을 끼워 넣기
+## 그래프 확장: 상위 결과의 1홉 이웃 추가
 
-정렬이 끝나면 `blend_graph_results`가 결과 창의 일부를 위키링크 이웃에게 내준다. 이웃 관계는 같은 순회에서 모은 본문 `[[...]]`와 프론트매터 `related:` 값으로 만들고([search.rs#L707-L727](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L707-L727)), 경로, `wiki/` 뺀 경로, 파일명 stem, 제목을 모두 별칭으로 등록해 링크 대상을 찾는다. 방향은 무시하고 양방향 인접 목록으로 만든다.
+정렬이 끝나면 `blend_graph_results`가 결과 창의 일부를 위키링크 이웃에게 할당한다. 이웃 관계는 같은 순회에서 모은 본문 `[[...]]`와 프론트매터 `related:` 값으로 만들고([search.rs#L707-L727](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L707-L727)), 경로, `wiki/` 뺀 경로, 파일명 stem, 제목을 모두 별칭으로 등록해 링크 대상을 찾는다. 방향은 무시하고 양방향 인접 목록으로 만든다.
 
-코드 따라가기: 그래프 이웃에게 몇 자리를 줄지 정하는 함수를 본다. [search.rs#L541-L553](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L541-L553)
+코드 분석: 그래프 이웃에게 몇 자리를 줄지 정하는 함수를 본다. [search.rs#L541-L553](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L541-L553)
 
 ```rust
 fn graph_result_quota(limit: usize, vector_hits: usize) -> usize {
@@ -182,7 +182,7 @@ fn graph_result_quota(limit: usize, vector_hits: usize) -> usize {
 
 벡터 결과가 창을 가득 채우면 15%, 벡터가 없으면 30%를 그래프에 준다. 테스트가 `limit=20`일 때 벡터 0개면 6자리, 10개면 5자리, 20개면 3자리라고 고정해 둔다([search.rs#L2117-L2123](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L2117-L2123)). 벡터 검색이 약할수록 링크 구조에 더 기대는 설계다.
 
-후보 점수는 상위 결과(최대 20개)를 씨앗으로 삼아, 씨앗 순위 $r$에서 닿는 이웃마다 $1/(r+1)$을 더한 값이다. 이미 씨앗인 페이지는 후보에서 빠진다([search.rs#L609-L625](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L609-L625)). 뽑힌 이웃은 원래 결과 뒤에 붙고, 키워드나 벡터로 이미 찾았던 페이지라면 그 결과에 `graph_related_to`만 채운다. 새로 들어온 이웃의 snippet은 "Graph neighbor of ..." 문자열이고 점수는 $\text{graph\_score}/61$이다. 그래프 이웃 후보가 없으면 그 자리는 키워드와 벡터 결과에 돌아간다.
+후보 점수는 상위 결과(최대 20개)를 씨앗으로 삼아, 씨앗 순위 $r$에서 연결되는 이웃마다 $1/(r+1)$을 더한 값이다. 이미 씨앗인 페이지는 후보에서 빠진다([search.rs#L609-L625](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L609-L625)). 뽑힌 이웃은 원래 결과 뒤에 붙고, 키워드나 벡터로 이미 찾았던 페이지라면 그 결과에 `graph_related_to`만 채운다. 새로 들어온 이웃의 snippet은 "Graph neighbor of ..." 문자열이고 점수는 $\text{graph\_score}/61$이다. 그래프 이웃 후보가 없으면 그 자리는 키워드와 벡터 결과에 돌아간다.
 
 `search_mode`가 응답에 적는 모드는 다음 규칙을 따른다([search.rs#L782-L794](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/search.rs#L782-L794)).
 
@@ -195,7 +195,7 @@ fn graph_result_quota(limit: usize, vector_hits: usize) -> usize {
 
 결국 질문 "검색은 BM25/벡터/하이브리드 중 무엇인가"에 대한 답은 이렇다. 임베딩을 켜지 않으면 가중 키워드 점수에 그래프 확장을 더한 방식이고, 켜면 키워드 순위와 chunk 벡터 순위를 RRF로 합친 뒤 그래프 확장을 더한 방식이다. 두 경우 모두 그래프 이웃이 들어가면 응답 모드는 `hybrid`로 표시된다.
 
-## 인덱싱: 페이지를 chunk로 잘라 LanceDB에 넣기
+## 인덱싱: 페이지 chunk 분할과 LanceDB 적재
 
 벡터 검색이 쓰는 인덱스는 수집(4장)이 페이지를 쓴 직후 `embedPage`로 만든다. README는 이 기능을 "disabled by default"라고 밝힌다([README.md#L232](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L232)). `embedding.ts` 머리 주석이 흐름을 요약한다([embedding.ts#L1-L22](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L1-L22)). markdown을 chunk로 나누고, chunk마다 "페이지 제목 + heading 경로 + 본문"을 임베딩하고, 그 페이지의 행을 한 번에 교체한다. HTTP 호출은 CORS를 피하려고 Rust `embedding_fetch` command가 대신한다.
 
@@ -218,11 +218,11 @@ sequenceDiagram
     E->>L: 20번째 쓰기마다 vector_optimize_chunks
 ```
 
-### chunk 만들기와 문맥 덧붙이기
+### chunk 생성과 문맥 보강
 
 TypeScript chunker의 기본값은 `targetChars 1000`, `maxChars 1500`, `minChars 200`, `overlapChars 200`이다([text-chunker.ts#L64-L69](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/text-chunker.ts#L64-L69)). `preparePageEmbeddingRows`는 설정의 `maxChunkChars`, `overlapChunkChars`로 앞의 두 값을 덮어쓰고, `batchSize`(1..64)씩 묶어 OpenAI 호환 batch 요청을 보낸다. Google `:embedContent`와 doubao vision 모델은 batch를 지원하지 않는 것으로 보고 하나씩 보낸다([embedding.ts#L382-L420](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L382-L420)).
 
-코드 따라가기: 실제로 임베딩되는 텍스트를 만드는 함수를 본다. [embedding.ts#L353-L363](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L353-L363)
+코드 분석: 실제로 임베딩되는 텍스트를 만드는 함수를 본다. [embedding.ts#L353-L363](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L353-L363)
 
 ```ts
 function enrichChunkForEmbedding(
@@ -254,7 +254,7 @@ function enrichChunkForEmbedding(
 
 스키마 정의는 [vectorstore.rs#L382-L395](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/vectorstore.rs#L382-L395)에 있다. page id에 디렉터리를 넣는 이유는 `wikiPageIdFromPath` 주석이 밝힌다. `sources/topic.md`와 `entities/topic.md`가 서로의 chunk를 덮어쓰지 않게 하기 위해서다([embedding.ts#L444-L462](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L444-L462)).
 
-코드 따라가기: 한 페이지의 chunk를 교체하는 upsert를 본다. [vectorstore.rs#L520-L529](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/vectorstore.rs#L520-L529)
+코드 분석: 한 페이지의 chunk를 교체하는 upsert를 본다. [vectorstore.rs#L520-L529](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/vectorstore.rs#L520-L529)
 
 ```rust
         let data = RecordBatchIterator::new(vec![Ok(batch)], schema);
@@ -287,7 +287,7 @@ LanceDB는 쓰기마다 새 버전을 만들므로 `noteIncrementalVectorWrite`�
 
 Rust 쪽 상수와 제외 규칙은 [page_embedding.rs#L15-L23](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/page_embedding.rs#L15-L23), [page_embedding.rs#L115-L125](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/page_embedding.rs#L115-L125)에 있다. TypeScript 제외 목록은 [embedding.ts#L605-L614](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.ts#L605-L614)에 있다.
 
-코드 따라가기: Rust 경로가 재인덱싱 여부를 판단하는 fingerprint를 본다. [page_embedding.rs#L266-L280](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/page_embedding.rs#L266-L280)
+코드 분석: Rust 경로가 재인덱싱 여부를 판단하는 fingerprint를 본다. [page_embedding.rs#L266-L280](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/page_embedding.rs#L266-L280)
 
 ```rust
 fn embedding_fingerprint(revision: &str, config: &SearchEmbeddingConfig) -> String {
@@ -312,7 +312,7 @@ API 키는 서명에 들어가지 않는다. 테스트 이름 그대로 "fingerp
 
 `anyTxtSearchSmart`는 LLM 설정이 있으면 먼저 질문을 키워드 질의 1~3개로 바꾼다. 프롬프트가 "Natural-language questions often fail, so produce keyword-style searches"라고 이유를 밝힌다([anytxt-search.ts#L87-L121](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/anytxt-search.ts#L87-L121)). 재작성한 질의와 원래 질의를 합쳐 중복을 지운 다음 최대 3개만 남기고, 결과는 URL 기준으로 중복을 걸러 `maxResults`에서 멈춘다. 채팅 에이전트가 이 결과를 어떻게 쓰는지는 11장에서 다룬다.
 
-## 중복 제거: 이름만 다른 같은 페이지 찾기
+## 중복 제거: 이름만 다른 동일 페이지 탐지
 
 수집을 반복하면 LLM이 같은 대상을 다른 이름으로 부르는 일이 생긴다. `dedup.ts` 머리 주석은 영어와 중국어 표기, 단수와 복수, 약어와 풀네임이 각각 다른 페이지가 되는 사례를 들고, 슬러그가 정확히 같을 때만 잡는 page-merge 계층(4장)을 보완하려는 모듈이라고 설명한다([dedup.ts#L1-L29](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L1-L29)). llm-wiki.md가 Lint 작업으로 꼽는 "missing cross-references"와 같은 결의 유지보수지만, 이 구현은 린트(9장)와 따로 설정 화면의 유지보수 섹션에 두었다.
 
@@ -338,7 +338,7 @@ flowchart TD
 
 `extractEntitySummary`는 프론트매터의 `type`, `title`, `description`(없으면 본문 첫 문단), `tags`를 꺼낸다. LLM 없이 하는 단계다. `detectDuplicateGroups`는 이 목록을 `type=..., slug=..., title=...` 한 줄씩 나열해 LLM에 보내고, JSON으로 그룹을 받는다. 시스템 프롬프트는 같은 이름의 다른 언어 표기, 단복수, 약어, 동의어, 철자 차이를 예로 들고, type이 다른 페이지는 명백할 때만 묶으라고 지시한다([dedup.ts#L171-L199](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L171-L199)).
 
-코드 따라가기: LLM 응답을 믿지 않고 걸러 내는 후처리를 본다. [dedup.ts#L218-L230](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L218-L230)
+코드 분석: LLM 응답을 믿지 않고 걸러 내는 후처리를 본다. [dedup.ts#L218-L230](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L218-L230)
 
 ```ts
   const parsed = parseDetectorResponse(response)
@@ -372,7 +372,7 @@ flowchart TD
 
 값은 [dedup-runner.ts#L31-L51](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup-runner.ts#L31-L51)과 [dedup_embedding.ts#L115-L118](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup_embedding.ts#L115-L118)에 있다. 러너가 임계값을 0.82에서 0.68로 낮춘 이유는 주석에 있다. 이 도구는 언어가 다른 별칭을 잡아야 하는데, 다국어 학습이 약한 임베딩 모델에서는 그런 쌍의 cosine이 낮게 나온다.
 
-코드 따라가기: 후보 쌍을 그룹으로 합치는 union-find를 본다. [dedup_embedding.ts#L183-L200](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup_embedding.ts#L183-L200)
+코드 분석: 후보 쌍을 그룹으로 합치는 union-find를 본다. [dedup_embedding.ts#L183-L200](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup_embedding.ts#L183-L200)
 
 ```ts
   const find = (x: string): string => {
@@ -418,7 +418,7 @@ LLM 출력 길이도 용도별로 상한을 둔다. 탐지는 JSON 목록이라 
 
 LLM에게는 본문만 맡기고 출처 목록 같은 정형 필드는 코드가 합집합으로 계산한다. 병합 프롬프트도 "The caller will overwrite sources / tags / related / updated with deterministic unions afterward"라고 LLM에게 알린다([dedup.ts#L321-L333](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L321-L333)). 출처 추적이 LLM의 누락에 흔들리지 않게 하는 구성이다.
 
-코드 따라가기: 본문 위키링크를 canonical로 바꾸는 정규식을 본다. [dedup.ts#L463-L467](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L463-L467)
+코드 분석: 본문 위키링크를 canonical로 바꾸는 정규식을 본다. [dedup.ts#L463-L467](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/dedup.ts#L463-L467)
 
 ```ts
   for (const [oldSlug, newSlug] of slugRedirects) {
@@ -441,6 +441,6 @@ LLM에게는 본문만 맡기고 출처 목록 같은 정형 필드는 코드가
 - 검색은 Rust `search_project_inner` 하나가 담당하고, 프론트 검색 패널, 채팅 에이전트의 `wiki.search`, 로컬 API가 같은 함수를 부른다. 질의마다 `wiki/` 아래 파일을 전수로 읽으며 별도 키워드 인덱스는 없다.
 - 키워드 점수는 BM25가 아니라 파일명 일치 200, 제목 구문 50, 본문 구문 20/회, 제목 토큰 5, 본문 토큰 1을 더하는 포함 개수 방식이다. CJK bigram은 한자 범위에만 적용되어 한글은 공백 토큰으로만 비교한다.
 - 임베딩을 켜면 LanceDB `wiki_chunks_v2`에서 chunk를 찾아 "최고 chunk + 꼬리 30%(상한 있음)"로 페이지 점수를 만들고, 키워드 순위와 RRF($k=60$)로 합친다.
-- 마지막으로 상위 결과의 위키링크 1홉 이웃에게 결과 창의 15~30%를 내준다. 벡터 결과가 적을수록 그래프 몫이 커진다.
+- 마지막으로 상위 결과의 위키링크 1홉 이웃에게 결과 창의 15~30%를 할당한다. 벡터 결과가 적을수록 그래프 몫이 커진다.
 - 인덱싱은 제목과 heading 경로를 붙여 임베딩하고, `merge_insert`로 페이지 단위 교체를 원자적으로 한다. TypeScript와 Rust에 같은 기능의 경로가 둘 있고 chunker 상한과 변경 감지 방식이 다르다.
 - 중복 제거는 임베딩 cosine으로 후보를 좁힌 뒤 LLM이 판정하고, 병합 본문은 LLM이, 출처와 태그와 참조 재작성은 코드가 맡는다. 병합은 백업을 먼저 쓰고 직렬 큐로 처리하지만 벡터 인덱스 정리는 하지 않는다.

@@ -26,7 +26,7 @@ MoE 코드를 읽을 때 가장 먼저 헷갈리는 것이 expert 개수다. Dee
 
 shared expert는 이 셈에 들어가지 않는다. 모든 rank가 shared expert 전체를 복제해서 들고 있다.
 
-### 코드 따라가기: 여분 슬롯 수 결정
+### 코드 분석: 여분 슬롯 수 결정
 
 무엇을 보는지: 사용자가 준 여분 개수 하한을 `ep_size` 배수가 되도록 올리는 함수. [`eplb/__init__.py#L21-L28`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/__init__.py#L21-L28)
 
@@ -77,7 +77,7 @@ def get_initial_global_physical_to_logical_map(
 
 ## 한 레이어의 MoE forward
 
-`DeepseekMoE.forward`는 경로가 두 갈래다. 같은 NVLink 도메인 안에 EP 그룹이 다 들어가면 dispatch, GEMM, combine을 커널 하나로 합친 mega MoE를 쓰고, 그렇지 않으면 DeepEP dispatch와 DeepGEMM grouped GEMM, DeepEP combine을 차례로 부른다.
+`DeepseekMoE.forward`는 경로가 두 가지다. 같은 NVLink 도메인 안에 EP 그룹이 다 들어가면 dispatch, GEMM, combine을 커널 하나로 합친 mega MoE를 쓰고, 그렇지 않으면 DeepEP dispatch와 DeepGEMM grouped GEMM, DeepEP combine을 차례로 부른다.
 
 ```mermaid
 flowchart TD
@@ -96,7 +96,7 @@ flowchart TD
     L --> G
 ```
 
-### 코드 따라가기: 경로 선택
+### 코드 분석: 경로 선택
 
 무엇을 보는지: 활성값과 가중치 정밀도 조합(`mma_type`)을 정하고 mega MoE를 쓸지 판정하는 부분. [`mlp.py#L177-L188`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L177-L188)
 
@@ -125,7 +125,7 @@ self.use_mega_moe = (
 
 `is_within_nvl_domain`은 그룹 크기가 DeepEP가 알려 주는 물리 도메인 크기 이하인지 본다([`parallel_state.py#L130-L134`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/parallel_state.py#L130-L134)). NPU에서는 항상 참을 돌려준다. 배포 문서는 "Mega MoE is the general solution within a scale-up domain"이라고 적고, EP 크기와 배치 크기에 관계없이 비융합 경로보다 빠르다고 한다([`inference_deployment_qa.md#L283-L285`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/doc/inference_deployment_qa.md#L283-L285)). 이 비교 수치는 문서 주장이고 이 책에서 재현하지 않았다.
 
-### 코드 따라가기: gate에서 physical 슬롯까지
+### 코드 분석: gate부터 physical 슬롯까지의 경로
 
 무엇을 보는지: gate 커널에 EPLB의 logical→physical 표를 함께 넘기는 부분. [`mlp.py#L379-L401`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L379-L401)
 
@@ -158,7 +158,7 @@ gate가 내놓는 `topk_idx`는 logical id가 아니라 physical 슬롯 번호�
 
 GPU에서는 gate 선형층과 top-k를 하나로 합친 `bf16_mega_gate`를 쓰고, NPU에서는 `ReplicatedLinear`로 logits를 만든 뒤 `moe_topk_gate`를 부른다([`mlp.py#L228`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L228)). 이미지 토큰은 별도 보정 bias(`e_score_correction_bias_vl`)를 쓴다. `gate_force_random`은 라우팅을 무작위로 바꾸는 토큰별 마스크다. 모델 러너의 [`profile_decode_perf`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L581-L584)가 decode 성능 곡선을 잴 때 이 마스크를 전부 켠다.
 
-### 코드 따라가기: 비융합 경로
+### 코드 분석: 비융합 경로
 
 무엇을 보는지: dispatch, expert 계산, combine을 차례로 부르는 forward 본체. [`mlp.py#L574-L616`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L574-L616)
 
@@ -201,7 +201,7 @@ $$
 
 decode 쪽에 MTP 추측 토큰 수를 곱하는 이유는 8장에서 다룬다.
 
-### 코드 따라가기: routed expert 계산
+### 코드 분석: routed expert 계산
 
 무엇을 보는지: grouped GEMM 두 번 사이에 SwiGLU와 양자화를 끼운 expert 계산. [`mlp.py#L406-L459`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L406-L459)
 
@@ -231,7 +231,7 @@ down_in_hidden = swiglu_forward_and_per_token_cast(
 
 첫 GEMM이 끝나면 입력 텐서의 `.data`를 빈 텐서로 바꿔 메모리를 즉시 놓는다. prefill에서 받은 토큰 수가 많을 때 피크 메모리를 줄이는 장치다. SwiGLU 커널은 top-k 가중치 곱과 다음 GEMM용 FP8 양자화까지 한 번에 한다. 그래서 combine 단계에서는 가중합을 다시 하지 않는다. `swiglu_clamp_value`는 HF config의 `swiglu_limit`에서 온다.
 
-### 코드 따라가기: mega MoE
+### 코드 분석: mega MoE
 
 무엇을 보는지: dispatch부터 combine까지를 DeepGEMM 커널 하나로 넘기는 경로. [`mlp.py#L528-L563`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L528-L563)
 
@@ -285,7 +285,7 @@ FP4 dummy 경로에는 `assert ((w.view(torch.int32) & 0x03030303) == 0).all(), 
 
 DeepEP와 DeepGEMM 대칭 버퍼는 레이어마다 따로 만들지 않고 [`userbuffer`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/userbuffer.py#L54-L240) 싱글턴 하나가 가진다. 모든 MoE 레이어의 `allocate_userbuffer`가 같은 인자로 부르므로 첫 호출만 실제로 할당하고 나머지는 같은 객체를 받는다.
 
-### 코드 따라가기: 통신용 SM 수 자동 결정
+### 코드 분석: 통신용 SM 수 자동 결정
 
 무엇을 보는지: `EPBuffer`를 처음 만들 때 통신에 몇 개의 SM을 줄지 정하는 부분. [`userbuffer.py#L72-L95`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/userbuffer.py#L72-L95)
 
@@ -315,7 +315,7 @@ if envs.DEEPINFER_USERBUFFER_COMM_SMS == 0:
 
 batch invariant 모드에서 EPLB 재배치를 켜면 `allow_multiple_reduction`을 끈다. 복제본이 생기면 같은 토큰의 부분합이 서로 다른 rank에서 오는데, 그 합산 순서를 고정해 배치 구성과 무관한 결과를 얻으려는 설정으로 보인다(추정).
 
-## EPLB: 부하를 보고 expert를 다시 놓는다
+## EPLB: 부하 기반 expert 재배치
 
 라우팅은 입력에 따라 특정 expert에 몰린다. EP에서는 가장 많이 받은 rank가 끝나야 combine이 끝나므로, rank 사이 부하 차이가 곧 지연이다. EPLB는 최근 N 스텝의 expert별 토큰 수를 모아 두었다가 M 스텝마다 복제 대상과 rank 배치를 다시 계산하고, 가중치를 옮긴다.
 
@@ -357,7 +357,7 @@ sequenceDiagram
 
 모델은 모양이 같은 MoE 레이어끼리 balancer 하나를 공유한다. [`DeepseekForCausalLM._init_eplb`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py#L324-L365)가 (logical 수, physical 수, EP 그룹, 가중치 모양과 dtype)을 키로 레이어를 묶는다. 본체 레이어와 MTP 레이어의 MoE 설정이 다르면 balancer가 둘 생긴다. `ExpertLoadBalancerManager.layer(i)`가 전역 레이어 번호를 (balancer, 그 안의 번호)로 바꿔 준다.
 
-### 코드 따라가기: 언제 재배치하는가
+### 코드 분석: 재배치 시점
 
 무엇을 보는지: 매 스텝 불리는 재배치 판정. [`eplb/__init__.py#L146-L165`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/__init__.py#L146-L165)
 
@@ -390,7 +390,7 @@ def _update_rearrangement(self, is_prompt: bool) -> None:
 - NORMAL 엔진(prefill과 decode를 한 엔진에서 섞는 모드, 10장)에서는 기본적으로 prefill 스텝을 통계에서 뺀다. `DEEPINFER_REARRANGE_AFTER_PREFILL_IN_NORMAL_ENGINE=1`이면 반대로 prefill을 통계에 넣고, prefill 직후 다음 decode 스텝에서 바로 재배치한다
 - window 크기는 1 이상, 주기 이하여야 한다. 생성자가 검사한다([`#L102-L111`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/__init__.py#L102-L111))
 
-### 코드 따라가기: 재배치 본체
+### 코드 분석: 재배치 본체
 
 무엇을 보는지: local 슬롯 단위 카운트를 logical 단위로 바꿔 전 rank에서 합치고, 정책을 불러 가중치를 옮기는 부분. [`eplb/__init__.py#L234-L278`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/__init__.py#L234-L278)
 
@@ -424,7 +424,7 @@ self.physical_to_logical_map.copy_(next_physical_to_logical_map)
 
 함수 전체가 `@allow_cuda_sync()` 아래에 있다. forward 중 CPU-GPU 동기화를 막는 가드(`DEEPINFER_DISABLE_SYNC_GUARD`로 끔)가 있는데, 재배치는 `.tolist()`와 all_reduce를 쓰므로 명시적으로 허용한다. rank 0은 재배치 시간과 균형 지표를 로그로 남긴다([`_log_rearrangement_metrics`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/__init__.py#L290-L343)).
 
-### 정책 1단계: 어떤 expert를 복제할지
+### 정책 1단계: 복제 대상 expert 선정
 
 [`rebalance_experts_global`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/policy.py#L73-L140)은 여분 슬롯을 하나씩 채우는 탐욕 알고리즘이다. 스텝 $s$, logical expert $j$의 토큰 수를 $T_{s,j}$, 현재 복제본 수를 $c_j$라 하면 복제본 하나가 받는 부하는 $T_{s,j}/c_j$다. 매 라운드 각 후보 $j$에 대해 "$j$에 복제본을 하나 더 주면 스텝별 최대 복제본 부하의 합이 얼마가 되는가"를 계산하고, 그 값이 가장 작은 $j$를 고른다.
 
@@ -434,7 +434,7 @@ $$
 
 코드는 이 식을 텐서 연산으로 계산한다. 현재 최댓값 자리만 "복제본 추가 후" 값으로 바꾸고 다시 최댓값을 구하면, 최댓값이 아닌 $j$에 복제본을 줄 때는 최댓값이 그대로라는 점을 이용한다([`policy.py#L105-L123`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/policy.py#L105-L123)). 동점을 피하려고 카운트에 `arange * 1e-4`를 더한다.
 
-### 정책 2단계: 복제본을 어느 rank에 둘지
+### 정책 2단계: 복제본의 rank 배치
 
 rank 하나에 슬롯이 둘 이상이면 [`_batch_greedy_indices`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/eplb/policy.py#L12-L70)가 슬롯을 rank에 나눈다. 레이어마다 독립으로 다음 값을 줄이는 것이 목표다. $R_r$은 rank $r$에 놓인 복제본 집합, $w_{s,e}$는 스텝 $s$에서 복제본 $e$의 부하다.
 
@@ -472,7 +472,7 @@ intranode 구현은 레이어마다 barrier를 두 번 친다([`shuffle.py#L192-
 | `DEEPINFER_MOE_LB_STAT_INTERVAL` | 128 | 부하 지표 집계 주기 |
 | `DEEPINFER_REARRANGE_P2P_GROUPS` | 1 | P2P 이동 버킷 수 |
 | `DEEPINFER_SHOW_EPLB_DETAIL` | 꺼짐 | 레이어별 expert 부하 표를 로그로 출력 |
-| `DEEPINFER_FORCE_IMBALANCE_RATIO` | 0 | 프로파일용. 첫 rank에 부하를 일부러 몰아줌 |
+| `DEEPINFER_FORCE_IMBALANCE_RATIO` | 0 | 프로파일용. 첫 rank에 부하를 의도적으로 집중 |
 | `DEEPINFER_USERBUFFER_COMM_SMS` | 0 | 통신용 SM 수. 0이면 자동 |
 
 기본값은 [`environ.py#L114-L128`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L114-L128)에 있다. 예제 스크립트는 EPLB를 켤 때 window 3, 주기 30을 쓴다([`examples/_config.py#L80-L83`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_config.py#L80-L83)). 짧은 테스트에서 재배치가 실제로 일어나게 하려는 값이다.
@@ -486,7 +486,7 @@ intranode 구현은 레이어마다 barrier를 두 번 친다([`shuffle.py#L192-
 
 문서는 decode EP64에서 올림 후 GPU당 expert가 shared expert를 빼고 7개가 된다고 적는다. 위 표의 "GPU당 여분"은 GPU 하나당 값이므로, 코드의 `DEEPINFER_OVERRIDE_NUM_EXTRA_EXPERTS`(전체 여분 수 하한)에 넣을 때는 EP 크기를 곱해야 한다(추정. 문서가 환경변수 값으로 적지 않았다).
 
-### 부하 불균형을 일부러 만드는 손잡이
+### 부하 불균형 강제 설정
 
 `DEEPINFER_FORCE_IMBALANCE_RATIO`를 1 이상으로 주면 gate를 무시하고 무작위 선택을 하되, 첫 rank가 다른 rank 평균의 $r$배를 받게 만든다. local expert 점수를 $U(0, f)$, 나머지를 $U(0, 1)$에서 뽑고 top-k를 고른다. $f$는 [`_map_unbalanced_ratio_to_factor`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mlp.py#L347-L357)가 평균장 근사로 정한다. EP 크기 $E$, top-k $k$, local 슬롯 수 $n_\ell$, 전체 슬롯 수 $N$일 때
 

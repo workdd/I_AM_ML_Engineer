@@ -36,7 +36,7 @@ flowchart TD
 
 실제 계산은 `buildWikiGraphUncached`가 한다. 파일마다 제목(프론트매터 `title`, 없으면 첫 `# ` heading, 그것도 없으면 파일명), type(없으면 `other`), 링크 목록을 뽑는다. 링크 목록은 본문 위키링크와 프론트매터 `related` 값을 합쳐 중복을 지운 것이다. 위키링크 정규식은 `[[대상|별칭]]`에서 대상만 잡는다([wiki-graph.ts#L74](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph.ts#L74)). `related` 값은 `[[...]]`, `|별칭`, `#앵커`, 디렉터리, `.md`를 모두 걷어내 파일명 stem만 남긴다([wiki-graph.ts#L114-L123](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph.ts#L114-L123)).
 
-코드 따라가기: 링크를 엣지로 바꾸고 연결 수를 세는 루프를 본다. [wiki-graph.ts#L269-L281](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph.ts#L269-L281)
+코드 분석: 링크를 엣지로 바꾸고 연결 수를 세는 루프를 본다. [wiki-graph.ts#L269-L281](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph.ts#L269-L281)
 
 ```ts
   for (const [sourceId, nodeData] of nodeMap) {
@@ -83,7 +83,7 @@ $$
 w(A,B) = 3\,(l_{AB}+l_{BA}) + 4\,|S_A \cap S_B| + 1.5\sum_{z \in N(A)\cap N(B)} \frac{1}{\ln \max(\deg z, 2)} + \tau(A,B)
 $$
 
-코드 따라가기: 공통 이웃 신호의 계산을 본다. [graph-relevance.ts#L328-L346](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-relevance.ts#L328-L346)
+코드 분석: 공통 이웃 신호의 계산을 본다. [graph-relevance.ts#L328-L346](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-relevance.ts#L328-L346)
 
 ```ts
   // Signal 3: Common neighbors - Adamic-Adar (weight 1.5)
@@ -108,7 +108,7 @@ $$
 
 Adamic-Adar는 링크 예측에서 쓰는 지표로, 연결이 많은 허브를 공유하는 것보다 연결이 적은 페이지를 공유하는 것을 더 강한 신호로 친다. 차수 하한을 2로 잡아 $\ln 1 = 0$으로 나누는 일을 막는다. 원본 겹침에 가장 큰 가중치(4.0)를 준 것은, 같은 원본에서 수집된 페이지는 링크가 없어도 내용이 가깝다는 가정이다. 이 가정은 원본 수명주기(5장)의 `sources[]` 프론트매터가 정확할 때만 성립한다.
 
-type 친화도는 항상 0.5 이상이라 `calculateRelevance`는 0보다 큰 값을 돌려준다. 이 모듈의 `getRelatedNodes`는 "relevance > 0"인 노드를 모두 후보로 삼는데, 그러면 사실상 모든 노드가 후보가 된다. 다만 `getRelatedNodes`는 테스트 밖에서 호출하는 곳이 없다. README가 질의 파이프라인 Phase 2로 설명하는 "4-signal relevance model finds related pages, 2-hop traversal with decay"([README.md#L216-L219](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L216-L219))는 현재 코드에서는 이 TypeScript 모델이 아니라 Rust 검색의 1홉 확장(6장)이 맡는다. 현재 이 관련도 모델의 실제 쓰임은 그래프 뷰 엣지 weight 하나다.
+type 친화도는 항상 0.5 이상이라 `calculateRelevance`는 0보다 큰 값을 돌려준다. 이 모듈의 `getRelatedNodes`는 "relevance > 0"인 노드를 모두 후보로 삼는데, 그러면 실질적으로 모든 노드가 후보가 된다. 다만 `getRelatedNodes`는 테스트 밖에서 호출하는 곳이 없다. README가 질의 파이프라인 Phase 2로 설명하는 "4-signal relevance model finds related pages, 2-hop traversal with decay"([README.md#L216-L219](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L216-L219))는 현재 코드에서는 이 TypeScript 모델이 아니라 Rust 검색의 1홉 확장(6장)이 맡는다. 현재 이 관련도 모델의 실제 쓰임은 그래프 뷰 엣지 weight 하나다.
 
 > **주의**: `RetrievalGraph`의 프론트매터 파서는 정규식으로 `sources:` 블록 목록과 한 줄 배열만 읽는다([graph-relevance.ts#L91-L151](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-relevance.ts#L91-L151)). 같은 파일의 `related`는 공용 `parseFrontmatter`로 읽는다. YAML 표기가 이 두 형태를 벗어나면 원본 겹침 신호가 0이 될 수 있다(추정).
 
@@ -116,7 +116,7 @@ type 친화도는 항상 0.5 이상이라 `calculateRelevance`는 0보다 큰 �
 
 `detectCommunities`는 graphology의 무방향 그래프에 엣지 weight를 속성으로 넣고 `graphology-communities-louvain`을 `resolution: 1`로 돌린다([wiki-graph-analysis.ts#L17-L35](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph-analysis.ts#L17-L35)). Louvain은 modularity를 키우는 방향으로 노드를 묶어 나가는 알고리즘이라, 사전에 정한 page type과 상관없이 링크 구조만으로 주제 묶음을 찾는다. 노드가 500개 이상이면 같은 함수를 Web Worker에서 돌리고, Worker가 실패하면 메인 스레드에서 다시 계산한다([wiki-graph.ts#L37-L72](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph.ts#L37-L72)).
 
-코드 따라가기: 커뮤니티마다 붙는 두 지표를 본다. [wiki-graph-analysis.ts#L5-L14](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph-analysis.ts#L5-L14)
+코드 분석: 커뮤니티마다 붙는 두 지표를 본다. [wiki-graph-analysis.ts#L5-L14](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph-analysis.ts#L5-L14)
 
 ```ts
 export function computeCommunityConnectivity(nodeCount: number, intraEdges: number): {
@@ -135,7 +135,7 @@ $$
 \text{cohesion} = \frac{E_{in}}{n(n-1)/2}, \qquad \text{meanIntraDegree} = \frac{2E_{in}}{n}
 $$
 
-`cohesion`은 가능한 쌍 중 실제로 이어진 비율이라 커뮤니티가 커질수록 자연히 작아진다. `meanIntraDegree`는 페이지 하나가 커뮤니티 안에서 평균 몇 개와 이어지는지라 크기와 무관하게 비교할 수 있다. 내부 엣지 수는 모든 엣지를 한 번 훑어 두 끝이 같은 커뮤니티인지 보는 $O(E)$ 방식으로 센다. 계산이 끝나면 커뮤니티를 크기 내림차순으로 정렬하고 id를 0부터 다시 매긴다. 그래서 커뮤니티 0은 항상 가장 큰 묶음이고, 12색 팔레트에서 같은 색을 받는다([wiki-graph-analysis.ts#L78-L86](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph-analysis.ts#L78-L86)). 각 커뮤니티의 `topNodes`는 `linkCount` 상위 5개 페이지 제목이고, 범례가 이 중 첫 번째를 대표 이름으로 쓴다.
+`cohesion`은 가능한 쌍 중 실제로 이어진 비율이라 커뮤니티가 커질수록 자연히 작아진다. `meanIntraDegree`는 페이지 하나가 커뮤니티 안에서 평균 몇 개와 이어지는지라 크기와 무관하게 비교할 수 있다. 내부 엣지 수는 모든 엣지를 한 번 조회해 두 끝이 같은 커뮤니티인지 보는 $O(E)$ 방식으로 센다. 계산이 끝나면 커뮤니티를 크기 내림차순으로 정렬하고 id를 0부터 다시 매긴다. 그래서 커뮤니티 0은 항상 가장 큰 묶음이고, 12색 팔레트에서 같은 색을 받는다([wiki-graph-analysis.ts#L78-L86](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-graph-analysis.ts#L78-L86)). 각 커뮤니티의 `topNodes`는 `linkCount` 상위 5개 페이지 제목이고, 범례가 이 중 첫 번째를 대표 이름으로 쓴다.
 
 ## 그래프 인사이트
 
@@ -143,7 +143,7 @@ $$
 
 ### 놀라운 연결
 
-`findSurprisingConnections`는 엣지마다 점수를 매겨 3점 이상인 것 중 상위 5개를 고른다. `index`, `log`, `overview` 노드에 닿는 엣지는 "link to everything" 구조 페이지라서 처음부터 뺀다([graph-insights.ts#L52-L123](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L52-L123)).
+`findSurprisingConnections`는 엣지마다 점수를 매겨 3점 이상인 것 중 상위 5개를 고른다. `index`, `log`, `overview` 노드에 연결된 엣지는 "link to everything" 구조 페이지라서 처음부터 뺀다([graph-insights.ts#L52-L123](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L52-L123)).
 
 | 신호 | 점수 | 조건 |
 | --- | --- | --- |
@@ -153,7 +153,7 @@ $$
 | 주변부와 허브 연결 | +2 | 한쪽 `linkCount ≤ 2`, 다른 쪽이 최대 `linkCount`의 50% 이상 |
 | 약한 연결 | +1 | 엣지 weight가 0보다 크고 2 미만 |
 
-코드 따라가기: 허브 판정과 채택 조건을 본다. [graph-insights.ts#L99-L118](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L99-L118)
+코드 분석: 허브 판정과 채택 조건을 본다. [graph-insights.ts#L99-L118](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L99-L118)
 
 ```ts
     // Signal 3: Peripheral-to-hub coupling (+2)
@@ -192,7 +192,7 @@ $$
 
 고립 페이지 기준이 `linkCount ≤ 1`이라 링크를 하나만 가진 페이지도 고립으로 본다. llm-wiki.md가 말하는 "orphan pages with no inbound links"보다 넓은 기준이고, 들어오는 링크와 나가는 링크를 구분하지 않는다.
 
-코드 따라가기: 희소 커뮤니티 판정을 본다. [graph-insights.ts#L160-L172](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L160-L172)
+코드 분석: 희소 커뮤니티 판정을 본다. [graph-insights.ts#L160-L172](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/graph-insights.ts#L160-L172)
 
 ```ts
   // 2. Sparse communities. Raw density shrinks as communities grow, so use
@@ -208,9 +208,9 @@ $$
 
 README는 희소 커뮤니티 기준을 "cohesion < 0.15, ≥ 3 pages"로 설명하지만([README.md#L185-L187](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L185-L187)), 코드는 평균 내부 차수 2 미만으로 바뀌었다. 주석이 이유를 밝힌다. 밀도는 커뮤니티가 커질수록 줄어들어서 큰 커뮤니티가 항상 희소로 잡히기 때문이다. 평균 내부 차수 2 미만은 "트리보다 약간 나은 수준"보다 덜 이어졌다는 뜻으로 읽을 수 있다. $n$개 노드의 트리는 내부 엣지 $n-1$개, 평균 차수 $2(n-1)/n < 2$이므로, 순환이 하나도 없는 묶음은 모두 희소로 잡힌다.
 
-다리 노드(bridge)는 betweenness centrality를 계산하지 않는다. 함수 주석은 "high betweenness"라고 쓰지만, 실제로는 이웃 노드들이 속한 커뮤니티의 가짓수만 센다. 같은 커뮤니티 이웃이 하나라도 있으면 자기 커뮤니티도 한 가지로 세므로, 다른 커뮤니티 두 곳과만 더 이어져도 기준(3)에 닿는다.
+다리 노드(bridge)는 betweenness centrality를 계산하지 않는다. 함수 주석은 "high betweenness"라고 쓰지만, 실제로는 이웃 노드들이 속한 커뮤니티의 가짓수만 센다. 같은 커뮤니티 이웃이 하나라도 있으면 자기 커뮤니티도 한 가지로 세므로, 다른 커뮤니티 두 곳과만 더 이어져도 기준(3)을 충족한다.
 
-### 인사이트에서 딥 리서치로
+### 인사이트와 딥 리서치 연계
 
 공백 카드와 다리 노드 카드에는 딥 리서치 버튼이 붙는다. 흐름은 이렇다.
 
@@ -239,7 +239,7 @@ sequenceDiagram
 
 ## 필터와 그래프 안 검색
 
-화면에 그리기 전에 `applyGraphFilters`와 `applyGraphSearch`를 차례로 적용한다([graph-view.tsx#L925-L931](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L925-L931)). 숨긴 노드에 닿는 엣지는 함께 사라진다.
+화면에 그리기 전에 `applyGraphFilters`와 `applyGraphSearch`를 차례로 적용한다([graph-view.tsx#L925-L931](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L925-L931)). 숨긴 노드에 연결된 엣지는 함께 사라진다.
 
 | 필터 필드 | 기본값 | 숨기는 노드 |
 | --- | --- | --- |
@@ -257,7 +257,7 @@ sequenceDiagram
 
 `GraphLoader`는 결과를 graphology `Graph`로 옮기고 sigma.js(`@react-sigma/core`)로 그린다. 노드 크기와 엣지 모양은 데이터에서 계산한다.
 
-코드 따라가기: 노드 크기 계산을 본다. [graph-view.tsx#L228-L238](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L228-L238)
+코드 분석: 노드 크기 계산을 본다. [graph-view.tsx#L228-L238](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L228-L238)
 
 ```tsx
 function graphDensityScale(nodeCount: number): number {
@@ -290,7 +290,7 @@ function nodeSize(linkCount: number, maxLinks: number, nodeCount: number, userSc
 
 마우스를 노드에 올리면 sigma 그래프의 `neighbors`로 이웃 Set을 만들어 이웃만 밝게 남기고, 클릭하면 오른쪽 미리보기 패널에서 페이지를 연다([graph-view.tsx#L536-L573](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L536-L573)). 색은 type 모드(entity 파랑, concept 보라, source 주황 등 11종)와 커뮤니티 모드(12색 순환) 사이를 오간다([graph-view.tsx#L28-L66](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/graph/graph-view.tsx#L28-L66)).
 
-## 그래프를 만드는 곳이 두 군데
+## 그래프 생성 지점 두 곳
 
 같은 위키에서 링크 그래프를 만드는 코드가 TypeScript와 Rust에 따로 있다.
 
@@ -309,6 +309,6 @@ Rust 쪽은 페이지 제목으로도 링크 대상을 찾으므로, 그래프 �
 - 그래프는 저장된 구조가 아니라 `dataVersion`이 바뀔 때마다 `wiki/` 파일을 다시 읽어 만드는 파생 데이터다. 노드는 파일명 stem, 엣지는 본문 wikilink와 프론트매터 `related`이고, 대상을 찾지 못한 링크와 `query` type 페이지는 빠진다.
 - 엣지 weight는 직접 링크 3.0, 원본 겹침 4.0, Adamic-Adar 1.5, type 친화도 1.0을 더한 값이다. 이 관련도 모델의 실제 쓰임은 엣지 굵기와 Louvain 가중치이고, README가 말하는 질의 단계의 2홉 확장에는 쓰이지 않는다.
 - 커뮤니티는 graphology Louvain(resolution 1)으로 찾고, 크기 순으로 번호를 다시 매긴다. 희소 판정은 README의 밀도 0.15가 아니라 평균 내부 차수 2 미만이다.
-- 인사이트는 LLM 없는 규칙 계산이다. 놀라운 연결은 커뮤니티 경계, type 차이, 주변부와 허브 연결을 점수로 더하고, 지식 공백은 `linkCount ≤ 1` 고립 페이지, 희소 커뮤니티, 커뮤니티 3개 이상과 닿는 다리 노드를 찾는다.
+- 인사이트는 LLM 없는 규칙 계산이다. 놀라운 연결은 커뮤니티 경계, type 차이, 주변부와 허브 연결을 점수로 더하고, 지식 공백은 `linkCount ≤ 1` 고립 페이지, 희소 커뮤니티, 커뮤니티 3개 이상과 연결된 bridge 노드를 찾는다.
 - 공백 카드는 overview와 purpose를 문맥으로 LLM이 리서치 주제를 다듬은 뒤 딥 리서치 큐로 넘기므로, 원본 패턴의 Lint 단계 "웹 검색으로 채울 공백"을 그래프에서 출발해 실행한다.
 - 렌더링은 sigma.js와 ForceAtlas2이고, 노드 수에 따라 반복 횟수, 라벨 밀도, 약한 엣지 기준을 바꾸며 220개 이상이면 Web Worker에서 레이아웃을 계산한다.

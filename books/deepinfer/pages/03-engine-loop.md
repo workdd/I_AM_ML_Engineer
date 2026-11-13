@@ -16,7 +16,7 @@ DeepInfer의 엔진 루프는 파이썬 `LLMEngine.step()`이 C++ `Scheduler`에
 
 파일 머리마다 "Derived from vLLM; modified by DeepSeek."가 붙어 있고 `LLMEngine` docstring도 vLLM의 것을 거의 그대로 쓴다. 다만 스케줄러와 시퀀스 상태는 C++로 옮겨져 있다. vLLM의 파이썬 `Scheduler`에 해당하는 역할이다(vLLM 쪽은 미검증).
 
-## EngineArgs에서 네 가지 설정으로
+## EngineArgs의 네 가지 설정 분해
 
 `LLMEngine.from_engine_args()`는 `EngineArgs.create_engine_configs()`가 만든 네 설정 객체로 엔진을 만든다([engine/arg_utils.py#L62-L114](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/arg_utils.py#L62-L114)).
 
@@ -42,7 +42,7 @@ def _get_runtime_max_model_len(max_model_len: int) -> int:
 
 nextn이 5이고 ZOS가 켜져 있으면 여유는 $5 + 6 + 5 = 16$이다. ZOS가 켜지면 스케줄러가 앞 스텝 결과를 모르는 채로 다음 스텝 위치를 잡으므로 `nextn + 1`만큼 더 내다봐야 한다. RoPE cache처럼 위치로 인덱싱하는 버퍼가 모두 이 크기로 잡힌다.
 
-## 엔진이 만들어지는 순서
+## 엔진 생성 순서
 
 `LLMEngine.__init__`은 아래 순서로 자원을 준비한다. 순서가 곧 의존 관계다.
 
@@ -65,7 +65,7 @@ sequenceDiagram
     E->>E: StatsLogger 생성
 ```
 
-### 코드 따라가기: 워커 생성
+### 코드 분석: 워커 생성
 
 [engine/llm_engine.py#L377-L413](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L377-L413)에서 CP 워커와 driver 워커를 만드는 방식을 본다.
 
@@ -96,11 +96,11 @@ sequenceDiagram
         }
 ```
 
-엔진 하나는 CP 그룹 하나다. CP rank 0의 워커는 엔진과 같은 프로세스에 사는 driver이고, 나머지는 데몬 프로세스로 뜬다. DP 차원은 엔진을 여러 개 띄워 해결하고(2장의 `launch_dp`), EP는 모델 안의 통신 그룹으로 처리된다(7장). driver에게만 엔진 콜백 두 개(`post_process`, `pre_sampler_sync`)를 넘긴다. 워커가 스텝 중간에 엔진 쪽 처리를 끼워 넣는 고리다.
+엔진 하나는 CP 그룹 하나다. CP rank 0의 워커는 엔진과 같은 프로세스에서 실행되는 driver이고, 나머지는 데몬 프로세스로 뜬다. DP 차원은 엔진을 여러 개 띄워 해결하고(2장의 `launch_dp`), EP는 모델 안의 통신 그룹으로 처리된다(7장). driver에게만 엔진 콜백 두 개(`post_process`, `pre_sampler_sync`)를 넘긴다. 워커가 스텝 중간에 엔진 쪽 처리를 호출하는 지점이다.
 
 slave 워커는 생성자 끝에서 무한 루프에 들어가 driver가 방송하는 `(메서드 이름, 인자)`를 받아 실행한다([worker/base.py#L129-L133](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L129-L133)). 엔진의 `_run_workers(method)`는 driver의 `run_workers`를 부르고, driver는 CP 그룹이 2 이상일 때 메서드 이름을 방송한 뒤 자기 메서드를 실행한다([worker/base.py#L290-L302](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L290-L302)). 엔진이 부르는 모든 워커 작업이 이 한 통로를 지난다.
 
-### 코드 따라가기: 캐시 초기화
+### 코드 분석: 캐시 초기화
 
 [engine/llm_engine.py#L437-L458](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L437-L458)에서 블록 수 확정과 검사를 본다.
 
@@ -135,7 +135,7 @@ slave 워커는 생성자 끝에서 무한 루프에 들어가 driver가 방송�
 
 ## 요청 수명주기
 
-### 코드 따라가기: add_request
+### 코드 분석: add_request
 
 `LLM._add_request`는 토큰화를 마친 `np.int32` 배열로 `LLMEngine.add_request`를 부른다. 엔진 쪽은 검증하고 `Sequence`를 만든 뒤 스케줄러 대기열에 넣는다. 끝부분 [engine/llm_engine.py#L606-L631](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L606-L631)을 본다.
 
@@ -235,7 +235,7 @@ stop 문자열 검사는 여기에 없다. 토큰 id 수준의 EOS와 길이만 
 
 ## step 루프
 
-### 코드 따라가기: LLMEngine.step
+### 코드 분석: LLMEngine.step
 
 [engine/llm_engine.py#L881-L908](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L881-L908)에서 스케줄 부분을 본다.
 
@@ -302,7 +302,7 @@ sequenceDiagram
 
 ## C++ 스케줄러
 
-### 코드 따라가기: NORMAL 엔진의 prefill 투표
+### 코드 분석: NORMAL 엔진의 prefill 투표
 
 NORMAL 엔진은 한 스텝에 prefill과 decode를 섞지 않는다. 스텝 전체가 prompt 스텝이거나 decode 스텝이고, 모든 DP rank가 같은 종류여야 한다. [csrc/engine/scheduler.hpp#L308-L335](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L308-L335)의 투표 로직을 본다.
 
@@ -342,7 +342,7 @@ NORMAL 엔진은 한 스텝에 prefill과 decode를 섞지 않는다. 스텝 전
 
 기본값은 [deepinfer/environ.py#L181-L184](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L181-L184)의 `DEEPINFER_PREFILL_ATTEMPT_INTERVAL=70`, `DEEPINFER_PREFILL_ANY_ATTEMPT_INTERVAL=100`이다. "원한다"는 KV 사용률이 `GPU_CACHE_PREFILL_WATERMARK`(0.9) 이하이고 waiting 맨 앞 시퀀스가 스케줄 가능하다는 뜻이다. 실제로 prefill을 짜 봤는데 아무 rank도 성공하지 못하면 두 번째 all-reduce가 decode로 돌린다. 코드 주석은 이 두 번째 투표가 없으면 running이 꽉 차고 waiting이 남은 상태에서 빈 prompt 스텝이 `decode_step`을 계속 0으로 되돌려 무한 루프에 빠진다고 설명한다. 자기 rank에는 prefill이 없지만 다른 rank가 하는 경우, 빈 `SchedulerOutputs(prompt_run=true)`를 만들어 스텝 종류를 맞춘다.
 
-prompt 스텝이 끝나면 `decode_step`이 0이 되고 0은 ALL 지점이다. 그래서 prefill을 연달아 하려면 매번 모든 rank가 원해야 한다. 정리하면 prefill은 기본적으로 70 decode 스텝에 한 번 열리는 창이다. vLLM의 chunked prefill이 decode와 prefill을 한 배치에 섞는 방식과 반대 방향이다(vLLM 쪽은 미검증). decode 지연을 일정하게 유지하고 prefill은 몰아서 처리하는 대규모 DP 배치 운영을 겨냥한 설계로 보인다(추정).
+prompt 스텝이 끝나면 `decode_step`이 0이 되고 0은 ALL 지점이다. 그래서 prefill을 연달아 하려면 매번 모든 rank가 원해야 한다. 정리하면 prefill은 기본적으로 70 decode 스텝에 한 번 열리는 창이다. vLLM의 chunked prefill이 decode와 prefill을 한 배치에 섞는 방식과 반대 방향이다(vLLM 쪽은 미검증). decode 지연을 일정하게 유지하고 prefill은 일괄 처리하는 대규모 DP 배치 운영을 겨냥한 설계로 보인다(추정).
 
 ### prefill 스케줄의 제약
 
@@ -363,7 +363,7 @@ prompt 스텝이 끝나면 `decode_step`이 0이 되고 0은 ALL 지점이다. �
 
 `prompt_limit`은 chunked prefill이 켜져 있으면 `max_model_len`, 꺼져 있으면 `min(max_model_len, max_num_batched_tokens)`이다([csrc/engine/scheduler.hpp#L112](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L112)). NORMAL 엔진은 청크로 잘린 시퀀스를 넣은 순간 루프를 끝낸다([csrc/engine/scheduler.hpp#L543-L545](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L543-L545)). 잘린 시퀀스는 상태를 `WAITING`으로 유지한 채 `process_outputs`에서 waiting 맨 앞에 되돌아가고, 다음 prompt 스텝에서 이어서 처리된다. `chunk_checkpoints`가 지정된 요청은 그 위치에서 청크를 끊는다. prefix 저장 지점을 맞추기 위한 장치로 보인다(추정).
 
-### 코드 따라가기: decode 스케줄과 선점
+### 코드 분석: decode 스케줄과 선점
 
 [csrc/engine/scheduler.hpp#L622-L646](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L622-L646)에서 decode 배치를 고르는 부분을 본다.
 
@@ -399,7 +399,7 @@ running을 출력 길이 내림차순으로 정렬한 뒤, 뒤쪽(출력이 짧�
 
 선점은 `_preempt`가 처리한다([csrc/engine/scheduler.hpp#L766-L790](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L766-L790)). `stop_preempted_request=true`이거나 구조화 출력이 진행 중이면 `FINISHED_PREEMPTED`로 끝내고, 아니면 KV 진행 상황을 0으로 되돌려 waiting 맨 앞에 넣어 재계산한다. 스왑(CPU로 KV 내리기)은 없다. COMPLETION 엔진은 prefill 경로가 없어 재계산이 불가능하므로 `stop_preempted_request=false` 조합을 생성자에서 막는다([csrc/engine/scheduler.hpp#L101-L104](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L101-L104)).
 
-### 코드 따라가기: schedule()이 메타데이터를 만드는 방식
+### 코드 분석: schedule()의 메타데이터 생성 방식
 
 [csrc/engine/scheduler.hpp#L692-L707](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L692-L707)에서 시퀀스마다 `seqlen_k`를 정하는 부분을 본다.
 
@@ -422,7 +422,7 @@ running을 출력 길이 내림차순으로 정렬한 뒤, 뒤쪽(출력이 짧�
 
 `seqlen_k`에 `total_inflight_tokens`가 더해진다는 점이 비동기 스케줄링의 핵심이다. 앞 스텝이 아직 GPU에서 도는 중이라 `cache.num_tokens`에는 그 스텝 몫이 반영되지 않았다. 스케줄러는 앞 스텝이 최대 `nextn + 1`개 토큰을 만들 것으로 가정하고(`start_inflight_step(max_seqlen_q)`), 실제 수용 개수는 GPU에서 보정한다(4장 `_correct_seqlens_qk`). 이 시점에 시퀀스마다 FLOPs 추정치도 더해 `attn_tflops`, `total_tflops`로 내보낸다. `StatsLogger`의 MFU가 이 값을 쓴다.
 
-### 코드 따라가기: process_outputs의 낙관적 전진
+### 코드 분석: process_outputs의 낙관적 전진
 
 결과 반영은 `process_outputs`가 한다. [csrc/engine/scheduler.hpp#L927-L940](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L927-L940)을 본다.
 
@@ -460,7 +460,7 @@ ZOS는 CPU 스케줄링, 결과 처리와 GPU 실행을 겹치는 설정이다. 
 
 GPU 그룹으로 all-reduce하면 GPU 스트림에 동기점이 생기므로, 앞 스텝 실행과 겹치려면 CPU 그룹을 써야 한다(추정). 4장에서 볼 워커의 `execute_model_step`이 "이번 스텝 forward 발행, 앞 스텝 후처리, 이번 스텝 샘플링 발행" 순서로 도는 것이 이 겹침의 실체다.
 
-### 코드 따라가기: DeferredRelease
+### 코드 분석: DeferredRelease
 
 후처리가 한 스텝 밀리면 자원 해제도 밀려야 한다. [engine/llm_engine.py#L100-L119](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L100-L119)를 본다.
 
@@ -489,7 +489,7 @@ GPU 그룹으로 all-reduce하면 GPU 스트림에 동기점이 생기므로, �
 
 `release()`는 `pre_sampler_sync`에서 불린다. 샘플링 커널을 발행한 직후, GPU가 샘플링을 도는 동안 CPU가 해제를 처리한다. 해제 대상은 세 종류다. 앞 스텝의 `SequenceMetadata`(워커가 후처리에서 참조하므로 그 전에 해제하면 안 됨), 앞 스텝 `step()`이 돌려준 `RequestOutput`(호출자가 읽을 시간), fork 복사 원본 블록의 pin. 객체를 매번 만들지 않고 풀로 재사용하는 것은 스텝당 파이썬 할당을 줄이려는 의도로 읽힌다(추정). 워커도 생성자에서 `gc.disable()`을 하고 `DEEPINFER_GC_INTERVAL_STEP`(기본 1000) 스텝마다 수동으로 `gc.collect()`를 부른다([worker/base.py#L102-L106](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L102-L106), [worker/base.py#L153-L157](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L153-L157)).
 
-### 코드 따라가기: post_process 콜백
+### 코드 분석: post_process 콜백
 
 워커가 후처리 시점에 부르는 엔진 콜백은 [engine/llm_engine.py#L984-L1015](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L984-L1015)다.
 
@@ -524,7 +524,7 @@ GPU 그룹으로 all-reduce하면 GPU 스트림에 동기점이 생기므로, �
 
 ## StatsLogger
 
-### 무엇을 모으는가
+### 수집 항목
 
 `StatsLogger`는 매 스텝 `StepStats` 하나를 받는다([engine/stats_logger.py#L32-L49](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/stats_logger.py#L32-L49)). `log_stats=False`(`disable_log_stats=True`)면 `_process_model_outputs`가 빈 람다를 돌려주어 수집 자체를 건너뛴다.
 
@@ -539,7 +539,7 @@ GPU 그룹으로 all-reduce하면 GPU 스트림에 동기점이 생기므로, �
 
 창은 `(timestamp, payload, step)` 튜플 목록이고, 로그 시점에 `DEEPINFER_LOGGING_INTERVAL_STEP` 스텝보다 오래된 항목을 잘라낸다. `_moe_lb`만 최소 `DEEPINFER_MOE_LB_STAT_INTERVAL`(기본 128) 스텝을 유지한다([engine/stats_logger.py#L452-L458](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/stats_logger.py#L452-L458)).
 
-### 코드 따라가기: 처리량과 MFU 계산
+### 코드 분석: 처리량과 MFU 계산
 
 [engine/stats_logger.py#L195-L209](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/stats_logger.py#L195-L209)에서 두 지표의 분모가 다르다는 점을 본다.
 
@@ -569,7 +569,7 @@ $$
 
 TFLOPS 한도는 엔진이 `get_bf16_tflops_limit() * 2`로 넘긴 값이다. 주석은 FP8 기준 최대치를 BF16의 2배로 잡았다고 설명한다([engine/llm_engine.py#L298-L305](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L298-L305)). 분자는 실측이 아니라 스케줄러가 시퀀스 길이로 추정한 FLOPs다(`FlopsEstimator`).
 
-### 언제, 어디로 출력하는가
+### 출력 시점과 위치
 
 로그 여부는 `_should_log`가 정한다([engine/stats_logger.py#L381-L390](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/stats_logger.py#L381-L390)). 첫 스텝과 그 뒤 `DEEPINFER_LOGGING_INTERVAL_STEP` 스텝마다 출력하고, PROMPT 엔진은 간격을 5분의 1로 줄인다. 0 이하로 두면 출력하지 않는다. 벤치마크가 측정 구간에서 로그를 끌 때 이 값을 0으로 둔다(examples/README).
 

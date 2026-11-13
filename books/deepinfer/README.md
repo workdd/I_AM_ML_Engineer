@@ -1,4 +1,4 @@
-# DeepInfer 해부: DeepSeek 추론 엔진 코드로 읽기
+# DeepInfer 해부: DeepSeek 추론 엔진 코드 분석
 
 DeepSeek가 2026년 10월 공개한 추론 엔진 [DeepInfer](https://github.com/deepseek-ai/DeepInfer)를 코드 단위로 따라가는 책이다. 엔진 루프, KV 캐시, DeepSeek-V4 어텐션, MoE expert 병렬, MTP 추측 디코딩, prefill/decode 분리, NVIDIA와 Ascend 이원화까지 실제 소스 위치를 링크로 걸어 설명한다.
 

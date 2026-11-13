@@ -4,7 +4,7 @@ LLM Wiki의 채팅은 브라우저 안의 TypeScript 루프가 아니라 Rust �
 
 모듈 맨 위 주석이 설계 의도를 그대로 밝힌다. 라우팅, 검색, 도구 실행, 컨텍스트 조립, 세션, 취소는 Rust에 두고 React 쪽은 화면만 그린다. 그렇지 않으면 API · MCP · UI의 동작이 어긋난다는 것이다.
 
-코드 따라가기: [`src-tauri/src/agent/mod.rs#L1-L6`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/mod.rs#L1-L6)
+코드 분석: [`src-tauri/src/agent/mod.rs#L1-L6`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/mod.rs#L1-L6)
 
 무엇을 보는지: 에이전트 코어를 Rust 한 곳에 묶어 두는 이유.
 
@@ -17,7 +17,7 @@ LLM Wiki의 채팅은 브라우저 안의 TypeScript 루프가 아니라 Rust �
 //! the Agent core; otherwise API/MCP/UI behavior will drift.
 ```
 
-호출 경로는 세 갈래다. 데스크톱 UI는 Tauri command `agent_start_turn`과 `agent_start_turn_stream`([`lib.rs#L64-L256`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L64-L256))을 부르고, HTTP API는 `prepare_chat`에서 런타임을 만든다([`api_server.rs#L1995-L2067`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L1995-L2067)). MCP 서버는 HTTP API를 거치므로 결국 같은 경로로 들어온다(13장에서 다룬다).
+호출 경로는 세 가지다. 데스크톱 UI는 Tauri command `agent_start_turn`과 `agent_start_turn_stream`([`lib.rs#L64-L256`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L64-L256))을 부르고, HTTP API는 `prepare_chat`에서 런타임을 만든다([`api_server.rs#L1995-L2067`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L1995-L2067)). MCP 서버는 HTTP API를 거치므로 결국 같은 경로로 들어온다(13장에서 다룬다).
 
 ```mermaid
 flowchart LR
@@ -47,11 +47,11 @@ flowchart LR
 | `permissions.rs` | 66 | `AgentCapability`와 `PermissionPolicy` |
 | `workspace.rs` | 17 | 생성 파일을 두는 `agent-workspace` 경로 |
 
-## 한도는 백엔드에 둔다
+## 백엔드 측 한도 관리
 
 `runtime.rs` 머리에 있는 상수들은 비용과 안전 한도다. 주석은 API와 MCP 호출자가 React UI를 거치지 않으므로 한도를 UI가 아닌 백엔드에 둔다고 적는다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L31-L45`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L31-L45)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L31-L45`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L31-L45)
 
 무엇을 보는지: 반복 횟수, 이미지 크기, 출력 토큰, 사용자 입력 폼의 상한.
 
@@ -98,11 +98,11 @@ const SHELL_APPROVAL_REQUIRED_OBSERVATION: &str = "shell.exec.approval_required"
 
 `AgentRetrievalMode`의 세 값은 주석이 뜻을 밝힌다([`types.rs#L18-L29`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/types.rs#L18-L29)). `standard`는 기존 단일 패스 동작, `smart`는 예산과 무진전 감시 아래 근거 공백을 반복해서 메우는 방식, `faithful`은 raw 원본 발췌만 근거로 쓰는 방식이다. `faithful`은 사용자의 명시적 선택이며 문구로 추론하지 않는다.
 
-## 턴의 입구와 두 갈래
+## 턴의 진입점과 두 경로
 
 `run_once_with_cancel_and_events`는 메시지와 이미지를 검사하고, 세션 id를 정하고, `AgentStart` · `TurnStart` 이벤트를 낸 뒤 라우터를 돌리고 스킬을 읽는다. 그다음 갈림길이 나온다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L243-L265`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L243-L265)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L243-L265`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L243-L265)
 
 무엇을 보는지: HTTP로 부를 수 있는 LLM이 있으면 루프로, 없으면 아래쪽 검색 전용 경로로 간다.
 
@@ -136,11 +136,11 @@ const SHELL_APPROVAL_REQUIRED_OBSERVATION: &str = "shell.exec.approval_required"
 
 API는 `prepare_chat`에서 `allow_empty_retrieval`을 항상 거짓으로 덮어쓴다([`api_server.rs#L2003-L2005`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L2003-L2005)). 외부 호출자가 생성기 없이 빈 답을 받는 일을 막고, 설정을 고치라는 오류를 그대로 받게 한다.
 
-## 라우터는 힌트만 붙인다
+## 라우터의 힌트 부착 방식
 
 `route_query`는 메시지에 "web search", "latest", "graph", "write to wiki" 같은 영어 · 중국어 낱말이 있는지 보고 의도 라벨을 붙인다. 그러나 위키 검색을 켜는 결정은 하지 않는다.
 
-코드 따라가기: [`src-tauri/src/agent/router.rs#L85-L90`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/router.rs#L85-L90)
+코드 분석: [`src-tauri/src/agent/router.rs#L85-L90`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/router.rs#L85-L90)
 
 무엇을 보는지: 메시지 길이나 물음표 같은 겉모양으로 검색을 강제하지 않는다는 원칙.
 
@@ -186,7 +186,7 @@ flowchart TB
 
 ### 반복의 머리
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L1427-L1446`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L1427-L1446)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L1427-L1446`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L1427-L1446)
 
 무엇을 보는지: 매 반복마다 취소를 확인하고 컨텍스트를 처음부터 다시 만든다.
 
@@ -218,7 +218,7 @@ flowchart TB
 
 system 프롬프트 끝에 붙는 `Agent loop protocol`은 "compact JSON만 반환하고 한 턴에 행동 하나를 고르라"고 요구한다([`runtime.rs#L2915-L2951`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L2915-L2951)). 형식은 `{"action":"tool","tool":"wiki.search","query":"..."}` 또는 `{"action":"final","answer":"..."}`이다. 공급자의 native tool calling을 쓰지 않고 텍스트 JSON으로 통일했으므로, OpenAI · Anthropic · Gemini · Ollama가 같은 루프를 탄다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L3076-L3092`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3076-L3092)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L3076-L3092`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3076-L3092)
 
 무엇을 보는지: 모델 출력에서 JSON을 꺼내는 순서와 잘린 JSON 처리.
 
@@ -254,7 +254,7 @@ fn parse_agent_loop_action(raw: &str) -> AgentLoopAction {
 
 같은 검색을 다시 부르면 실행하지 않고 거절 관찰을 넣은 뒤 다음 반복을 강제 종료로 돌린다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L1725-L1745`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L1725-L1745)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L1725-L1745`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L1725-L1745)
 
 무엇을 보는지: 도구 이름과 입력 JSON으로 만든 서명이 이미 있으면 건너뛴다.
 
@@ -314,7 +314,7 @@ fn parse_agent_loop_action(raw: &str) -> AgentLoopAction {
 
 `PermissionPolicy`는 능력(capability) 목록이다. 그런데 API 기본 정책은 `RunDeepResearch`를 뺀 모든 능력을 허용한다.
 
-코드 따라가기: [`src-tauri/src/agent/permissions.rs#L23-L42`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/permissions.rs#L23-L42)
+코드 분석: [`src-tauri/src/agent/permissions.rs#L23-L42`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/permissions.rs#L23-L42)
 
 무엇을 보는지: `Process`가 허용 목록에 있지만 별도 승인 없이는 쓰이지 않는다는 주석.
 
@@ -340,7 +340,7 @@ fn parse_agent_loop_action(raw: &str) -> AgentLoopAction {
 
 런타임은 턴마다 `PermissionPolicy::api_default()`만 쓴다([`runtime.rs#L198`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L198)). 그래서 실제로 도구를 가르는 것은 정책보다 요청의 `tools` 플래그, `retrievalMode`, 스킬 유무, 셸 승인 목록이다. 능력 체계는 정책을 바꿔 끼울 자리를 만들어 둔 구조로 보인다(추정).
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L3519-L3533`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3519-L3533)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L3519-L3533`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3519-L3533)
 
 무엇을 보는지: faithful 모드의 근거 경계를 프롬프트가 아니라 실행 검사로 강제한다.
 
@@ -370,7 +370,7 @@ faithful 모드는 이 검사 말고도 두 겹이 더 있다. 루프 시작 전
 
 위키 쓰기는 기본이 생성 전용이다. 경로는 `wiki/`로 시작하고 `.md`로 끝나야 하며 숨김 경로와 `..`를 거절한다([`tools.rs#L2723-L2748`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/tools.rs#L2723-L2748)). 본문은 2 MiB까지이고, 전역 `WIKI_WRITE_LOCK`으로 동시 쓰기를 한 줄로 세운다.
 
-코드 따라가기: [`src-tauri/src/agent/tools.rs#L711-L746`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/tools.rs#L711-L746) (아래는 앞부분 발췌)
+코드 분석: [`src-tauri/src/agent/tools.rs#L711-L746`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/tools.rs#L711-L746) (아래는 앞부분 발췌)
 
 무엇을 보는지: 덮어쓰기 거절, 심볼릭 링크 거절, 쓰기 후 바이트 검증과 되돌리기.
 
@@ -403,11 +403,11 @@ faithful 모드는 이 검사 말고도 두 겹이 더 있다. 루프 시작 전
 셸 실행은 가장 경계가 많은 도구다. 단계별로 보면 다음과 같다.
 
 1. 스킬이 하나도 없는 턴에서는 거절한다([`runtime.rs#L1900-L1909`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L1900-L1909)).
-2. 스킬 선호 설정 파일을 들여다보기만 하는 명령(`test -f` 류)은 실행하지 않고 건너뛰었다고 관찰을 돌려준다.
+2. 스킬 선호 설정 파일을 조회만 하는 명령(`test -f` 류)은 실행하지 않고 건너뛰었다고 관찰을 돌려준다.
 3. 명령이 `approvedShellCommands`의 한 항목과 공백을 뺀 문자열로 정확히 같거나, 작업 공간 한정 명령이면 바로 실행한다.
 4. 둘 다 아니면 `shell.exec.approval_required` 관찰을 만들고 그 자리에서 턴을 끝낸다. UI는 승인 버튼을 띄우고, 승인되면 `shellCommand`와 `approvedShellCommands`에 같은 명령을 넣어 다시 요청한다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L3664-L3686`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3664-L3686)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L3664-L3686`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3664-L3686)
 
 무엇을 보는지: 승인 없이 실행해도 되는 "작업 공간 한정" 판정의 첫 단계.
 
@@ -454,7 +454,7 @@ URL, 네트워크 도구 이름, 명령 치환(`$(`와 백틱)이 보이면 승�
 
 스킬은 `SKILL.md` 하나와 참고 파일로 된 폴더, 또는 단일 `.md` 파일이다. 네 곳을 순서대로 찾고, 같은 id가 여럿이면 앞쪽이 이긴다.
 
-코드 따라가기: [`src-tauri/src/agent/skills.rs#L79-L99`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/skills.rs#L79-L99)
+코드 분석: [`src-tauri/src/agent/skills.rs#L79-L99`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/skills.rs#L79-L99)
 
 무엇을 보는지: 프로젝트 스킬이 사용자 전역 스킬보다 먼저 온다.
 
@@ -538,7 +538,7 @@ flowchart TB
 
 마지막으로 `fit_context_to_model`이 전체 크기를 맞춘다.
 
-코드 따라가기: [`src-tauri/src/agent/runtime.rs#L3845-L3866`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3845-L3866)
+코드 분석: [`src-tauri/src/agent/runtime.rs#L3845-L3866`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L3845-L3866)
 
 무엇을 보는지: 설정의 `maxContextSize`(글자 수)를 8,000에서 400,000 사이로 묶고 user에 최소 4,000자를 남긴다.
 

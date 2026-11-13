@@ -1,4 +1,4 @@
-DeepInfer는 Python 엔진 위에 C++ 스케줄러를 얹고, 모델 실행은 DeepSeek 자체 커널(FlashMLA, DeepGEMM, DeepEP)과 TileLang 커널로 채운 구조다. 이 장에서는 디렉터리 구성, 요청 하나가 지나가는 경로, vLLM에서 물려받은 부분과 새로 만든 부분을 한 번에 본다.
+DeepInfer는 Python 엔진에 C++ 스케줄러를 결합하고, 모델 실행은 DeepSeek 자체 커널(FlashMLA, DeepGEMM, DeepEP)과 TileLang 커널로 채운 구조다. 이 장에서는 디렉터리 구성, 요청 하나가 지나가는 경로, vLLM에서 물려받은 부분과 새로 만든 부분을 한 번에 본다.
 
 ## 원본 아키텍처 그림
 
@@ -28,7 +28,7 @@ DeepInfer는 Python 엔진 위에 C++ 스케줄러를 얹고, 모델 실행은 D
 
 코드의 대부분(약 35K줄)이 `model_executor`에 있다. 엔진과 워커는 합쳐도 5K줄 정도라, 이 엔진의 무게는 스케줄링보다 모델 전용 커널 쪽에 있다.
 
-## 요청 하나의 경로
+## 단일 요청 처리 경로
 
 ```mermaid
 sequenceDiagram
@@ -52,7 +52,7 @@ sequenceDiagram
     L-->>U: RequestOutput 목록
 ```
 
-### 코드 따라가기: 진입점
+### 코드 분석: 진입점
 
 사용자가 만지는 클래스는 [`deepinfer/entrypoints/llm.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/entrypoints/llm.py#L23-L88)의 `LLM` 하나다. 생성자는 인자를 `EngineArgs`로 묶어 `LLMEngine`을 만든다.
 
@@ -77,7 +77,7 @@ self.llm_engine = LLMEngine.from_engine_args(engine_args)
 - `offline_inference=True`를 고정으로 넘긴다. 공개본에 온라인 서버가 없다는 README 설명과 맞는다
 - 인자 목록은 `expert_parallel_size`처럼 MoE 전제를 드러낸다. 전체 인자는 [`engine/arg_utils.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/arg_utils.py)에 있고 02장에서 정리한다
 
-### 코드 따라가기: 한 스텝
+### 코드 분석: 한 스텝
 
 엔진의 한 스텝은 [`LLMEngine.step`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L860-L900)이다. 스케줄링을 Python이 아니라 C++ 스케줄러에 맡기는 부분이 먼저 보인다.
 
@@ -113,7 +113,7 @@ README의 Acknowledgments는 "originally built primarily on vLLM"이라고 밝�
 
 ```mermaid
 flowchart TB
-    subgraph V[vLLM에서 온 뼈대]
+    subgraph V[vLLM에서 온 기본 구조]
         A[LLM / LLMEngine / EngineArgs]
         B[Worker / ModelRunner / CacheEngine]
         C[SamplingParams / Sequence / Sampler]
@@ -131,7 +131,7 @@ flowchart TB
 - 인터페이스 이름(`LLM`, `LLMEngine`, `Worker`, `ModelRunner`, `CacheEngine`)은 vLLM과 같아서, vLLM 코드를 읽어 본 사람이면 길을 찾기 쉽다
 - 반대로 스케줄러와 블록 관리자는 C++로 옮겨져 vLLM의 Python 스케줄러와 구조가 다르다. vLLM 구버전 대응 관계는 13장에서 정리한다
 
-## 공개본의 범위
+## 공개본 구성
 
 | 들어 있음 | 들어 있지 않음 (README 기준) |
 |---|---|
@@ -146,5 +146,5 @@ flowchart TB
 - 공개 API는 `LLM.generate` 하나이고, 내부는 `LLMEngine.step` 루프다
 - 스케줄러와 블록 관리자는 C++(`csrc/engine`)에 있고 pybind로 불린다
 - 코드 무게의 대부분은 `model_executor`(V4 전용 레이어와 TileLang 커널)에 있다
-- vLLM 뼈대를 물려받은 파일은 23개이고, 이름은 같지만 스케줄링 구조는 다르다
+- vLLM 기본 구조를 물려받은 파일은 23개이고, 이름은 같지만 스케줄링 구조는 다르다
 - prefill 전용, decode 전용 엔진 타입이 이미 있어 분리 배포의 엔진 쪽 준비가 보인다

@@ -1,4 +1,4 @@
-LLM Wiki는 데스크톱 앱 안에 로컬 HTTP API 서버를 띄우고, 그 위에 MCP 서버를 얇게 얹어 Claude Code나 Codex 같은 외부 에이전트가 위키를 검색하고, 읽고, 쓰고, 백엔드 에이전트와 대화하게 한다. MCP 서버는 프로젝트 폴더를 직접 읽지 않고 모든 일을 HTTP API에 위임하므로, 보안 경계는 Rust 쪽 `api_server.rs` 한 곳에 모인다. 이 장은 두 서버의 노출 범위와 인증 · 바인딩 · 경로 제한 · 부하 제한을 차례로 정리한다.
+LLM Wiki는 데스크톱 앱 안에 로컬 HTTP API 서버를 띄우고, 그 위에 얇은 MCP 서버 계층을 두어 Claude Code나 Codex 같은 외부 에이전트가 위키를 검색하고, 읽고, 쓰고, 백엔드 에이전트와 대화하게 한다. MCP 서버는 프로젝트 폴더를 직접 읽지 않고 모든 일을 HTTP API에 위임하므로, 보안 경계는 Rust 쪽 `api_server.rs` 한 곳에 모인다. 이 장은 두 서버의 노출 범위와 인증 · 바인딩 · 경로 제한 · 부하 제한을 차례로 정리한다.
 
 ## 전체 구조
 
@@ -36,7 +36,7 @@ MCP README가 이 관계를 한 문장으로 밝힌다. MCP 서버는 프로젝�
 
 `api_server.rs`(4,106줄) 머리의 상수가 서버의 한도를 정한다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L23-L47`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L23-L47) (발췌)
+코드 분석: [`src-tauri/src/api_server.rs#L23-L47`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L23-L47) (발췌)
 
 무엇을 보는지: 본문 크기, 목록 크기, 초당 요청 수, 동시 실행 수 상한.
 
@@ -80,7 +80,7 @@ const MAX_IN_FLIGHT_PAGE_EMBEDS: usize = 4;
 
 서버는 `tiny_http`로 동작한다. 수락 루프는 별도 스레드에서 돌고, 요청마다 새 스레드를 띄운다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L104-L126`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L104-L126) (발췌)
+코드 분석: [`src-tauri/src/api_server.rs#L104-L126`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L104-L126) (발췌)
 
 무엇을 보는지: 속도 제한과 동시 실행 슬롯을 요청 본문을 읽기 전에 검사한다.
 
@@ -157,7 +157,7 @@ flowchart TB
 
 "항상 필요"는 `is_token_required_request`가 정한다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L433-L445`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L433-L445)
+코드 분석: [`src-tauri/src/api_server.rs#L433-L445`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L433-L445)
 
 무엇을 보는지: 채팅 · 취소 · 임베딩 · 쓰기는 무인증 모드에서도 토큰을 요구한다.
 
@@ -208,7 +208,7 @@ README의 엔드포인트 목록에는 `/pages/write`, 리뷰 삭제, 채팅 취
 
 토큰은 환경 변수 `LLM_WIKI_API_TOKEN`이 있으면 그것을, 없으면 `app-state.json`의 `apiConfig.token`을 쓴다([`api_server.rs#L623-L637`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L623-L637)). 설정 화면의 생성 버튼은 12장의 `generateApiToken`으로 256비트 base64url 값을 만든다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L593-L621`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L593-L621) (발췌)
+코드 분석: [`src-tauri/src/api_server.rs#L593-L621`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L593-L621) (발췌)
 
 무엇을 보는지: 질의 문자열, 전용 헤더, Bearer 헤더 세 곳을 상수 시간 비교로 확인한다.
 
@@ -260,7 +260,7 @@ README의 엔드포인트 목록에는 `/pages/write`, 리뷰 삭제, 채팅 취
 
 기본 바인딩은 `127.0.0.1`이다. 바꾸는 방법은 두 가지다.
 
-코드 따라가기: [`src-tauri/src/server_bind.rs#L6-L31`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/server_bind.rs#L6-L31) (발췌)
+코드 분석: [`src-tauri/src/server_bind.rs#L6-L31`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/server_bind.rs#L6-L31) (발췌)
 
 무엇을 보는지: 환경 변수가 먼저, 그다음 LAN 허용 스위치, 둘 다 없으면 루프백.
 
@@ -284,7 +284,7 @@ pub fn configured_bind_host(app: &AppHandle) -> String {
 
 브라우저에서 오는 요청은 `Origin` 헤더가 허용 목록에 있을 때만 `Access-Control-Allow-Origin`을 돌려받는다.
 
-코드 따라가기: [`src-tauri/src/cors.rs#L11-L23`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/cors.rs#L11-L23)
+코드 분석: [`src-tauri/src/cors.rs#L11-L23`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/cors.rs#L11-L23)
 
 무엇을 보는지: 브라우저 확장, 로컬호스트, Tauri 웹뷰만 허용한다.
 
@@ -310,7 +310,7 @@ pub fn is_allowed_browser_origin(origin: &str) -> bool {
 
 파일 읽기는 두 겹으로 막는다. 먼저 공개 경로인지 본다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L1031-L1044`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L1031-L1044)
+코드 분석: [`src-tauri/src/api_server.rs#L1031-L1044`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L1031-L1044)
 
 무엇을 보는지: `purpose.md`, `schema.md`, `wiki/`, `raw/sources/`만 열고 숨김 구간은 모두 거절한다.
 
@@ -351,11 +351,11 @@ SSE 응답의 흐름은 다음 순서다([`api_server.rs#L2188-L2333`](https://g
 
 이벤트 큐 크기는 64다. 하트비트 스레드가 보내기에 실패해 연결이 끊긴 것을 알면 취소 레지스트리로 그 턴을 취소한다([`api_server.rs#L2223-L2249`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L2223-L2249)). 클라이언트가 떠난 뒤에도 LLM 호출이 계속 돌며 비용을 쓰는 일을 막는다. README는 `done` 프레임이 전체 응답을 담고 있으므로 클라이언트가 `messageDelta`와 최종 메시지를 둘 다 답으로 그리지 말라고 당부한다([`README.md#L451`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L451)).
 
-### 외부로 나가는 응답의 정리
+### 외부 응답 정제
 
 외부 호출자용으로 바뀌는 지점은 둘이다. `prepare_chat`은 `allow_empty_retrieval`을 항상 거짓으로 덮어써, 생성기 없이 빈 답을 받는 데스크톱 전용 사전 호출 경로를 막는다(11장). `external_chat_response`는 응답을 내보내기 전에 `FileChanged` 이벤트의 `previousContent`를 지운다.
 
-코드 따라가기: [`src-tauri/src/api_server.rs#L2086-L2104`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L2086-L2104)
+코드 분석: [`src-tauri/src/api_server.rs#L2086-L2104`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L2086-L2104)
 
 무엇을 보는지: 데스크톱 UI의 즉시 되돌리기용 스냅샷은 공개 이벤트 계약에 들어가지 않는다.
 
@@ -420,7 +420,7 @@ API 클라이언트는 `LLM_WIKI_API_BASE_URL`(기본 `http://127.0.0.1:19828`)�
 
 도구 대부분은 실행 전에 `/health`를 불러 `mcpEnabled`를 확인한다.
 
-코드 따라가기: [`mcp-server/src/index.ts#L341-L349`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/mcp-server/src/index.ts#L341-L349)
+코드 분석: [`mcp-server/src/index.ts#L341-L349`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/mcp-server/src/index.ts#L341-L349)
 
 무엇을 보는지: 꺼져 있으면 설정 위치를 알려 주는 오류로 거절한다.
 
@@ -442,7 +442,7 @@ async function assertMcpEnabled(): Promise<void> {
 
 여러 프로젝트를 쓰는 사용자가 데스크톱 UI에서 프로젝트를 바꾸면 `current`가 가리키는 대상도 바뀐다. 외부 에이전트가 작업 도중 다른 프로젝트에 쓰는 사고를 막으려고 `McpProjectBinding`이 있다.
 
-코드 따라가기: [`mcp-server/src/project-binding.ts#L23-L37`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/mcp-server/src/project-binding.ts#L23-L37)
+코드 분석: [`mcp-server/src/project-binding.ts#L23-L37`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/mcp-server/src/project-binding.ts#L23-L37)
 
 무엇을 보는지: 고정된 뒤에는 다른 프로젝트 id나 경로를 넘기면 거절한다.
 
@@ -482,7 +482,7 @@ Karpathy의 아이디어 문서는 위키가 커지면 검색 엔진을 붙이�
 | lint 결과를 사람이 보고 판단 | `llm_wiki_reviews`로 리뷰 큐를 읽고, API로 해결 처리 |
 | 새로 쓴 페이지를 검색에 반영 | `llm_wiki_embed_page`로 페이지 하나만 재색인 |
 
-원본에서는 에이전트가 파일 시스템을 마음대로 만졌다. 여기서는 에이전트가 앱의 규칙(공개 경로, 생성 전용 쓰기, 바이트 검증, 리뷰 큐)을 통과해야만 위키에 닿는다. 사용자가 외부 에이전트를 계속 쓰면서도 위키의 일관성은 앱이 지키는 분업이다. README가 소개하는 별도 스킬 저장소(`llm_wiki_skill`)는 같은 HTTP API를 쓰는 다른 진입점이다([`README.md#L462-L470`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L462-L470)).
+원본에서는 에이전트가 파일 시스템을 마음대로 만졌다. 여기서는 에이전트가 앱의 규칙(공개 경로, 생성 전용 쓰기, 바이트 검증, 리뷰 큐)을 통과해야만 위키에 기록된다. 사용자가 외부 에이전트를 계속 쓰면서도 위키의 일관성은 앱이 지키는 분업이다. README가 소개하는 별도 스킬 저장소(`llm_wiki_skill`)는 같은 HTTP API를 쓰는 다른 진입점이다([`README.md#L462-L470`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L462-L470)).
 
 ## 정리
 

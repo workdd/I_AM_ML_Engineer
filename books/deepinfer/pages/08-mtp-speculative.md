@@ -10,7 +10,7 @@ README는 이 기능을 "DSpark and confidence-scheduled verification"이라고 
 | `DEEPINFER_ENABLE_MTP_VARLEN` | [`environ.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L138) | confidence 기반 검증 길이 스케줄링. 기본 꺼짐 |
 | `DEEPINFER_MAX_BACKTRACKING_TOKENS` | [`environ.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L139) | 거절 시 되돌릴 여유. `nextn + 1` 이상으로 강제 |
 | `DEEPINFER_DFLASH_CONFIDENCE_HEAD_TEMPERATURE` | [`environ.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/environ.py#L141-L150) | confidence head 의 온도. 쉼표로 draft 위치별 지정 가능 |
-| `dflash_cfg.dspark_target_layer_ids` | 모델 config | hidden 을 떼어 DFlash 에 넘길 main 층 번호 |
+| `dflash_cfg.dspark_target_layer_ids` | 모델 config | hidden 을 추출해 DFlash 에 넘길 main 층 번호 |
 | `dflash_cfg.dspark_noise_token_id` | 모델 config | 아직 모르는 draft 자리에 넣는 자리표시 토큰 |
 | `num_nextn_predict_layers` | 모델 config | DFlash 층 수. 체크포인트의 MTP 모듈 수와 같아야 함 |
 
@@ -56,7 +56,7 @@ sequenceDiagram
 
 prefill 전용 엔진(`EngineType.PROMPT`)에서는 `prefill_only=True`가 되어 main key 경로만 올리고 MLP, head, confidence head는 올리지 않는다. prefill 엔진은 draft를 만들지 않지만 decode 엔진으로 넘길 DFlash KV는 채워야 하기 때문이다(10장).
 
-### 코드 따라가기: ConfidenceHead
+### 코드 분석: ConfidenceHead
 
 draft마다 수락 확률을 예측하는 head를 본다.
 
@@ -80,7 +80,7 @@ DFlash는 main 모델 forward가 끝날 때까지 기다리지 않는다. [`Deep
 
 모든 층이 끝나면 [`DeepseekModel.forward`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py#L220-L223)가 `dflash.update_main_cache`를 부른다.
 
-### 코드 따라가기: DFlash.update_main_cache
+### 코드 분석: DFlash.update_main_cache
 
 main 토큰의 key를 DFlash 층마다 계산해 캐시에 쓰는 부분을 본다.
 
@@ -113,7 +113,7 @@ for i, layer in enumerate(self.layers):
 2. `forward_drafts`: 직전 확정 토큰 하나와 noise 토큰들을 임베딩해 DFlash 층을 한 번 통과시킨다
 3. `sample_drafts`: 위치별 logits에서 draft 토큰을 뽑고, confidence를 계산하고, pool에 저장한다
 
-### 코드 따라가기: draft 입력 만들기
+### 코드 분석: draft 입력 생성
 
 forward 입력이 무엇인지 본다.
 
@@ -134,7 +134,7 @@ def _embed_draft_init_tokens(self, golden_tokens: torch.Tensor) -> torch.Tensor:
 
 `golden_tokens`는 이번 스텝 sampler가 확정한 토큰이다. 수락된 draft 뒤에 새로 뽑은 토큰, 곧 다음 스텝 입력의 첫 토큰이 된다.
 
-### 코드 따라가기: 참조할 KV 위치
+### 코드 분석: 참조 KV 위치
 
 draft 토큰마다 어느 key를 볼지 정하는 참조 구현을 본다.
 
@@ -176,7 +176,7 @@ flowchart LR
     DR -. 다음 스텝 main forward 가 덮어씀 .-> W
 ```
 
-### 코드 따라가기: DFlashAttention.forward_drafts
+### 코드 분석: DFlashAttention.forward_drafts
 
 ```python
 q_a, kv_a = self.q_a_kv_proj(draft_hiddens).split([self.q_lora_rank, self.qk_head_dim], dim=-1)
@@ -201,7 +201,7 @@ return self._wv_and_o_proj(context, draft_positions)
 
 [`v4_modules/attn.py` 969~1008행](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L969-L1008)에서 norm · RoPE 인자를 줄였다. DFlash 어텐션은 main 모델의 V4 어텐션과 같은 기반 클래스(`V4AttentionBase`)를 쓰고 같은 FlashMLA decode 커널을 부른다(6장). 다른 점은 압축 KV와 indexer가 없고, 인덱스를 위의 `dflash_kv_index`로 직접 준다는 것이다.
 
-### 코드 따라가기: sample_drafts
+### 코드 분석: sample_drafts
 
 위치별로 draft를 뽑는 루프를 본다.
 
@@ -240,7 +240,7 @@ for step_i in range(self.max_MTP_value):
 
 결과는 [`MTPInfoPool.store`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/mtp_info_pool.py#L54-L78)로 GPU pool에 들어간다.
 
-## MTPInfoPool: draft 확률을 GPU 에 두기
+## MTPInfoPool: draft 확률의 GPU 상주
 
 [`MTPInfoPool`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/mtp_info_pool.py#L14-L52)은 요청 슬롯마다 `nextn`행을 갖는 고정 버퍼다. 어휘 전체 크기의 logprob를 CPU로 옮기지 않으려고 둔다.
 
@@ -263,7 +263,7 @@ decode 스텝의 입력은 요청마다 `seqlen_q`개 토큰이다. C++ [`prepar
 
 샘플러 입력은 C++ [`prepare_sample.cpp`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/prepare_sample.cpp#L209-L226)가 만든다. 요청의 `j`번째 검증 행은 pool의 `read_slot × nextn + j`행을 읽고, 마지막 행은 새로 샘플링하는 행이라 0번 padding을 읽는다.
 
-### 코드 따라가기: 행 메타데이터
+### 코드 분석: 행 메타데이터
 
 ```python
 def prepare_verification_metadata_ref(ftp, seqlen_q, total_q):
@@ -279,7 +279,7 @@ def prepare_verification_metadata_ref(ftp, seqlen_q, total_q):
 
 [`tilelang_ops/sampler.py` 13~25행](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/sampler.py#L13-L25)의 참조 구현에서 타입 힌트를 지웠다. 행마다 어느 요청의 몇 번째 칸인지, 검증 행인지(마지막 칸이 아닌지)를 표시한다. [`Sampler._verification`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/sampler.py#L411-L457)은 이 표시와 pool의 draft logprob를 `process_sampling`에 넘겨, 샘플링과 draft별 수락 판정(`accept_result_verify`)을 한 커널에서 받는다. 이 판정이 표준 speculative sampling의 수락 · 거절 규칙이라는 것은 [Sampler docstring](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/sampler.py#L74-L80)의 설명이고, 확률 계산은 9장에서 본다.
 
-### 코드 따라가기: 수락된 prefix 와 마지막 행
+### 코드 분석: 수락된 prefix 와 마지막 행
 
 ```python
 def get_accept_result_ref(raw_accept, golden, draft_token_ids, candidate_token_ids, is_verify, ftp, row_to_req):
@@ -309,7 +309,7 @@ def get_accept_result_ref(raw_accept, golden, draft_token_ids, candidate_token_i
 
 sampler 출력은 엔진의 [`_process_model_outputs`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L704-L723)에서 C++ `process_MTPInfo`로 들어간다. prefill 직후처럼 draft가 없으면 normal 엔진은 padding 토큰(`vocab_size - 1`)으로 채워 넘긴다.
 
-### 코드 따라가기: process_MTPInfo
+### 코드 분석: process_MTPInfo
 
 ```cpp
 mtp.draft_tokens.clear();

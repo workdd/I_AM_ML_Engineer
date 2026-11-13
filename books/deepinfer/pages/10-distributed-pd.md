@@ -42,7 +42,7 @@ flowchart TB
     D0 -. CP 그룹 .- F0
 ```
 
-### 코드 따라가기: DP rank마다 엔진 하나
+### 코드 분석: DP rank별 단일 엔진
 
 무엇을 보는지: 예제 스크립트가 노드마다 담당하는 DP rank를 골라 프로세스를 띄우는 부분. [`examples/_launch.py#L26-L44`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_launch.py#L26-L44)
 
@@ -66,7 +66,7 @@ def run_dp(main_fn: Callable[[int, int], None], dp_size: int) -> None:
 
 여기서 `RANK`, `WORLD_SIZE`는 노드 번호와 노드 수다. 각 자식 프로세스는 [`create_llm`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_config.py#L86-L125)에서 `CUDA_VISIBLE_DEVICES`를 자기 몫으로 좁힌 뒤에야 `deepinfer`를 import한다. 이 순서가 바뀌면 CUDA가 먼저 초기화되어 장치 제한이 먹지 않는다. Ascend에서는 `ASCEND_RT_VISIBLE_DEVICES`도 같은 값으로 맞춘다([`setup_cuda_visible_devices`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/examples/_config.py#L55-L63)).
 
-### 코드 따라가기: 엔진 안의 CP 워커
+### 코드 분석: 엔진 안의 CP 워커
 
 무엇을 보는지: 엔진이 CP rank 1 이후의 워커를 spawn하고, rank 0 워커는 자기 프로세스에서 만드는 부분. [`llm_engine.py#L368-L414`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/engine/llm_engine.py#L368-L414)
 
@@ -119,7 +119,7 @@ $$
 
 `_verify_args`는 `cp × dp`가 `ep`로 나누어떨어지는지 검사한다. 즉 EP 그룹은 DP×CP rank를 빈틈없이 덮는 연속 구간들이다. global rank 공식은 [`WorkerBase.__init__`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L79)에 있다.
 
-### 코드 따라가기: 기본 그룹은 gloo
+### 코드 분석: gloo 기본 그룹
 
 무엇을 보는지: torch.distributed 기본 그룹을 NCCL이 아니라 gloo로 여는 부분. [`base.py#L315-L344`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L315-L344)
 
@@ -143,9 +143,9 @@ init_parallel_groups(dp_size, ep_size=ep_size, cp_size=cp_size, enp_size=enp_siz
 
 `distributed_init_method`는 `tcp://{MASTER_ADDR}:{MASTER_PORT - 50 + engine_group_rank}`다([`utils.py#L222-L230`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/utils.py#L222-L230)). `MASTER_PORT` 기본값은 23333이다. 같은 노드에 독립된 world를 여러 개 띄우면 `engine_group_rank`로 포트를 갈라야 한다.
 
-## 프로세스 그룹 자르기
+## 프로세스 그룹 분할
 
-### 코드 따라가기: einops로 rank 배열 자르기
+### 코드 분석: einops 기반 rank 배열 분할
 
 무엇을 보는지: rank 번호 배열 하나를 `rearrange`로 접어 그룹을 만드는 부분. [`parallel_state.py#L80-L118`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/parallel_state.py#L80-L118)
 
@@ -187,7 +187,7 @@ self.enp = _split_group(enp_ranks.tolist(), backend=backend, pg_options=options)
 
 GPU에서는 그룹 옵션에 `max_ctas = min_ctas = DEEPINFER_NCCL_NUM_SMS`(기본 32)를 준다([`platform.py#L75-L83`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/platform.py#L75-L83)). NCCL 집합 연산이 쓰는 SM 수를 고정해, 계산 커널과 DeepEP가 쓸 SM을 예측 가능하게 남긴다.
 
-### 코드 따라가기: lazy NCCL 통신기를 미리 깨우기
+### 코드 분석: lazy NCCL 통신기 사전 초기화
 
 무엇을 보는지: 그룹을 만든 직후 모든 NCCL/HCCL 그룹에 더미 all_reduce를 한 번씩 보내는 부분. [`parallel_state.py#L173-L187`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/parallel_state.py#L173-L187)
 
@@ -205,7 +205,7 @@ def init_device_groups(self) -> None:
             dist.all_reduce(torch.zeros(1).cuda(), group=value)
 ```
 
-docstring(중국어)의 요지는 이렇다. 기본 그룹이 gloo라 NCCL 하위 그룹은 split 방식으로 미리 초기화되지 않고, 첫 집합 연산 때 통신기를 만든다. Engram용 DeepEP가 `backend._comm_ptr()`로 이 통신기를 재사용하는데 아직 없으면 널 포인터로 죽으므로, rank 하나짜리 그룹까지 빠짐없이 깨운다.
+docstring(중국어)의 요지는 이렇다. 기본 그룹이 gloo라 NCCL 하위 그룹은 split 방식으로 미리 초기화되지 않고, 첫 집합 연산 때 통신기를 만든다. Engram용 DeepEP가 `backend._comm_ptr()`로 이 통신기를 재사용하는데 아직 없으면 널 포인터로 죽으므로, rank 하나짜리 그룹까지 빠짐없이 초기화한다.
 
 ## CP 그룹 안의 통로: driver와 follower
 
@@ -236,7 +236,7 @@ sequenceDiagram
     D->>E: 샘플 결과 (driver만 샘플링)
 ```
 
-### 코드 따라가기: follower 루프
+### 코드 분석: follower 루프
 
 무엇을 보는지: follower가 생성자 끝에서 들어가는 루프와 driver 쪽 송신. [`base.py#L129-L133`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L129-L133), [`base.py#L290-L302`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L290-L302)
 
@@ -258,7 +258,7 @@ def run_workers(self, method: str, driver_kwargs: dict[str, Any] | None = None, 
 
 vLLM 초기 버전의 `_run_workers`와 같은 RPC 방식이다(미검증). 차이는 `driver_kwargs`로, 스케줄러 출력처럼 driver만 가진 큰 객체는 follower에 보내지 않는다. follower는 `prctl(PR_SET_PDEATHSIG, SIGKILL)`을 걸어 부모 엔진이 죽으면 같이 죽는다([`set_pdeathsig`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/base.py#L42-L46)).
 
-### 코드 따라가기: 공유 메모리 고리 버퍼
+### 코드 분석: 공유 메모리 고리 버퍼
 
 `MessageQueue`는 vLLM의 `shm_broadcast.py`에서 가져온 코드다(파일 머리의 "Derived from vLLM"). 쓰는 쪽 하나, 읽는 쪽 여럿인 고리 버퍼이고, 칸마다 `[written_flag, reader0_flag, ...]` 메타데이터 바이트를 둔다.
 
@@ -288,7 +288,7 @@ while True:
 
 CP 그룹용 큐는 칸 크기 1 MiB(`1 << 20`), 칸 10개로 만든다([`parallel_state.py#L122-L124`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/parallel_state.py#L122-L124)). `create_from_process_group`은 "그룹이 노드를 넘지 않는다"고 가정하고 모든 reader를 로컬로 둔다([`#L442-L444`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/distributed/shm_broadcast.py#L442-L444)). 따라서 CP 그룹은 한 노드 안에 있어야 한다. 대기 중에는 `os.sched_yield()`로 바쁜 대기를 하며, `DEEPINFER_RINGBUFFER_WARNING_INTERVAL`(기본 60초)마다 debug 로그를 남긴다.
 
-### 코드 따라가기: 텐서와 메타를 나눠 보내기
+### 코드 분석: 텐서와 메타데이터 분리 전송
 
 무엇을 보는지: dict 안의 CUDA 텐서는 모양과 dtype만 먼저 보내고, 본문은 NCCL broadcast로 보내는 부분. [`communication_op.py#L51-L82`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/parallel_utils/communication_op.py#L51-L82)
 
@@ -477,7 +477,7 @@ NCCL 통신기는 graph 캡처와 그룹 수에 따라 GPU 메모리를 적지 �
 ## 정리
 
 - 엔진 하나가 DP rank 하나다. 엔진 안에서 CP 크기만큼 워커가 뜨고, cp_rank 0인 driver만 스케줄러와 샘플링을 한다. EP 그룹은 DP×CP rank의 연속 구간이다
-- 기본 프로세스 그룹은 gloo이고, GPU 그룹은 `einops.rearrange`로 rank 배열을 접어 따로 만든다. lazy 통신기는 더미 all_reduce로 미리 깨운다
+- 기본 프로세스 그룹은 gloo이고, GPU 그룹은 `einops.rearrange`로 rank 배열을 접어 따로 만든다. lazy 통신기는 더미 all_reduce로 미리 초기화한다
 - CP 그룹 안에서는 메서드 이름을 공유 메모리 고리 버퍼(vLLM 유래)로, 메타데이터 텐서를 NCCL broadcast로, prefill 중간 텐서를 DeepEP `BucketBuffer` all-gather로 보낸다. CP 그룹은 한 노드 안에 있어야 한다
 - DP rank들은 C++ 스케줄러의 ALL/ANY 투표로 스텝 종류(prefill/decode)를 맞춘다. EP 그룹 안에서 스텝 모양을 같게 유지하기 위해서다
 - 엔진은 NORMAL, PROMPT, COMPLETION 세 종류이고, PD 분리용 KV 전송은 `LLMEngine`의 빈 훅으로만 남아 있다. 공개본으로 PD 분리 서비스를 조립할 수는 없다

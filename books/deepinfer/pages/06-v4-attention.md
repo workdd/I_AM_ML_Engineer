@@ -1,8 +1,8 @@
-DeepSeek-V4 계열 어텐션은 한 층 안에서 세 갈래 KV를 함께 본다. 최근 토큰은 sliding window(SWA)로 원래 해상도 그대로 보고, 먼 과거는 1:1 또는 2:1로 압축한 KV로 보며, 압축 KV가 많아지면 indexer가 고른 top-k만 본다. 이 장은 [`v4_modules/attn.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py)의 `V4Attention.forward`를 축으로, 압축기 `Compressor`, indexer `MQA`, decode 메타데이터 커널, FlashMLA 호출 지점까지 한 스텝의 데이터 흐름을 따라간다. KV가 메모리에 어떻게 놓이는지는 5장에서 다뤘다.
+DeepSeek-V4 계열 어텐션은 한 층 안에서 세 종류의 KV를 함께 참조한다. 최근 토큰은 sliding window(SWA)로 원래 해상도 그대로 보고, 먼 과거는 1:1 또는 2:1로 압축한 KV로 보며, 압축 KV가 많아지면 indexer가 고른 top-k만 본다. 이 장은 [`v4_modules/attn.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py)의 `V4Attention.forward`를 축으로, 압축기 `Compressor`, indexer `MQA`, decode 메타데이터 커널, FlashMLA 호출 지점까지 한 스텝의 데이터 흐름을 따라간다. KV가 메모리에 어떻게 놓이는지는 5장에서 다뤘다.
 
-## 층 구성과 세 갈래 KV
+## 층 구성과 세 종류의 KV
 
-모델 최상위는 [`models/deepseek.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py)의 `DeepseekForCausalLM`이다. [생성자](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py#L251-L306)는 HF 파라미터 묶음에서 main 층(`num_hidden_layers`개), 출력 head, lm head, 그리고 그 뒤의 MTP 층을 차례로 떼어 낸다. main 층은 `DeepseekModel`이 `DeepseekDecoderLayer`로 감싸고, 각 층의 어텐션이 `V4Attention`이다.
+모델 최상위는 [`models/deepseek.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py)의 `DeepseekForCausalLM`이다. [생성자](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/deepseek.py#L251-L306)는 HF 파라미터 묶음에서 main 층(`num_hidden_layers`개), 출력 head, lm head, 그리고 그 뒤의 MTP 층을 차례로 분리한다. main 층은 `DeepseekModel`이 `DeepseekDecoderLayer`로 감싸고, 각 층의 어텐션이 `V4Attention`이다.
 
 층마다 config가 다르다. `attn_module_list`의 각 항목이 `kv_compress_ratio`, `index_topk`, `use_swa`, `sink_mode`를 따로 갖는다. 어떤 조합이 가능한지는 [`V4AttentionBase.__init__`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L65-L102)의 assert가 정한다.
 
@@ -19,7 +19,7 @@ DeepSeek-V4 계열 어텐션은 한 층 안에서 세 갈래 KV를 함께 본다
 
 KV는 head가 하나다. 5장의 캐시 엔진은 `num_key_value_heads == 1`을 assert하고, 토큰 하나의 KV가 `head_dim`(= `kv_lora_rank + qk_rope_head_dim`) 원소 한 줄이다. 이 한 줄이 K와 V를 겸한다. 그래서 어텐션 출력의 마지막 RoPE 차원은 되돌려야 하고, [`_wv_and_o_proj`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L191-L225)는 출력의 `[-qk_rope_head_dim:]` 구간에 `conjugate=True` RoPE를 건 뒤 그룹별 V 투영(`fp8_einsum "bhr,hdr->bhd"`)과 출력 투영을 한다. vLLM의 MLA 백엔드가 latent KV 하나를 K/V로 함께 쓰는 것과 같은 계열이다(미검증).
 
-## V4Attention.forward 한눈에
+## V4Attention.forward 개요
 
 ```mermaid
 flowchart TB
@@ -45,7 +45,7 @@ flowchart TB
     DC --> O
 ```
 
-### 코드 따라가기: forward 의 앞부분
+### 코드 분석: forward 의 앞부분
 
 투영을 시작하기 전에 CP all-gather를 걸어 두고 Q 투영과 겹치는 부분을 본다.
 
@@ -97,7 +97,7 @@ SWA KV는 `q_a_kv_swa_proj` 출력의 뒤쪽 `head_dim` 구간이다. [`_prepare
 
 압축은 `ratio`개 연속 토큰을 하나로 합친다. 합치는 방법은 학습된 score로 만든 채널별 softmax 가중합이다. TileLang 커널의 PyTorch 참조 구현이 수식을 가장 잘 보여 준다.
 
-### 코드 따라가기: compress_and_update_state_prefill_ref
+### 코드 분석: compress_and_update_state_prefill_ref
 
 압축 블록 하나의 결과를 만드는 안쪽 루프를 본다.
 
@@ -136,7 +136,7 @@ $$
 
 decode 쪽 [`compress_and_update_state_decode`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/compress.py#L74-L116)는 토큰마다 먼저 state ring에 자기 score · latent를 쓰고, 위치가 블록 끝(`pos % r == r - 1`)인 토큰만 압축 결과를 낸다. 나머지 행은 0이다. 인자로 `max_seqlen_q = DEEPINFER_USE_NEXTN_DECODE + 1`을 받아 ring이 "블록 하나 + 한 스텝에 들어오는 최대 토큰 수"를 담는지 assert한다. 추측 디코딩으로 한 스텝에 여러 토큰이 들어오기 때문이다(8장).
 
-### 코드 따라가기: forward_store_kv_cache
+### 코드 분석: forward_store_kv_cache
 
 압축 결과를 main KV 캐시에 쓰고, indexer가 쓸 RoPE 전 값을 따로 받는 부분을 본다.
 
@@ -181,7 +181,7 @@ head 축으로 더한다는 부분은 출력 이름(`p_sum`)과 가중치 모양
 | top-k 커널 | `deep_select.interface.topk` | `vendor/DeepSelect` 서브모듈 |
 | prefill 청크 | `min(8192, DEEPINFER_INDEX_ATTN_MEMORY_LIMIT // 행 바이트 // 8 * 8)` | [117행](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/index_attn.py#L117). 메모리 한도 기본 10 GiB |
 
-### 코드 따라가기: _topk_decode
+### 코드 분석: _topk_decode
 
 decode에서 점수를 내고 top-k를 고른 뒤 물리 슬롯으로 바꾸는 부분을 본다.
 
@@ -247,7 +247,7 @@ kv 버퍼 = [ 캐시에 있던 SWA KV | 이번 청크 SWA KV | 캐시의 압축 
 - query마다 볼 위치는 SWA 쪽 `kv_swa_full_index`와 압축 쪽 `kv_ca_index`를 [`kv_index_cat`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L603-L610)으로 이어 붙인 한 줄이다. 압축 쪽 인덱스는 버퍼 안 오프셋을 더해 옮긴다
 - share-kv에서 consumer 층은 source 층이 모아 둔 버퍼를 [그대로 재사용](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L723-L750)한다
 
-### 코드 따라가기: prefill_attn_varlen_sparse
+### 코드 분석: prefill_attn_varlen_sparse
 
 FlashMLA를 부르는 지점을 본다.
 
@@ -279,11 +279,11 @@ output, _max_logits, lse = flash_mla_sparse_fwd(
 - FlashMLA가 받는 head 수가 64, 128뿐이라 그 외 head 수는 [`_pad_attention_heads`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/attention_backend.py#L5-L23)가 0으로 채워 맞추고 결과에서 잘라 낸다
 - `attn_sink`는 head별 fp32 logit이다. [`runtime_attn_sink`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/mla_attn.py#L295-L299)가 HF 파라미터를 복사 없이 넘긴다. softmax 분모에 더해지는 가상의 토큰 역할로 보인다(추정, 커널 미확인)
 
-## decode 어텐션: 캐시 두 개를 직접 읽기
+## decode 어텐션: 두 캐시 직접 조회
 
 decode는 KV를 모으지 않고 FlashMLA가 페이징 캐시를 직접 읽는다. SWA 캐시와 압축 캐시를 `key_cache`, `key_cache_extra` 두 개로 넘기고, 각각의 물리 슬롯 인덱스를 함께 준다.
 
-### 코드 따라가기: _decode_attention
+### 코드 분석: _decode_attention
 
 ```python
 if self.use_swa:
@@ -318,7 +318,7 @@ context, _ = decode_mla_mqa_sparse(
 - `sched_meta_key`는 `"{ratio}_{packed}_{swa}_{index_topk}"`이다([241행](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/models/v4_modules/attn.py#L241)). 같은 모양의 층은 FlashMLA tile 스케줄 메타데이터(`FlashMLASchedMeta`)를 공유한다. 메타데이터 dict는 `defaultdict(FlashMLASchedMeta)`라 첫 층에서 채워지고 다음 층이 재사용하는 구조로 보인다(추정)
 - `batch_invariant`는 `DEEPINFER_BATCH_INVARIANT`를 그대로 넘긴다. README가 결정적 샘플링 설정으로 안내하는 값이다(9장)
 
-## decode 메타데이터: 한 커널로 모든 인덱스 오프셋 채우기
+## decode 메타데이터: 단일 커널의 인덱스 오프셋 일괄 계산
 
 decode 어텐션이 쓰는 위치 · 슬롯 정보는 스텝마다 GPU에서 한 번에 만든다. zero-overhead scheduling(ZOS) 경로는 [`prepare_tensor_input_zos.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/input_metadata/prepare_tensor_input_zos.py#L336-L367)에서 TileLang 커널 [`prepare_v4_decode_metadata`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/prepare_v4_decode_metadata.py#L10-L96)를 부르고, ZOS가 아니면 C++ `prepare_decode_v4`가 같은 일을 한다(4장). 커널은 시퀀스당 CTA 하나로 돌고, 압축 비율별 출력을 비율 수만큼 쌓아 한 번에 채운다.
 
@@ -340,7 +340,7 @@ flowchart LR
     PC --> ST[압축 KV 저장 위치]
 ```
 
-### 코드 따라가기: prepare_v4_decode_metadata_ref
+### 코드 분석: prepare_v4_decode_metadata_ref
 
 참조 구현에서 SWA와 압축 저장 슬롯을 계산하는 부분을 본다.
 

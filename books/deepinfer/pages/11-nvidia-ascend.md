@@ -36,7 +36,7 @@ flowchart TB
 | 툴체인 | CUDA 13 | CANN 9.2 | [`README.md#L46-L52`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/README.md#L46-L52) |
 | 공통 | `tilelang==0.1.15`, `tile-kernels==2.1.0`, `xgrammar==0.2.2` 등 | 같음 | [`requirements.txt`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/requirements.txt#L1-L21) |
 
-Ascend 쪽은 CPU용 torch 휠 위에 `torch-npu`를 얹는다. NPU 장치 지원은 전부 `torch_npu` 플러그인이 맡는다.
+Ascend 쪽은 CPU용 torch 휠에 `torch-npu`를 추가 설치한다. NPU 장치 지원은 전부 `torch_npu` 플러그인이 맡는다.
 
 ### vendor 서브모듈
 
@@ -71,7 +71,7 @@ case "${DEEPINFER_ACCELERATOR:-nvidia}" in
 
 ### 확장 모듈 `_C`
 
-[`setup.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/setup.py#L38-L72)는 같은 C++ 스케줄러 소스(`csrc/engine/*`)를 공통으로 두고, 장치 보조 파일 두 개만 갈아 끼운다.
+[`setup.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/setup.py#L38-L72)는 같은 C++ 스케줄러 소스(`csrc/engine/*`)를 공통으로 두고, 장치 보조 파일 두 개만 교체한다.
 
 | 항목 | NVIDIA (`CUDAExtension`) | Ascend (`NpuExtension`) |
 |---|---|---|
@@ -154,7 +154,7 @@ Ascend NUMA 탐지([`ascend.py#L107-L144`](https://github.com/deepseek-ai/DeepIn
 
 `fp8_sf_type`은 ue8m0 scale(지수만 담은 1바이트) 여러 개를 묶어 담는 정수 타입이다. CUDA는 4개를 `int32` 하나에, Ascend는 2개를 `int16` 하나에 묶는다([`fused_transform.py#L61-L66`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/fused_transform.py#L61-L66)). KV 캐시, Engram, 선형층 등 scale을 다루는 곳마다 `PLATFORM.fp8_sf_type.itemsize`로 묶음 크기를 계산한다. 그래서 KV 캐시의 바이트 배치도 플랫폼마다 다르다. 같은 체크포인트라도 한 플랫폼에서 만든 KV 캐시를 다른 플랫폼에서 그대로 읽을 수는 없을 것으로 보인다(추정).
 
-### 코드 따라가기: NPU 플랫폼 초기화
+### 코드 분석: NPU 플랫폼 초기화
 
 무엇을 보는지: `PlatformNPU`가 torch_npu를 불러 CUDA 스타일 코드가 NPU에서 돌게 만드는 부분. [`platform.py#L91-L143`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/platform.py#L91-L143)
 
@@ -206,7 +206,7 @@ flowchart LR
     P[PLATFORM.tilelang_ops_backend] --> O
 ```
 
-### 코드 따라가기: 백엔드 선택
+### 코드 분석: 백엔드 선택
 
 무엇을 보는지: 선택한 백엔드 폴더의 모든 모듈에서 `_tl`로 끝나는 이름을 모아 다시 내보내는 디스패처. [`tilelang_ops/ops.py#L13-L32`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/ops.py#L13-L32)
 
@@ -248,7 +248,7 @@ def __getattr__(name: str) -> Any:  # for static analyzers
 
 Ascend 쪽 코드가 1.5배 길다. 같은 커널을 비교하면 이유가 보인다.
 
-### 코드 따라가기: 같은 커널, 두 구현
+### 코드 분석: 같은 커널, 두 구현
 
 인터페이스 [`swa_index.py`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/swa_index.py#L10-L32)의 `expand_swa_index`는 토큰마다 KV 구간 두 개(오프셋, 길이)를 받아 SWA 인덱스 행렬로 펼친다. 플랫폼 분기가 없고 `ops.expand_swa_index_tl(width)(pivots, out)` 한 줄로 커널을 부른다.
 
@@ -323,7 +323,7 @@ with T.Kernel(cores) as pid:
 
 같은 알고리즘이라도 Ascend 쪽은 데이터 이동과 벡터 폭을 코드에 직접 적어야 해서 길어진다. 인터페이스 모듈의 테스트(`test_expand_swa_index`)는 PyTorch 참조 구현과 결과를 비교하므로 두 백엔드가 같은 테스트로 검증된다. 다만 테스트는 텐서를 `"cuda"`로 옮기는데, NPU에서는 `transfer_to_npu`가 이를 NPU로 돌린다.
 
-### 인터페이스 모듈에 남은 분기
+### 인터페이스 모듈의 잔여 분기
 
 모든 차이가 백엔드 폴더로 숨지는 않는다. 인터페이스 모듈에도 `PLATFORM.is_npu` 분기가 있다. 대부분 Ascend 커널이 지원하는 입력 범위가 좁아서 생긴 제약이다.
 
@@ -359,7 +359,7 @@ patch_imports(
 
 이후 어느 모듈이든 `from deep_select.interface import topk`를 쓰면 원래 함수 대신 `deepinfer.npu_ops.deep_select.topk`를 받는다.
 
-### 코드 따라가기: `builtins.__import__` 갈아 끼우기
+### 코드 분석: `builtins.__import__` 교체
 
 무엇을 보는지: from-import 요청을 가로채 가짜 모듈을 돌려주는 훅. [`npu_ops/patch_imports.py#L55-L93`](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/npu_ops/patch_imports.py#L55-L93)
 
@@ -408,7 +408,7 @@ ViT 쪽은 입력 준비 단계도 NPU용 값을 따로 만든다. [`prepare_ten
 
 `npu_ops`와 `patch_imports` 모두 `TODO(NPU): Intended to be removed`처럼 임시라는 표시가 붙어 있다. vendor 라이브러리가 Ascend 기능을 채우면 걷어낼 계층이다.
 
-## 모델과 런타임에 남은 플랫폼 분기
+## 모델과 런타임의 잔여 플랫폼 분기
 
 마지막으로 TileLang 바깥, 모델과 워커 코드에 남은 분기를 기능 단위로 모은다.
 

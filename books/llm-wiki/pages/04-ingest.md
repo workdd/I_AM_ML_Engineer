@@ -51,15 +51,15 @@ flowchart TD
 
 LLM 호출은 최소 두 번(분석, 생성)이고, 조건에 따라 청크 분석 N번, 리뷰 제안 1번, 잘림 복구 1번, 페이지 병합 페이지당 1번, 이미지 캡션 이미지당 1번이 더 붙는다.
 
-## 입구: 원본이 큐에 들어오기까지
+## 입구: 원본의 큐 진입 경로
 
-원본이 수집 큐에 들어오는 길은 두 갈래다. 사용자가 파일을 가져오는 경우와, 앱 밖에서 `raw/sources/` 에 파일을 넣어 감시기가 알아차리는 경우다. 두 길 모두 `enqueueSourceIngest` 에서 만난다.
+원본이 수집 큐에 들어오는 경로는 두 가지다. 사용자가 파일을 가져오는 경우와, 앱 밖에서 `raw/sources/` 에 파일을 넣어 감시기가 알아차리는 경우다. 두 길 모두 `enqueueSourceIngest` 에서 만난다.
 
 ### 가져오기 경로
 
 `importSourceFiles` 는 파일마다 민감 설정 파일 여부, 감시 제외 규칙, 확장자, 크기를 확인한 뒤 `raw/sources/` 로 복사한다. 이름이 겹치면 `getUniqueDestPath` 가 `이름-YYYYMMDD.확장자`, 그다음 `-2` ~ `-99` 를 붙인다([source-lifecycle.ts](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/source-lifecycle.ts#L665-L689)). 복사가 끝나면 큐에 넣는다.
 
-코드 따라가기: 큐에 넣기 전에 텍스트 추출을 먼저 돌리는 부분이다. [src/lib/source-lifecycle.ts#L258-L286](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/source-lifecycle.ts#L258-L286)
+코드 분석: 큐에 넣기 전에 텍스트 추출을 먼저 돌리는 부분이다. [src/lib/source-lifecycle.ts#L258-L286](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/source-lifecycle.ts#L258-L286)
 
 ```ts
   if (!hasUsableLlm(getTaskLlmConfig("ingest", llmConfig))) return []
@@ -88,7 +88,7 @@ LLM 호출은 최소 두 번(분석, 생성)이고, 조건에 따라 청크 분�
 
 Rust 쪽 `file_sync.rs` 는 `notify` 크레이트로 프로젝트 폴더를 감시하고, 바뀐 경로를 `.llm-wiki/file-change-queue.json` 에 쌓은 뒤 `file-sync://changed` 이벤트를 프론트로 보낸다. 프론트의 `project-file-sync.ts` 가 이벤트를 받아 `raw/sources/` 의 생성 · 수정은 수집 큐로, 삭제는 원본 삭제 연쇄 정리(5장)로 보낸다.
 
-코드 따라가기: 어떤 경로를 감시 대상으로 볼지 정하는 규칙이다. [src-tauri/src/commands/file_sync.rs#L1135-L1177](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/file_sync.rs#L1135-L1177)
+코드 분석: 어떤 경로를 감시 대상으로 볼지 정하는 규칙이다. [src-tauri/src/commands/file_sync.rs#L1135-L1177](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/file_sync.rs#L1135-L1177)
 
 ```rust
     if rel.starts_with("raw/sources/") {
@@ -106,7 +106,7 @@ Rust 쪽 `file_sync.rs` 는 `notify` 크레이트로 프로젝트 폴더를 감�
     rel == "purpose.md" || rel == "schema.md" || (rel.starts_with("wiki/") && rel.ends_with(".md"))
 ```
 
-이 앞에서 `.llm-wiki/` 와 `wiki/media/` 는 통째로 빠진다. 원본은 확장자 허용 목록으로 거르고, 위키 쪽은 Markdown 과 `purpose.md` · `schema.md` 만 본다. 위키 페이지 변경은 수집이 아니라 그래프 · 인덱스 새로 고침에 쓰인다.
+이 앞에서 `.llm-wiki/` 와 `wiki/media/` 는 전체가 제외된다. 원본은 확장자 허용 목록으로 거르고, 위키 쪽은 Markdown 과 `purpose.md` · `schema.md` 만 본다. 위키 페이지 변경은 수집이 아니라 그래프 · 인덱스 새로 고침에 쓰인다.
 
 앱이 직접 쓴 파일이 감시기에 다시 걸려 무한 수집이 되는 것을 막는 장치가 `mark_app_write_path` 다. Rust `write_file` 은 쓰기 전후로 경로를 표시하고, 감시기는 표시 후 `APP_WRITE_IGNORE_MS = 4_000` ms 안에 들어온 이벤트를 무시한다([file_sync.rs#L26](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/file_sync.rs#L26), [#L450-L459](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/file_sync.rs#L450-L459)). 감시 이벤트가 유실되는 경우에 대비해 Linux 는 10초, 그 밖의 OS 는 60초 간격으로 스냅샷 재대조를 한다([#L32-L33](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/file_sync.rs#L32-L33)).
 
@@ -138,7 +138,7 @@ Rust 쪽 `file_sync.rs` 는 `notify` 크레이트로 프로젝트 폴더를 감�
 
 README 는 큐를 "serial processing" 이라고 설명하지만, 이 커밋의 코드는 동시 작업 수를 설정으로 올릴 수 있다. 기본값이 1 이라 기본 동작은 README 설명과 같다.
 
-코드 따라가기: 실패를 재시도와 최종 실패로 가르는 부분이다. [src/lib/ingest-queue.ts#L1166-L1175](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-queue.ts#L1166-L1175)
+코드 분석: 실패를 재시도와 최종 실패로 가르는 부분이다. [src/lib/ingest-queue.ts#L1166-L1175](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-queue.ts#L1166-L1175)
 
 ```ts
     task.retryCount++
@@ -183,7 +183,7 @@ sequenceDiagram
     B->>L: 프로젝트 잠금 안에서 파일 쓰기
 ```
 
-코드 따라가기: 시작 순서대로 커밋 차례를 예약하는 클래스다. [src/lib/ingest-commit-coordinator.ts#L12-L41](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-commit-coordinator.ts#L12-L41)
+코드 분석: 시작 순서대로 커밋 차례를 예약하는 클래스다. [src/lib/ingest-commit-coordinator.ts#L12-L41](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-commit-coordinator.ts#L12-L41)
 
 ```ts
   reserve(): CommitReservation {
@@ -226,11 +226,11 @@ sequenceDiagram
 
 Office 캐시는 `.txt.parser` 표식 파일에 파서 버전(`anydoc-0.1.6-v1`)을 적어 두고, 버전이 다르면 캐시를 버린다([fs.rs#L33](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/fs.rs#L33), [#L186-L203](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/fs.rs#L186-L203)). 무거운 추출은 `spawn_blocking` 으로 tokio 블로킹 풀에 넘긴다. 3장에서 다룬 Tauri command 구조가 여기서도 그대로 쓰인다.
 
-### MinerU 로 PDF 바꾸기
+### MinerU 기반 PDF 변환
 
 PDF 이고 MinerU 가 켜져 있으면 내장 추출보다 먼저 MinerU 를 부른다. 핵심은 결과를 내장 추출과 같은 캐시 경로에 쓴다는 점이다.
 
-코드 따라가기: MinerU 결과를 `.cache` 에 써서 뒤의 `read_file` 이 그대로 집어 가게 만드는 부분이다. [src/lib/ingest.ts#L742-L757](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L742-L757)
+코드 분석: MinerU 결과를 `.cache` 에 써서 뒤의 `read_file` 이 그대로 집어 가게 만드는 부분이다. [src/lib/ingest.ts#L742-L757](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L742-L757)
 
 ```ts
   const mineruConfigured = mineruCfg.backend === "local" || Boolean(mineruCfg.token)
@@ -251,7 +251,7 @@ PDF 이고 MinerU 가 켜져 있으면 내장 추출보다 먼저 MinerU 를 부
       mineruSavedImages = mineruResult.savedImages
 ```
 
-MinerU 가 실패하면 경고만 남기고 내장 pdfium 추출로 넘어간다. 캐시 파일 수정 시각이 원본보다 새로워지므로 Rust `read_cache` 가 이후 호출에서 MinerU 결과를 돌려준다. 별도의 "어느 파서를 썼는가" 상태 없이 파일 시각만으로 두 파서를 갈아 끼우는 구조다.
+MinerU 가 실패하면 경고만 남기고 내장 pdfium 추출로 넘어간다. 캐시 파일 수정 시각이 원본보다 새로워지므로 Rust `read_cache` 가 이후 호출에서 MinerU 결과를 돌려준다. 별도의 "어느 파서를 썼는가" 상태 없이 파일 시각만으로 두 파서를 전환하는 구조다.
 
 `mineru.ts` 의 주요 상수와 동작은 아래와 같다([mineru.ts#L8-L13](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/mineru.ts#L8-L13)).
 
@@ -274,7 +274,7 @@ MinerU 가 실패하면 경고만 남기고 내장 pdfium 추출로 넘어간다
 
 `extractAndSaveSourceImages` 는 확장자로 분기한다. PDF 는 Rust `extract_and_save_pdf_images_cmd`, `pptx` · `docx` 는 `extract_and_save_office_images_cmd` 를 부르고, 원본 자체가 `png` · `jpg` · `jpeg` 이면 복사만 한다([extract-source-images.ts#L152-L216](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/extract-source-images.ts#L152-L216)). Markdown 원본 안의 로컬 이미지 참조는 `extractAndSaveMarkdownImages` 가 같은 폴더로 복사한다. PDF 에 MinerU 이미지가 이미 있으면 pdfium 이미지 추출은 건너뛴다.
 
-코드 따라가기: Rust 추출기의 거름 기준이다. [src-tauri/src/commands/extract_images.rs#L60-L71](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/extract_images.rs#L60-L71)
+코드 분석: Rust 추출기의 거름 기준이다. [src-tauri/src/commands/extract_images.rs#L60-L71](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/extract_images.rs#L60-L71)
 
 ```rust
 impl Default for ExtractOptions {
@@ -305,7 +305,7 @@ impl Default for ExtractOptions {
 
 추출한 이미지는 원본 텍스트 끝에 `## Referenced Local Images` 절로 덧붙여 캡션 파이프라인에 넘긴다([ingest.ts#L69-L77](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L69-L77)). 캡션이 필요한 이유는 주석에 적혀 있다. alt 텍스트가 빈 이미지는 요약 과정에서 LLM 이 지워 버리기 쉽고, 캡션이 붙으면 생성 단계에서 이미지 참조가 살아남을 가능성이 높아진다.
 
-코드 따라가기: 비전 모델에 보내는 고정 프롬프트다. [src/lib/vision-caption.ts#L70-L71](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/vision-caption.ts#L70-L71)
+코드 분석: 비전 모델에 보내는 고정 프롬프트다. [src/lib/vision-caption.ts#L70-L71](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/vision-caption.ts#L70-L71)
 
 ```ts
 export const CAPTION_PROMPT =
@@ -320,11 +320,11 @@ export const CAPTION_PROMPT =
 
 생성이 끝나면 `injectImagesIntoSourceSummary` 가 요약 페이지 끝에 `<!-- llm-wiki:embedded-images -->` 표식 한 쌍으로 감싼 `## Embedded Images` 절을 붙인다([ingest.ts#L3514-L3598](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L3514-L3598)). 이미지는 페이지 번호별로 묶이고 alt 에는 캐시의 캡션이 들어간다. 다시 수집할 때는 표식 사이를 지우고 새로 쓰므로 여러 번 돌려도 절이 쌓이지 않는다. 요약 페이지가 없으면 최소한의 frontmatter 를 가진 대체 페이지를 만든다. 이미지가 참조 없이 `wiki/media/` 에만 남으면 고아 정리 과정에서 지워질 수 있기 때문이다.
 
-## 증분 캐시: 바뀌지 않은 원본 건너뛰기
+## 증분 캐시: 변경 없는 원본 생략
 
 원본을 읽은 직후 `checkIngestCache` 가 `.llm-wiki/ingest-cache.json` 을 본다. 키는 원본 식별자(`raw/sources/` 아래 상대 경로, 5장)이고 값은 내용의 SHA-256 과 그때 쓴 파일 목록이다.
 
-코드 따라가기: 캐시 적중의 조건이다. [src/lib/ingest-cache.ts#L67-L99](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-cache.ts#L67-L99)
+코드 분석: 캐시 적중의 조건이다. [src/lib/ingest-cache.ts#L67-L99](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-cache.ts#L67-L99)
 
 ```ts
   const cache = await loadCache(projectPath)
@@ -350,11 +350,11 @@ export const CAPTION_PROMPT =
 
 캐시가 적중해도 이미지 단계는 다시 돈다. 이전 버전 앱으로 수집해 이미지가 없던 원본도 이번 파이프라인 계약에 맞춰지게 하려는 것이고, 경로가 결정적이며 표식으로 감싼 교체라서 반복해도 결과가 같다([ingest.ts#L805-L815](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L805-L815)).
 
-## 예산 계산과 긴 원본 나누기
+## 예산 계산과 긴 원본 분할
 
 설정의 `maxContextSize` 는 토큰이 아니라 문자 수다([context-budget.ts#L4-L7](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/context-budget.ts#L4-L7)). 값이 없으면 204,800 이고 응답 예약분은 15% 다.
 
-코드 따라가기: 원본 본문에 쓸 수 있는 문자 수를 정하는 함수다. [src/lib/ingest.ts#L2844-L2854](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2844-L2854)
+코드 분석: 원본 본문에 쓸 수 있는 문자 수를 정하는 함수다. [src/lib/ingest.ts#L2844-L2854](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2844-L2854)
 
 ```ts
 export function computeIngestSourceBudget(
@@ -411,7 +411,7 @@ $$
 
 분석 호출은 `temperature: 0.1` 로 원본을 읽고 구조화된 분석을 낸다. 시스템 프롬프트는 `buildAnalysisPrompt` 가 만들고, 사용자 메시지에 원본 식별자 · 폴더 문맥 · 본문이 들어간다.
 
-코드 따라가기: 분석 출력의 분량 상한이다. [src/lib/ingest.ts#L2408-L2415](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2408-L2415)
+코드 분석: 분석 출력의 분량 상한이다. [src/lib/ingest.ts#L2408-L2415](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2408-L2415)
 
 ```ts
 const ANALYSIS_OUTPUT_LIMITS = [
@@ -443,7 +443,7 @@ const ANALYSIS_OUTPUT_LIMITS = [
 
 생성 호출이 실제 위키 파일을 만든다. 출력 형식은 `---FILE: 경로---` 와 `---END FILE---` 로 감싼 블록의 연속이고, 그 뒤에 선택적으로 `---REVIEW: 종류 | 제목---` 블록이 온다.
 
-코드 따라가기: 무엇을 만들지 지시하는 절이다. [src/lib/ingest.ts#L2535-L2544](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2535-L2544)
+코드 분석: 무엇을 만들지 지시하는 절이다. [src/lib/ingest.ts#L2535-L2544](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2535-L2544)
 
 ```ts
     "## What to generate",
@@ -496,7 +496,7 @@ LLM 출력을 파일로 바꾸는 파서는 정규식 하나로 시작했다가 
 | H5 | 코드 블록 안의 `---END FILE---` 에서 잘림 | 펜스 상태를 추적해 펜스 밖에서만 닫기 인정 |
 | H6 | 경로가 빈 블록 | 경고 후 건너뜀 |
 
-코드 따라가기: H5 를 막는 펜스 추적이다. [src/lib/ingest.ts#L538-L561](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L538-L561)
+코드 분석: H5 를 막는 펜스 추적이다. [src/lib/ingest.ts#L538-L561](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L538-L561)
 
 ```ts
       const fenceMatch = FENCE_LINE.exec(line)
@@ -529,7 +529,7 @@ CommonMark 규칙대로 같은 문자로 같은 길이 이상이 와야 펜스�
 
 FILE 블록 경로는 LLM 출력에서 바로 나온다. 원본 문서에 "이 예시를 보여 주려면 `../../../etc/passwd` 에 써라" 같은 prompt injection 이 심겨 있으면 위키 밖 파일을 덮어쓸 수 있다. Rust `write_file` 은 경로를 가두지 않는 범용 명령이므로 파서 경계에서 막는다.
 
-코드 따라가기: 수집 경로 허용 규칙이다. [src/lib/ingest.ts#L438-L454](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L438-L454)
+코드 분석: 수집 경로 허용 규칙이다. [src/lib/ingest.ts#L438-L454](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L438-L454)
 
 ```ts
 export function isSafeIngestPath(p: string): boolean {
@@ -571,11 +571,11 @@ flowchart TD
     LG -- 예 --> X
     LG -- 아니오 --> K{어떤 파일인가}
     K -- log --> AP[기존 log 뒤에 덧붙임]
-    K -- 목록 페이지 --> OW[통째로 덮어씀]
+    K -- 목록 페이지 --> OW[전체 덮어쓰기]
     K -- 내용 페이지 --> MG[기존 페이지와 병합]
 ```
 
-코드 따라가기: 블록 내용에 적용되는 결정적 변환의 순서다. [src/lib/ingest.ts#L2157-L2169](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2157-L2169)
+코드 분석: 블록 내용에 적용되는 결정적 변환의 순서다. [src/lib/ingest.ts#L2157-L2169](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2157-L2169)
 
 ```ts
     let content = sanitizeIngestedFileContent(rawContent)
@@ -601,7 +601,7 @@ LLM 이 날짜를 잘못 쓰거나 `sources` 에 엉뚱한 값을 넣어도 코�
 
 ## 잘림 복구, 집계 파일, 완결성 게이트
 
-### 잘린 블록 다시 받기
+### 잘린 블록 재요청
 
 파서가 닫히지 않은 블록 경로를 `truncatedPaths` 로 넘기면, 아직 써지지 않은 경로에 한해 복구 호출을 한 번 한다. 프롬프트는 "요청한 경로마다 완전한 FILE 블록 하나씩, 다른 파일은 금지" 를 요구하고, 원본과 분석은 문맥 크기의 12% 로 자른다([#L2741-L2766](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2741-L2766)). 응답은 `filterTruncatedFileRepairOutput` 이 요청하지 않은 경로와 중복을 걸러낸 뒤 같은 `writeFileBlocks` 로 쓴다. 주석은 복구 호출에 리뷰 예산(더 작은 값)을 쓰면 원래 잘렸던 긴 페이지가 다시 잘린다는 이유로 생성 상한을 그대로 쓴다고 설명한다([#L1327-L1330](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1327-L1330)).
 
@@ -615,7 +615,7 @@ LLM 이 요약 페이지를 만들지 못했으면 `buildFallbackSourceSummary` 
 
 ### 완결성 게이트
 
-코드 따라가기: 부분 성공을 성공으로 치지 않는 판정이다. [src/lib/ingest.ts#L1483-L1488](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1483-L1488)
+코드 분석: 부분 성공을 성공으로 치지 않는 판정이다. [src/lib/ingest.ts#L1483-L1488](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1483-L1488)
 
 ```ts
   const resumeProducedNoValidFiles = previouslyCompletedPaths.length > 0 &&
@@ -663,8 +663,8 @@ schema 와 purpose 를 읽는 경로가 두 경로에서 다르다. 자동 경�
 ## 정리
 
 - 수집은 llm-wiki.md 의 ingest 묘사(요약 · 개체 · 개념 · index · log)를 단계별 코드로 옮겼고, "LLM 이 index 를 갱신한다" 는 부분만 코드의 결정적 갱신으로 바꿨다.
-- 분석과 생성을 나눈 두 번의 LLM 호출이 뼈대이며, 긴 원본은 의미 단위 청크와 전역 다이제스트로 먼저 압축하고 청크마다 체크포인트를 남긴다.
-- LLM 출력은 줄 단위 파서, 경로 허용 규칙, frontmatter 정리, 날짜 · `sources` 덮어쓰기, schema 라우팅을 거친 뒤에야 디스크에 닿는다.
+- 분석과 생성을 나눈 두 번의 LLM 호출이 핵심 구조이며, 긴 원본은 의미 단위 청크와 전역 다이제스트로 먼저 압축하고 청크마다 체크포인트를 남긴다.
+- LLM 출력은 줄 단위 파서, 경로 허용 규칙, frontmatter 정리, 날짜 · `sources` 덮어쓰기, schema 라우팅을 거친 뒤에야 디스크에 기록된다.
 - 큐는 준비를 병렬로, 쓰기를 시작 순서대로 처리하며 실패는 예외로 올려 최대 3회 재시도하고, 사용량 제한은 15분 일시정지로 처리한다.
 - 부분 성공은 성공으로 치지 않는다. 캐시와 리뷰 등록은 완결성 게이트 뒤에만 일어나고, 쓴 파일은 남겨 다음 시도에서 병합으로 수렴시킨다.
 - 이미지는 Rust 추출, SHA-256 캡션 캐시, 요약 페이지의 표식 절이라는 세 겹으로 처리되어 LLM 이 이미지를 빠뜨려도 위키에 남는다.

@@ -1,6 +1,6 @@
 LLM Wiki 는 Tauri v2 데스크톱 앱이라 설치 경로가 둘이다. 릴리스 바이너리를 받거나, Node.js 와 Rust 툴체인으로 직접 빌드한다. 이 장은 두 경로를 코드와 설정 파일 기준으로 따라가고, 앱을 처음 켜서 프로젝트를 만들 때 디스크에 무엇이 생기는지, LLM 공급자를 어디서 고르는지까지 다룬다.
 
-## 설치 경로 한눈에 보기
+## 설치 경로 개요
 
 README 의 설치 절은 짧다. 사전 빌드 바이너리, 소스 빌드, Chrome 확장 세 가지를 안내한다 ([README.md L396-L426](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L396-L426)). 한국어판도 같은 구성이다 ([README_KO.md L404-L435](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README_KO.md#L404-L435)).
 
@@ -37,7 +37,7 @@ flowchart TD
 
 README 는 Releases 페이지에서 macOS(Apple Silicon) `.dmg`, Windows `.msi`, Linux `.deb` / `.AppImage` 를 받으라고 적는다. 실제로 무엇이 올라가는지는 릴리스 워크플로가 정한다.
 
-### 코드 따라가기: 릴리스 빌드 행렬
+### 코드 분석: 릴리스 빌드 행렬
 
 빌드 대상 플랫폼 목록을 본다. [.github/workflows/build.yml L3-L31](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/.github/workflows/build.yml#L3-L31)
 
@@ -101,7 +101,7 @@ npm run tauri build    # 배포 번들
 
 README 는 Linux 시스템 라이브러리를 따로 적지 않는다. Linux 에서 소스 빌드를 할 때는 워크플로의 `apt-get install` 줄을 그대로 쓰면 된다.
 
-### 코드 따라가기: npm scripts
+### 코드 분석: npm scripts
 
 빌드 명령이 서로를 어떻게 부르는지 본다. [package.json L6-L18](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/package.json#L6-L18)
 
@@ -133,7 +133,7 @@ README 는 Linux 시스템 라이브러리를 따로 적지 않는다. Linux 에
 | `test:llm` | 파일명에 `real-llm` 이 든 테스트만 순차 실행 | API 키가 있을 때 (14장) |
 | `mcp:build`, `mcp:test` | `mcp-server/` 하위 패키지 빌드 · 테스트 | MCP 서버 작업 (13장) |
 
-### 코드 따라가기: tauri.conf.json 의 build 블록
+### 코드 분석: tauri.conf.json 의 build 블록
 
 `tauri dev` 와 `tauri build` 가 프론트엔드를 다루는 방식을 본다. [src-tauri/tauri.conf.json L6-L11](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/tauri.conf.json#L6-L11)
 
@@ -183,7 +183,7 @@ README 는 Linux 시스템 라이브러리를 따로 적지 않는다. Linux 에
 
 앱이 뜨면 프론트엔드 루트 컴포넌트 `App` 이 저장된 설정을 읽고 마지막 프로젝트를 다시 연다. 열 프로젝트가 없으면 환영 화면을 보여 준다.
 
-### 코드 따라가기: 시작 시 마지막 프로젝트 복원
+### 코드 분석: 시작 시 마지막 프로젝트 복원
 
 시작 시 무엇을 어떤 순서로 불러오는지 본다. [src/App.tsx L305-L431](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L305-L431) 에서 일부를 인용한다 ([L313-L317](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L313-L317), [L415-L423](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L415-L423)).
 
@@ -209,9 +209,9 @@ if (lastProject) {
 
 환영 화면은 새 프로젝트 만들기, 기존 폴더 열기, 최근 프로젝트 목록 세 가지를 보여 준다 ([src/components/project/welcome-screen.tsx](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/project/welcome-screen.tsx#L14-L31)). 최근 목록은 경로 기준으로 중복을 지우고 최대 10개까지 유지한다 ([project-store.ts L34-L42](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/project-store.ts#L34-L42)).
 
-## 첫 프로젝트 만들기
+## 첫 프로젝트 생성
 
-프로젝트 생성은 프론트엔드 다이얼로그와 Rust command 두 곳이 나눠 맡는다. Rust 는 폴더 뼈대와 기본 파일을 만들고, 프론트엔드는 템플릿과 언어 설정을 덧입힌다.
+프로젝트 생성은 프론트엔드 다이얼로그와 Rust command 두 곳이 나눠 맡는다. Rust 는 기본 폴더 구조와 기본 파일을 만들고, 프론트엔드는 템플릿과 언어 설정을 적용한다.
 
 ```mermaid
 sequenceDiagram
@@ -250,7 +250,7 @@ sequenceDiagram
 
 출력 언어 목록은 [output-language-options.ts](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/output-language-options.ts#L17-L30) 에 있다. 생성 다이얼로그는 이 목록에서 `auto` 를 걸러 낸다 ([L180](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/project/create-project-dialog.tsx#L180)). 주석은 새 프로젝트가 "처음 본 텍스트로 언어를 추측하는" 모드로 암묵적으로 시작하지 않게 하려는 의도라고 설명한다. `auto` 는 나중에 설정의 Output 항목에서 명시적으로 고를 수 있다.
 
-### 코드 따라가기: 생성 버튼 핸들러
+### 코드 분석: 생성 버튼 핸들러
 
 생성 버튼을 누르면 무엇이 어떤 순서로 실행되는지 본다. [src/components/project/create-project-dialog.tsx L114-L134](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/project/create-project-dialog.tsx#L114-L134)
 
@@ -275,9 +275,9 @@ handleOpenChange(false)
 
 Rust 의 `create_project` 가 기본 `schema.md` 와 `purpose.md` 를 이미 쓴 상태에서 프론트엔드가 템플릿 내용으로 다시 덮어쓴다. 그래서 디스크에 남는 `schema.md` 는 항상 템플릿 쪽이다. Rust 쪽 기본 스키마는 앱 밖에서 `create_project` 를 부르는 경우의 대비책으로 보인다 (추정). 출력 언어는 프로젝트 UUID 를 키로 `projectOutputLanguages` 에 저장되고, 같은 값이 전역 `outputLanguage` 에도 기록된다 ([project-store.ts L413-L420](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/project-store.ts#L413-L420)).
 
-### 코드 따라가기: Rust create_project 가 만드는 폴더
+### 코드 분석: Rust create_project의 생성 폴더
 
-폴더 뼈대를 만드는 부분을 본다. [src-tauri/src/commands/project.rs L16-L37](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/project.rs#L16-L37)
+기본 폴더 구조를 만드는 부분을 본다. [src-tauri/src/commands/project.rs L16-L37](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/project.rs#L16-L37)
 
 ```rust
 fn create_project_impl(name: String, path: String) -> Result<WikiProject, String> {
@@ -393,7 +393,7 @@ README 의 프로젝트 구조 그림([README.md L473-L494](https://github.com/n
 
 `onCreated` 는 `App` 의 `handleProjectOpened` 로 연결된다 ([App.tsx L666-L670](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L666-L670)). 새로 만든 프로젝트와 기존 프로젝트를 여는 경로가 여기서 합쳐진다. 이 함수는 이전 프로젝트 상태를 비우고, 프로젝트별 LLM 설정과 출력 언어를 적용하고, 수집 큐를 복원하고, 파일 감시와 클립 서버 알림을 시작한다 ([App.tsx L433-L593](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L433-L593)). 각 단계는 3장의 상태 저장소 절에서 다시 본다. 첫 화면은 `activeView` 를 `"wiki"` 로 두므로 위키 트리가 보인다 ([L465](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/App.tsx#L465)).
 
-## LLM 공급자 고르기
+## LLM 공급자 선택
 
 프로젝트만 만들어서는 수집이 돌지 않는다. README 빠른 시작의 두 번째 단계가 "Settings 에서 LLM provider 설정"이다 ([README.md L428-L438](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L428-L438)).
 
@@ -411,7 +411,7 @@ README 의 프로젝트 구조 그림([README.md L473-L494](https://github.com/n
 | `api-server` | 13장 |
 | `output` | 4장, 8장 |
 
-### 코드 따라가기: LLM 범주만 저장 방식이 다른 이유
+### 코드 분석: LLM 범주만 저장 방식이 다른 이유
 
 LLM 범주가 공용 저장 버튼을 쓰지 않는 부분을 본다. [settings-view.tsx L660-L668](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/settings/settings-view.tsx#L660-L668)
 
@@ -444,7 +444,7 @@ function toggleActive(id: string) {
 
 이미 활성인 프리셋을 다시 누르면 `null` 이 되어 LLM 이 꺼진다. `persist` 는 공급자별 설정, 활성 프리셋 id, 그리고 프리셋 기본값에 사용자 덮어쓰기를 합친 최종 `llmConfig` 를 모두 `app-state.json` 에 쓴다 ([L74-L100](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/settings/sections/llm-provider-section.tsx#L74-L100)). 모든 프리셋을 끄면 API 키가 비어 있는 상태로 바꿔서 수집 · 중복 제거 · 리뷰 큐가 즉시 멈추게 한다.
 
-### "LLM 이 준비됐는가" 판정
+### LLM 준비 상태 판정
 
 앱 곳곳의 큐는 같은 함수 하나로 LLM 사용 가능 여부를 판단한다. [src/lib/has-usable-llm.ts L42-L47](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/has-usable-llm.ts#L42-L47)
 
@@ -471,7 +471,7 @@ export function hasUsableLlm(
 
 > **주의**: API 키는 앱 데이터 폴더의 `app-state.json` 에 평문 JSON 으로 저장된다. Rust 쪽 에이전트도 이 파일을 직접 읽는다 ([src-tauri/src/lib.rs L405-L434](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L405-L434)). OS 키체인을 쓰는 코드는 찾지 못했다.
 
-## 첫 원본 넣기까지
+## 첫 원본 추가 절차
 
 LLM 이 활성화되면 README 빠른 시작의 나머지 단계로 넘어간다.
 
@@ -487,6 +487,6 @@ LLM 이 활성화되면 README 빠른 시작의 나머지 단계로 넘어간다
 
 - 설치는 릴리스 바이너리 또는 소스 빌드다. 릴리스 워크플로는 README 목록보다 넓게 Linux ARM64, Windows NSIS exe, 포터블 zip 까지 만든다. macOS 는 Apple Silicon 만 빌드한다.
 - `npm run tauri build` 는 `beforeBuildCommand` 로 MCP 서버까지 빌드하지만, `tauri dev` 는 Vite 만 띄우므로 README 대로 `mcp:build` 를 먼저 돌려 둔다.
-- 프로젝트 생성은 Rust `create_project` 가 `raw/`, `wiki/` 뼈대와 기본 파일, `.obsidian/` 을 만들고, 프론트엔드가 템플릿 `schema.md` · `purpose.md` · 추가 폴더와 프로젝트 UUID 를 덧입히는 두 단계다.
+- 프로젝트 생성은 Rust `create_project` 가 `raw/`, `wiki/` 기본 구조와 기본 파일, `.obsidian/` 을 만들고, 프론트엔드가 템플릿 `schema.md` · `purpose.md` · 추가 폴더와 프로젝트 UUID 를 덧입히는 두 단계다.
 - llm-wiki.md 의 raw · wiki · schema 세 층이 그대로 폴더로 구현됐고, 앱은 방향을 적는 `purpose.md` 를 더했다. 기존 폴더는 `schema.md` 와 `wiki/` 만 있으면 열린다.
 - LLM 설정은 프리셋 23개 중 하나를 활성화하는 방식이며 입력 즉시 `app-state.json` 에 저장된다. `hasUsableLlm` 이 참이 되기 전에는 수집 큐가 돌지 않는다.

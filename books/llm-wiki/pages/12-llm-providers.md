@@ -38,7 +38,7 @@ flowchart TB
 
 `streamChat`은 앱의 모든 TypeScript LLM 호출(수집, 린트, 질의, 연결 시험)이 쓰는 함수다. 콜백 계약은 `onToken`, `onReasoningToken`, `onDone`, `onError` 네 개다([`llm-client.ts#L10-L20`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-client.ts#L10-L20)).
 
-코드 따라가기: [`src/lib/llm-client.ts#L226-L243`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-client.ts#L226-L243)
+코드 분석: [`src/lib/llm-client.ts#L226-L243`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-client.ts#L226-L243)
 
 무엇을 보는지: CLI 공급자는 HTTP 설정을 만들기 전에 갈라 나간다.
 
@@ -82,11 +82,11 @@ HTTP 공급자는 `getHttpFetch()`가 돌려주는 fetch로 요청한다. 이 fe
 - 스트림이 끝났는데 본문 글자가 0이고 finish reason이 `length` · `max_tokens` 류면 `truncated: true`로 끝낸다.
 - 본문 글자가 0인데 추론(reasoning) 글자가 200자 이상이면 "추론만 하고 답을 내지 않았다"는 진단 오류를 낸다([`llm-client.ts#L474-L500`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-client.ts#L474-L500)). 빈 문자열이 몇 단계 위에서 "분석 없음"으로 조용히 바뀌는 일을 막으려는 것이다.
 
-### 헤더 합치기
+### 헤더 병합
 
 사용자는 공급자 프리셋마다 게이트웨이용 헤더를 추가할 수 있다. 이 헤더가 인증 헤더를 덮어쓰지 못하게 하는 함수가 `mergeLlmRequestHeaders`다.
 
-코드 따라가기: [`src/lib/llm-providers.ts#L85-L101`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-providers.ts#L85-L101)
+코드 분석: [`src/lib/llm-providers.ts#L85-L101`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-providers.ts#L85-L101)
 
 무엇을 보는지: 사용자 헤더를 먼저 넣고 프로토콜 헤더를 나중에 넣어, 이름이 겹치면 프로토콜 쪽이 이긴다.
 
@@ -122,7 +122,7 @@ Ollama 분기는 항상 `Origin: http://localhost`를 붙인다. `localLlmOrigin
 
 Anthropic 형식은 `anthropic`, `minimax`, `apiMode: "anthropic_messages"`인 `custom`이 함께 쓴다. 사용자가 붙여 넣는 주소 모양이 제각각이라 URL을 맞추는 함수가 따로 있다.
 
-코드 따라가기: [`src/lib/llm-providers.ts#L801-L821`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-providers.ts#L801-L821)
+코드 분석: [`src/lib/llm-providers.ts#L801-L821`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/llm-providers.ts#L801-L821)
 
 무엇을 보는지: `/v1/messages`가 이미 있으면 그대로, `/v1`로 끝나면 `/messages`만, 그 밖에는 `/v1/messages`를 붙인다.
 
@@ -182,7 +182,7 @@ Azure는 리소스 주소, 배포 이름, API 버전 세 조각으로 URL을 만
 
 설정 화면의 엔드포인트 입력란은 포커스를 잃을 때 `normalizeEndpoint`로 주소를 고치고 경고를 보여 준다([`llm-provider-section.tsx#L989`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/settings/sections/llm-provider-section.tsx#L989)). 주석이 꼽는 흔한 실수는 둘이다. 요청 경로까지 붙여 넣어 `/chat/completions`가 두 번 붙는 경우, 버전 구간(`/v1`)을 빠뜨리는 경우다.
 
-코드 따라가기: [`src/lib/endpoint-normalizer.ts#L36-L40`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/endpoint-normalizer.ts#L36-L40)
+코드 분석: [`src/lib/endpoint-normalizer.ts#L36-L40`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/endpoint-normalizer.ts#L36-L40)
 
 무엇을 보는지: 언제나 지워도 되는 꼬리와 모드에 따라 다른 꼬리를 나눈다.
 
@@ -238,7 +238,7 @@ sequenceDiagram
 
 두 CLI 모두 작업 디렉터리를 현재 프로젝트 경로로 고정하고, 그 경로가 정말 LLM Wiki 프로젝트인지 확인한다.
 
-코드 따라가기: [`src-tauri/src/commands/claude_cli.rs#L496-L508`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L496-L508)
+코드 분석: [`src-tauri/src/commands/claude_cli.rs#L496-L508`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L496-L508)
 
 무엇을 보는지: 절대 경로이고 디렉터리이며 `wiki/index.md`가 있어야 spawn한다.
 
@@ -263,13 +263,13 @@ Codex 쪽도 같은 검사를 한다([`codex_cli.rs#L338-L371`](https://github.c
 
 실행 파일은 `cli_resolver.rs`의 `find_cli_command`로 찾고 결과를 캐시한다. macOS에서 Finder로 앱을 띄우면 launchd의 짧은 PATH를 물려받아 nvm 아래 `node`를 찾지 못한다. 그래서 로그인 셸(`-ilc`)을 한 번 띄워 PATH를 얻고, 자식 프로세스 PATH 앞에 붙인다([`cli_resolver.rs#L44-L76`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/cli_resolver.rs#L44-L76)). `--version` 확인은 10초 제한이 있다([`cli_resolver.rs#L12`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/cli_resolver.rs#L12)).
 
-### Claude Code: 대화 턴을 stream-json으로 보내기
+### Claude Code: stream-json 기반 대화 턴 전송
 
 `claude_cli_spawn`은 메시지 배열에서 system 메시지를 모아 첫 user 턴 앞에 붙인다. 주석은 `--system-prompt` 계열 플래그가 CLI 버전마다 있다 없다 해서 본문에 넣는 쪽을 택했다고 적는다([`claude_cli.rs#L261-L289`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L261-L289)). 텍스트 블록이 있으면 그 블록 앞에 합치고, 이미지만 있는 턴에만 텍스트 블록을 하나 새로 끼운다. 독립된 user 블록이 역할 바꾸기처럼 보이면 Claude Code의 prompt injection 방어가 거절할 수 있기 때문이다([`claude_cli.rs#L121-L156`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L121-L156)).
 
 그다음 각 턴을 `{"type": role, "message": {"role", "content"}}` 한 줄로 stdin에 쓰고 닫는다. `content`는 반드시 블록 배열이어야 한다. 문자열을 넣으면 assistant 턴에서 CLI가 `tool_use_id` 검사 중 죽는다는 관찰이 주석에 남아 있다([`claude_cli.rs#L328-L356`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L328-L356)).
 
-코드 따라가기: [`src-tauri/src/commands/claude_cli.rs#L441-L456`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L441-L456) 
+코드 분석: [`src-tauri/src/commands/claude_cli.rs#L441-L456`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/claude_cli.rs#L441-L456) 
 
 무엇을 보는지: `localCliIsolation`을 켜면 사용자 전역 설정, 도구, 세션 저장, 슬래시 명령을 끈다.
 
@@ -298,7 +298,7 @@ Codex 쪽도 같은 검사를 한다([`codex_cli.rs#L338-L371`](https://github.c
 
 stdout의 stream-json에는 같은 답이 두 번 실린다. `--verbose`일 때 오는 `stream_event`의 `text_delta`는 토큰 단위 조각이고, `assistant` 이벤트는 지금까지의 전체 메시지다.
 
-코드 따라가기: [`src/lib/claude-cli-transport.ts#L55-L65`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L55-L65)
+코드 분석: [`src/lib/claude-cli-transport.ts#L55-L65`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L55-L65)
 
 무엇을 보는지: 조각이 한 번이라도 오면 이후 전체 메시지 이벤트는 건너뛴다.
 
@@ -318,13 +318,13 @@ stdout의 stream-json에는 같은 답이 두 번 실린다. `--verbose`일 때 
 
 조각이 없는 이전 CLI 버전에서는 `assistant` 이벤트의 텍스트가 이전에 내보낸 텍스트로 시작하면 늘어난 부분만 내보낸다([`claude-cli-transport.ts#L70-L95`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L70-L95)). 세션 초기화, `tool_use`, `result` 요약은 무시한다.
 
-종료 처리는 세 갈래다([`claude-cli-transport.ts#L287-L316`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L287-L316)). 종료 코드가 0이 아니거나 `result` 이벤트에 `is_error: true`가 있으면 오류다. 0으로 끝났는데 텍스트가 하나도 없으면 역시 오류로 돌린다. 수집 파이프라인이 빈 스텁 페이지를 조용히 쓰는 대신 다시 시도하게 하려는 것이다. `buildExitError`는 stderr에 "unauthenticated", "oauth expired" 같은 문구가 있으면 "터미널에서 `claude`를 실행해 로그인하라"는 안내로 바꾼다. 앱은 실행 파일만 띄울 뿐 로그인 절차를 대신할 수 없기 때문이다([`claude-cli-transport.ts#L384-L416`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L384-L416)). 진단용 stdout 줄은 4,096자 고리 버퍼에 오류성 줄만 모은다.
+종료 처리는 세 가지다([`claude-cli-transport.ts#L287-L316`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L287-L316)). 종료 코드가 0이 아니거나 `result` 이벤트에 `is_error: true`가 있으면 오류다. 0으로 끝났는데 텍스트가 하나도 없으면 역시 오류로 돌린다. 수집 파이프라인이 빈 스텁 페이지를 조용히 쓰는 대신 다시 시도하게 하려는 것이다. `buildExitError`는 stderr에 "unauthenticated", "oauth expired" 같은 문구가 있으면 "터미널에서 `claude`를 실행해 로그인하라"는 안내로 바꾼다. 앱은 실행 파일만 띄울 뿐 로그인 절차를 대신할 수 없기 때문이다([`claude-cli-transport.ts#L384-L416`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/claude-cli-transport.ts#L384-L416)). 진단용 stdout 줄은 4,096자 고리 버퍼에 오류성 줄만 모은다.
 
 ### Codex: 프롬프트 한 덩어리와 read-only sandbox
 
 Codex 쪽은 대화 턴을 따로 보내지 않고 역할 태그로 감싼 프롬프트 하나를 만든다.
 
-코드 따라가기: [`src/lib/codex-cli-transport.ts#L46-L59`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/codex-cli-transport.ts#L46-L59)
+코드 분석: [`src/lib/codex-cli-transport.ts#L46-L59`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/codex-cli-transport.ts#L46-L59)
 
 무엇을 보는지: 본문 안의 `<SYSTEM>` 같은 대문자 태그를 이스케이프해 역할 경계를 위조하지 못하게 한다.
 
@@ -347,7 +347,7 @@ export function buildPrompt(messages: ChatMessage[]): string {
 
 이미지는 `[Image omitted: image/png]` 같은 자리 표시로 바뀐다([`codex-cli-transport.ts#L36-L44`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/codex-cli-transport.ts#L36-L44)). 앞에서 본 `supportsImageInput`이 `codex-cli`를 불가로 판정하는 이유와 맞물린다.
 
-코드 따라가기: [`src-tauri/src/commands/codex_cli.rs#L315-L336`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/codex_cli.rs#L315-L336) (발췌)
+코드 분석: [`src-tauri/src/commands/codex_cli.rs#L315-L336`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/codex_cli.rs#L315-L336) (발췌)
 
 무엇을 보는지: 승인 요청 없음, JSON 출력, 읽기 전용 sandbox, 일회성 세션, stdin에서 프롬프트 읽기.
 
@@ -414,7 +414,7 @@ Codex에는 전체 실행 시간 상한이 있다. 기본 10분, 1분에서 240�
 
 설정 화면의 "연결 시험"과 "기능 시험" 버튼은 `connection-tests.ts`를 부른다. 둘 다 실제 `streamChat`을 거치므로 CLI 공급자도 같은 버튼으로 확인한다.
 
-코드 따라가기: [`src/lib/connection-tests.ts#L93-L123`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/connection-tests.ts#L93-L123) (발췌)
+코드 분석: [`src/lib/connection-tests.ts#L93-L123`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/connection-tests.ts#L93-L123) (발췌)
 
 무엇을 보는지: 기능 시험은 정해진 토큰을 그대로 따라 말하는지 본다.
 
@@ -441,7 +441,7 @@ export async function testLlmFunction(cfg: LlmConfig): Promise<ProviderTestResul
 | `testEmbeddingConnection` | 짧은 문장 하나 | 벡터가 돌아옴. 차원 수 표시 |
 | `testEmbeddingFunction` | 같은 문장 두 번 | 두 벡터 차원이 같고, 값이 모두 유한하고, norm이 0보다 큼 |
 
-LLM 시험은 `max_tokens: 512`, `reasoning: { mode: "auto" }`로 보낸다([`connection-tests.ts#L10`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/connection-tests.ts#L10)). 첫 시험은 "닿는가", 두 번째는 "지시를 따르는가"를 본다. 엔드포인트는 맞는데 모델이 추론만 하다 끝나거나 엉뚱한 모델이 걸린 경우를 두 번째 시험이 걸러 낸다.
+LLM 시험은 `max_tokens: 512`, `reasoning: { mode: "auto" }`로 보낸다([`connection-tests.ts#L10`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/connection-tests.ts#L10)). 첫 시험은 연결 여부, 두 번째는 지시 준수 여부를 확인한다. 엔드포인트는 맞는데 모델이 추론만 하다 끝나거나 엉뚱한 모델이 걸린 경우를 두 번째 시험이 걸러 낸다.
 
 ## 설정 보조 유틸
 
@@ -455,7 +455,7 @@ LLM 시험은 `max_tokens: 512`, `reasoning: { mode: "auto" }`로 보낸다([`co
 
 ## LLM Wiki 패턴과의 대응
 
-Karpathy의 원본 아이디어 문서는 이 문서를 "OpenAI Codex, Claude Code, OpenCode 같은 자기 LLM 에이전트에 붙여 넣으라"고 시작한다([`llm-wiki.md#L5`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/llm-wiki.md#L5)). 원본에서 위키를 쓰는 주체가 바로 그 CLI 에이전트다. LLM Wiki는 이 관계를 뒤집어, 앱이 위키 구조와 수집 절차를 쥐고 CLI는 텍스트를 생성하는 공급자 하나로 쓴다. Codex에 `--sandbox read-only`를, Claude에 격리 옵션을 주는 이유가 여기서 나온다. CLI가 원래 가진 파일 편집 능력을 꺼야 앱의 생성 전용 쓰기, 검증, 리뷰 큐(9장, 11장)가 우회되지 않는다. 반대 방향, 즉 외부 CLI 에이전트가 주체가 되어 앱의 위키를 읽고 쓰는 경로는 13장의 MCP 서버가 맡는다.
+Karpathy의 원본 아이디어 문서는 이 문서를 "OpenAI Codex, Claude Code, OpenCode 같은 자기 LLM 에이전트에 붙여 넣으라"고 시작한다([`llm-wiki.md#L5`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/llm-wiki.md#L5)). 원본에서 위키를 쓰는 주체가 바로 그 CLI 에이전트다. LLM Wiki는 이 관계를 뒤집어, 앱이 위키 구조와 수집 절차를 관리하고 CLI는 텍스트를 생성하는 공급자 하나로 쓴다. Codex에 `--sandbox read-only`를, Claude에 격리 옵션을 주는 이유가 여기서 나온다. CLI가 원래 가진 파일 편집 능력을 꺼야 앱의 생성 전용 쓰기, 검증, 리뷰 큐(9장, 11장)가 우회되지 않는다. 반대 방향, 즉 외부 CLI 에이전트가 주체가 되어 앱의 위키를 읽고 쓰는 경로는 13장의 MCP 서버가 맡는다.
 
 ## 정리
 

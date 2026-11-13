@@ -25,9 +25,9 @@ flowchart TD
 
 prefill과 decode는 같은 커널을 쓰지만 decode에서는 한 요청이 여러 행(draft 검증 행 + 마지막 fresh 행)을 차지한다는 점이 다르다. MTP를 끄면(`DEEPINFER_USE_NEXTN_DECODE=0`) decode도 요청당 한 행이 된다.
 
-## Sampler.forward 코드 따라가기
+## Sampler.forward 코드 분석
 
-### 진입부: logits 계산과 SO mask 준비를 겹친다
+### 진입부: logits 계산과 SO mask 준비의 중첩
 
 무엇을 보는지: logits GEMM과 구조화 출력 mask 준비가 어떤 순서로 시작되는지.
 
@@ -90,7 +90,7 @@ decode 분기는 `_verification`으로 넘어간다. 이 함수가 MTP 검증까
 
 ## 로짓 변형과 샘플링: process_sampling과 fused_sample
 
-### process_sampling: force_topk 공간으로 옮기고 커널을 부른다
+### process_sampling: force_topk 공간 변환과 커널 호출
 
 무엇을 보는지: force_topk가 켜졌을 때 vocab 공간이 어떻게 바뀌는지.
 
@@ -123,7 +123,7 @@ decode 분기는 `_verification`으로 넘어간다. 이 함수가 MTP 검증까
 
 > **주의**: force_topk는 top-k 밖 토큰을 softmax 분모에서 뺀다. 즉 샘플링 분포 자체가 바뀌는 근사다. 모델 회귀 테스트 `test_kl`은 KL 상한이 0이 아니면 force_topk를 반드시 끄도록 assert로 막고, 샘플러 분포 검정과 평가 스크립트도 `sampler_force_topk=0`으로 돈다(12장). 반면 `examples/benchmark.py`의 기본값은 1024다.
 
-### fused_sample 한 번에 하는 일
+### fused_sample의 일괄 처리 항목
 
 `fused_sample`은 TileLang 커널 팩토리 `ops.fused_sample_tl(vocab_size, do_sample, do_reject_sampling)`을 만들어 호출하는 얇은 래퍼다([fused_sample.py L18-L118](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/fused_sample.py#L18-L118)). 커널 본문은 GPU 프로그램이라 읽기 어렵지만, 같은 파일에 PyTorch 참조 구현 `fused_sample_ref`가 있고 테스트가 둘을 비교한다. 동작은 참조 구현으로 읽는 편이 빠르다.
 
@@ -232,7 +232,7 @@ draft 분포를 $p$, target 분포를 $q$라 하면 draft 토큰 $j$는 확률 $
 
 $$r_i = \max\left(q_i - \alpha\, p_i,\ 0\right),\quad \alpha = e^{-\text{DRAFT\_PROB\_PENALTY}}$$
 
-에서 다시 뽑는다. 표준 speculative sampling은 $\alpha = 1$이지만 DeepInfer는 `DRAFT_PROB_PENALTY = 5e-5`를 둬서 $\alpha$를 1보다 살짝 작게 한다([common.py L53](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/common.py#L53)). 주석은 이유를 "reject sampling 이 아무것도 못 뽑는 것을 막기 위해"라고 적는다. $p = q$이면 잔차가 전부 0이 되어 샘플할 수 없기 때문이다. 대신 출력 분포가 $q$에서 조금 벗어나는데, [common.py L1-L20](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/common.py#L1-L20)의 docstring이 오차 범위를 유도해 둔다. $\varepsilon = 1 - \alpha$라 하면 실제 출력 확률 $A_j$는
+에서 다시 뽑는다. 표준 speculative sampling은 $\alpha = 1$이지만 DeepInfer는 `DRAFT_PROB_PENALTY = 5e-5`를 둬서 $\alpha$를 1보다 약간 작게 설정한다([common.py L53](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/common.py#L53)). 주석은 이유를 "reject sampling 이 아무것도 못 뽑는 것을 막기 위해"라고 적는다. $p = q$이면 잔차가 전부 0이 되어 샘플할 수 없기 때문이다. 대신 출력 분포가 $q$에서 조금 벗어나는데, [common.py L1-L20](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/common.py#L1-L20)의 docstring이 오차 범위를 유도해 둔다. $\varepsilon = 1 - \alpha$라 하면 실제 출력 확률 $A_j$는
 
 $$q_j - \frac{\varepsilon}{1+\varepsilon} \le A_j \le (1+\varepsilon)\, q_j$$
 
@@ -258,7 +258,7 @@ $$q_j - \frac{\varepsilon}{1+\varepsilon} \le A_j \le (1+\varepsilon)\, q_j$$
 
 샘플러 쪽 Python 코드는 `ops.xxx_tl` 이름으로 커널을 부르고, 어느 하드웨어 구현을 쓸지는 한 파일에서만 정한다.
 
-[ops.py L13-L22](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/ops.py#L13-L22)는 import 시점에 백엔드 패키지의 모든 모듈을 훑어 이름이 `_tl`로 끝나는 커널 팩토리를 자기 네임스페이스로 다시 내보낸다. 두 모듈이 같은 이름을 내보내면 assert로 막는다. 해당 백엔드에 없는 커널을 부르면 `KernelUnavailableError`가 나고, 테스트 conftest가 이를 skip으로 바꾼다([L25-L32](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/ops.py#L25-L32)).
+[ops.py L13-L22](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/ops.py#L13-L22)는 import 시점에 백엔드 패키지의 모든 모듈을 조회해 이름이 `_tl`로 끝나는 커널 팩토리를 자기 네임스페이스로 다시 내보낸다. 두 모듈이 같은 이름을 내보내면 assert로 막는다. 해당 백엔드에 없는 커널을 부르면 `KernelUnavailableError`가 나고, 테스트 conftest가 이를 skip으로 바꾼다([L25-L32](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/layers/tilelang_ops/ops.py#L25-L32)).
 
 `PLATFORM.tilelang_ops_backend`는 NVIDIA에서 `"cuda"`, Ascend에서 `"asc"`다([platform.py L57](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/platform.py#L57), [L88](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/platform.py#L88)). 그래서 `tilelang_ops/sampler.py`와 `fused_sample.py`는 인터페이스 · 참조 구현 · 테스트만 담고, 실제 커널은 `cuda/`, `asc/` 아래 같은 이름의 파일(`cuda/fused_sample.py` 등)에 있다. 두 구현이 어떻게 다른지는 11장에서 다룬다.
 
@@ -362,7 +362,7 @@ stateDiagram-v2
 
 > **주의**: SO 요청은 preemption 후 재계산을 지원하지 않는다. 스케줄러는 `so_status != 0`인 요청이 preempt되면 다시 계산하지 않고 `FINISHED_PREEMPTED`로 끝낸다([scheduler.hpp L766-L780](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/scheduler.hpp#L766-L780)). KV 캐시가 부족한 부하에서 SO 요청이 중간에 끊길 수 있다는 뜻이다.
 
-### draft 단계까지 mask를 만드는 방법
+### draft 단계의 mask 생성 방법
 
 MTP가 켜져 있으면 decode 한 스텝에서 요청당 최대 `nextn + 1`개 행을 동시에 검증한다. 각 행에 맞는 mask를 만들려면 matcher를 draft 토큰만큼 앞으로 굴렸다가 되돌려야 한다.
 
@@ -433,7 +433,7 @@ bitmask는 `[요청 수, ceil(vocab/32)]` 모양의 int32 텐서로, 워드 하�
 
 참조 구현은 Python 루프지만, 실제 커널(`apply_token_bitmask_by_step_inplace_tl`)은 선택된 요청 행을 병렬로 처리한다. decode에서는 `ftp`(요청별 첫 행 위치)와 `step`으로 "요청 r의 k번째 draft 행"을 찾아간다. 요청의 행 수가 step보다 적으면(variable-length MTP로 draft를 덜 검증하는 경우) 건너뛴다. mask는 `fused_sample` 전에 logits에 적용되므로, 샘플링뿐 아니라 draft 수락 판정에 쓰는 target 분포 $q$에도 문법이 반영된다.
 
-### 예제로 확인하기
+### 예제 검증
 
 `examples/_structured_output.py`는 세 가지 문법을 일부러 엉뚱한 프롬프트와 짝지어, 프롬프트가 아니라 문법이 출력을 지배하는지 확인한다.
 

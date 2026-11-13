@@ -75,7 +75,7 @@ classDiagram
 
 엔진의 `_init_cache`가 부르는 `profile_num_available_blocks`는 가짜 입력으로 최대 부하 스텝을 한 번 돌려 최대 메모리를 잰다. 프로파일용 시퀀스는 `profile_run`이 만든다. prompt 엔진이면 `max_num_batched_tokens`를 `max_num_seqs`개로 나눈 길이이고 첫 시퀀스의 `seqlen_k`만 `runtime_max_model_len`으로 늘린다. decode 전용 엔진이면 시퀀스마다 `1 + nextn` 토큰이다([worker/model_runner.py#L443-L496](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L443-L496)).
 
-### 코드 따라가기: profile_run 마무리
+### 코드 분석: profile_run 마무리
 
 [worker/model_runner.py#L498-L512](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L498-L512)에서 임시 KV cache와 MoE 불균형 강제를 본다.
 
@@ -164,7 +164,7 @@ sequenceDiagram
 
 CPU가 기다리는 지점은 앞 스텝의 `sample_end_evt` 하나다. 그 시점에는 이번 스텝 forward가 이미 GPU 대기열에 들어가 있으므로, 앞 스텝 후처리와 다음 스텝 스케줄링 시간이 forward 실행 뒤에 숨는다.
 
-### 코드 따라가기: forward 발행
+### 코드 분석: forward 발행
 
 [worker/worker.py#L113-L128](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/worker.py#L113-L128)을 본다.
 
@@ -196,7 +196,7 @@ CPU가 기다리는 지점은 앞 스텝의 `sample_end_evt` 하나다. 그 시�
 
 CUDA graph를 쓰는 decode라면 padding까지 포함한 길이(`n_seq_with_padding`)로 버퍼를 만든다. padding 칸은 `remap=-1`, 길이 1이다.
 
-### 코드 따라가기: 후처리와 샘플링, 그리고 미루기
+### 코드 분석: 후처리, 샘플링, 지연 처리
 
 [worker/worker.py#L143-L189](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/worker.py#L143-L189)의 뒷부분을 본다.
 
@@ -246,7 +246,7 @@ prompt 스텝은 ZOS에서도 그 자리에서 후처리한다. prefill 결과�
 
 ## ModelRunner의 입력 준비
 
-### 코드 따라가기: driver와 follower
+### 코드 분석: driver와 follower
 
 [worker/model_runner.py#L177-L214](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L177-L214)에서 driver가 입력을 만드는 두 경로를 본다.
 
@@ -291,7 +291,7 @@ CP가 2 이상이면 driver가 `broadcast_tensor_dict`로 메타데이터를 방
 
 ZOS decode에서 위치와 길이 계산을 GPU로 옮긴 이유는 3장의 낙관적 길이 때문이다. CPU가 아는 `seqlen_k`는 틀릴 수 있고 정답은 GPU의 앞 스텝 결과에만 있으므로, 그 값을 CPU로 가져오지 않고 GPU에서 바로 메타데이터를 만든다. 그래서 `CudaGraphRunner`도 ZOS에서는 `input_on_device=True`로 만들어져 graph 입력 원본이 장치 메모리에 있다([worker/model_runner.py#L72-L79](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L72-L79)).
 
-### 코드 따라가기: C++이 채우는 공통 필드
+### 코드 분석: C++ 측 공통 필드
 
 위치(`positions`)는 시퀀스마다 `[seqlen_k - seqlen_q, seqlen_k)` 구간을 차례로 적은 것이다([csrc/engine/input_metadata/prepare_tensor_input_base.cpp#L88-L96](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/input_metadata/prepare_tensor_input_base.cpp#L88-L96)). 입력 id를 채우는 [prepare_tensor_input_base.cpp#L98-L121](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/engine/input_metadata/prepare_tensor_input_base.cpp#L98-L121)을 본다.
 
@@ -339,7 +339,7 @@ forward가 받는 입력은 데이터클래스 하나다. V4 전용 필드가 �
 
 ([input_metadata.py#L26-L489](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/input_metadata/input_metadata.py#L26-L489))
 
-### 코드 따라가기: 압축 형태로 넘기고 forward에서 펼치기
+### 코드 분석: 압축 형태 전달과 forward 내 전개
 
 C++은 어텐션 인덱스를 `[시작, 길이]` 쌍 같은 압축 형태로만 만들고, 실제 인덱스 행렬은 forward 시작 때 GPU 커널로 펼친다. decode 쪽 [input_metadata.py#L371-L389](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/model_executor/input_metadata/input_metadata.py#L371-L389)를 본다.
 
@@ -399,7 +399,7 @@ def build_graph_batch_sizes(max_size: int, interval: int) -> list[int]:
 
 graph를 재생하면 선택된 크기만큼 padding 토큰이 계산 낭비가 된다. 간격 8이면 낭비는 graph당 최대 7토큰이다. prefill은 graph를 쓰지 않는다(`run_cuda_graph = not is_prompt and ...`). PROMPT 엔진과 `DEEPINFER_ENFORCE_EAGER=1`이면 graph 자체를 만들지 않는다([worker/model_runner.py#L73](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L73)).
 
-### 코드 따라가기: capture
+### 코드 분석: capture
 
 [worker/cuda_graph_runner.py#L117-L141](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cuda_graph_runner.py#L117-L141)에서 크기 하나를 캡처하는 과정을 본다.
 
@@ -431,7 +431,7 @@ graph를 재생하면 선택된 크기만큼 padding 토큰이 계산 낭비가 
             self.graphs[batch_size] = CudaGraphData(graph, graph_handle, output, input_metadata_source, input_metadata_device)
 ```
 
-캡처 앞단에서는 최대 크기로 placeholder 입력 원본(`input_metadata_source`), 장치 사본(`input_metadata_device`), 출력 버퍼를 한 번만 만들고, 크기마다 앞쪽을 잘라 쓴다. 큰 크기부터 캡처하고 첫 graph의 메모리 풀을 나머지가 공유하므로 graph 메모리는 사실상 최대 크기 하나 분량이다(추정, 풀 공유의 일반적인 동작에 근거). 각 크기는 warmup 한 번 뒤 캡처된다.
+캡처 앞단에서는 최대 크기로 placeholder 입력 원본(`input_metadata_source`), 장치 사본(`input_metadata_device`), 출력 버퍼를 한 번만 만들고, 크기마다 앞쪽을 잘라 쓴다. 큰 크기부터 캡처하고 첫 graph의 메모리 풀을 나머지가 공유하므로 graph 메모리는 실질적으로 최대 크기 하나 분량이다(추정, 풀 공유의 일반적인 동작에 근거). 각 크기는 warmup 한 번 뒤 캡처된다.
 
 graph 안의 `_run_model`은 `copy_inputs`가 참이면 CPU 원본을 장치 사본으로 복사하는 것부터 기록한다. ZOS가 아니면 재생할 때마다 이 복사가 graph 안에서 일어나고, ZOS면 입력이 이미 장치에 있으므로 복사를 기록하지 않는다. CP가 2 이상이면 장치 사본의 방송도 graph에 들어간다([worker/cuda_graph_runner.py#L54-L66](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/cuda_graph_runner.py#L54-L66)). 출력은 고정 버퍼로 `copy_`하므로 재생 결과는 늘 같은 텐서에 담긴다.
 
@@ -443,9 +443,9 @@ graph 안의 `_run_model`은 `copy_inputs`가 참이면 CPU 원본을 장치 사
 
 MTP 가변 길이가 켜져 있으면 캡처 직후 `profile_decode_perf`가 graph 크기마다 재생 시간을 잰다. 워밍업 1회, 측정 5회, 위아래 1개씩 버린 평균을 EP 그룹 전체에서 다시 평균한다([worker/model_runner.py#L586-L623](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/model_runner.py#L586-L623)). 결과 `[(batch_size, ms), ...]`는 스케줄러의 `decode_perf_curve`로 넘어가 한 스텝에 검증할 draft 길이를 고르는 데 쓰인다(8장). 측정은 `DEEPINFER_DECODE_PERF_CACHE_DIR`이 있으면 모델 경로, 크기 목록, 병렬 설정의 SHA-256 키로 파일에 저장하고 `DEEPINFER_DECODE_PERF_CACHE_TTL_SEC`(기본 3600초) 동안 재사용한다([worker/decode_perf_cache.py#L26-L52](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/worker/decode_perf_cache.py#L26-L52)).
 
-## graph_timer: graph 안에서 시간 재기
+## graph_timer: graph 내부 시간 측정
 
-`cuda_timer.record("device_forward")` 같은 일반 이벤트 쌍은 eager 실행에서는 매번 새로 기록되지만, graph 안에서는 캡처 때 넣은 이벤트가 그대로 재생된다. ZOS처럼 앞 스텝 graph가 아직 끝나지 않았는데 다음 graph를 재생하면 같은 이벤트를 덮어써서 앞 스텝 시간을 읽을 수 없게 된다. `csrc/graph_timer`와 `CUDAGraphTimer`는 이 문제를 이벤트 두 벌을 번갈아 끼우는 방식(ping-pong)으로 푼다.
+`cuda_timer.record("device_forward")` 같은 일반 이벤트 쌍은 eager 실행에서는 매번 새로 기록되지만, graph 안에서는 캡처 때 넣은 이벤트가 그대로 재생된다. ZOS처럼 앞 스텝 graph가 아직 끝나지 않았는데 다음 graph를 재생하면 같은 이벤트를 덮어써서 앞 스텝 시간을 읽을 수 없게 된다. `csrc/graph_timer`와 `CUDAGraphTimer`는 이 문제를 이벤트 두 벌을 번갈아 사용하는 방식(ping-pong)으로 해결한다.
 
 ```mermaid
 flowchart LR
@@ -459,7 +459,7 @@ flowchart LR
     G --> H["후처리 때 flush_out: 가장 오래된 대기 버퍼의 이벤트 쌍으로 elapsed_time"]
 ```
 
-### 코드 따라가기: C++ 프리미티브
+### 코드 분석: C++ 프리미티브
 
 [csrc/graph_timer/graph_timer_cuda.cpp#L19-L22](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/graph_timer/graph_timer_cuda.cpp#L19-L22)와 [#L57-L85](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/graph_timer/graph_timer_cuda.cpp#L57-L85)에서 핵심 호출 세 개를 본다.
 
@@ -492,7 +492,7 @@ std::vector<EventRecordNodeHandle> GraphHandle::get_event_record_nodes() const {
 
 캡처 중 `cudaEventRecordExternal` 플래그로 기록한 이벤트는 graph 안에서 event-record 노드가 된다. 인스턴스화한 뒤에는 `cudaGraphExecEventRecordNodeSetEvent`로 노드가 기록할 이벤트를 바꿀 수 있다. 원본 `cudaGraph_t`에서 노드를 찾아야 하므로 캡처 때 `torch.cuda.CUDAGraph(keep_graph=True)`로 원본 graph를 살려 둔다. `GraphHandle`은 torch 객체의 `raw_cuda_graph()`, `raw_cuda_graph_exec()`로 원시 핸들을 얻는다([graph_timer_cuda.cpp#L62-L65](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/csrc/graph_timer/graph_timer_cuda.cpp#L62-L65)).
 
-### 코드 따라가기: Python 쪽 버퍼 교체
+### 코드 분석: Python 쪽 버퍼 교체
 
 [deepinfer/timer.py#L169-L187](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/timer.py#L169-L187)에서 재생 직전 교체를 본다.
 

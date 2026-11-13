@@ -41,9 +41,9 @@ sequenceDiagram
     P->>S: assistant 메시지와 references 저장 (.llm-wiki/chats/<id>.json)
 ```
 
-`handleSend`는 공급자에 따라 두 갈래로 나뉜다. 일반 HTTP 공급자는 위 그림처럼 Rust 에이전트가 검색부터 최종 답까지 모두 맡는다. `claude-code`, `codex-cli` 같은 CLI 공급자(12장)는 Rust 에이전트를 검색용으로만 부르고, 받은 참조를 프롬프트에 붙여 CLI로 답을 스트리밍한다.
+`handleSend`는 공급자에 따라 두 경로로 나뉜다. 일반 HTTP 공급자는 위 그림처럼 Rust 에이전트가 검색부터 최종 답까지 모두 맡는다. `claude-code`, `codex-cli` 같은 CLI 공급자(12장)는 Rust 에이전트를 검색용으로만 부르고, 받은 참조를 프롬프트에 붙여 CLI로 답을 스트리밍한다.
 
-코드 따라가기: 백엔드 에이전트를 쓸지 정하는 조건을 본다. [chat-panel.tsx#L771-L773](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L771-L773)
+코드 분석: 백엔드 에이전트를 쓸지 정하는 조건을 본다. [chat-panel.tsx#L771-L773](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L771-L773)
 
 ```tsx
         const useBackendAgent =
@@ -55,7 +55,7 @@ sequenceDiagram
 
 ## 요청 인자: 모드, 히스토리, 검색 범위
 
-코드 따라가기: 스트리밍 경로가 에이전트에 넘기는 요청을 본다. [chat-panel.tsx#L987-L1006](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L987-L1006)
+코드 분석: 스트리밍 경로가 에이전트에 넘기는 요청을 본다. [chat-panel.tsx#L987-L1006](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L987-L1006)
 
 ```tsx
             await invoke<string>("agent_start_turn_stream", {
@@ -113,7 +113,7 @@ sequenceDiagram
 
 `faithful`은 이 장의 주제와 반대 방향의 선택지다. 위키는 LLM이 원본을 요약하고 해석한 2차 산출물이므로, 사용자가 원문 그대로의 근거를 원하면 위키를 건너뛰고 `raw/` 원본을 직접 본다. 이를 프롬프트 지시만으로 맡기지 않고, `overview.md`와 `schema.md`를 컨텍스트에서 아예 지운다.
 
-코드 따라가기: faithful 모드가 프로젝트 문맥을 비우는 함수를 본다. [runtime.rs#L2783-L2796](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L2783-L2796)
+코드 분석: faithful 모드가 프로젝트 문맥을 비우는 함수를 본다. [runtime.rs#L2783-L2796](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L2783-L2796)
 
 ```rust
 fn project_context_for_retrieval_mode(
@@ -134,7 +134,7 @@ fn project_context_for_retrieval_mode(
 
 주석의 "soft guarantee"라는 표현이 설계 의도를 보여 준다. "무시하라"는 지시는 모델이 따르지 않을 수 있으니, 근거 경계는 프롬프트를 만들기 전에 데이터 단계에서 강제한다. 같은 이유로 faithful 모드에서는 웹과 AnyTXT 도구를 아예 등록하지 않는다([runtime.rs#L225-L240](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/runtime.rs#L225-L240)).
 
-## 프롬프트에 들어가는 것
+## 프롬프트 구성 요소
 
 에이전트 컨텍스트는 `build_agent_context`가 시스템과 사용자 두 덩어리로 만든다([context.rs#L57-L62](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/context.rs#L57-L62)). 각 조각의 글자 수 상한은 파일 맨 위에 있다([context.rs#L9-L18](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/context.rs#L9-L18)).
 
@@ -153,7 +153,7 @@ fn project_context_for_retrieval_mode(
 
 `load_project_context`가 읽는 파일은 `overview.md`와 `schema.md` 두 개뿐이다([context.rs#L27-L35](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/context.rs#L27-L35)). README의 Phase 4 설명은 시스템 프롬프트에 "purpose.md, language rules, citation format, index.md"가 들어간다고 적지만([README.md#L226-L229](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L226-L229)), 현재 Rust 에이전트 컨텍스트에는 `purpose.md`와 `index.md`가 없다. README의 "numbered pages", "[1], [2]" 인용 형식도 현재 시스템 프롬프트에서는 "mention the relevant page paths naturally"로 바뀌었다.
 
-코드 따라가기: 검색 결과 하나가 프롬프트에 어떤 모양으로 들어가는지 본다. [context.rs#L223-L240](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/context.rs#L223-L240)
+코드 분석: 검색 결과 하나가 프롬프트에 어떤 모양으로 들어가는지 본다. [context.rs#L223-L240](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/context.rs#L223-L240)
 
 ```rust
         for (idx, reference) in input.references.iter().enumerate() {
@@ -186,7 +186,7 @@ fn project_context_for_retrieval_mode(
 
 CLI 공급자는 `agent_start_turn`(비스트리밍)으로 검색만 받아 온 뒤, 결과를 텍스트로 이어 붙여 사용자 메시지를 만든다.
 
-코드 따라가기: 검색 결과가 있을 때와 없을 때 프롬프트를 다르게 만드는 부분을 본다. [chat-panel.tsx#L1129-L1143](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L1129-L1143)
+코드 분석: 검색 결과가 있을 때와 없을 때 프롬프트를 다르게 만드는 부분을 본다. [chat-panel.tsx#L1129-L1143](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L1129-L1143)
 
 ```tsx
         const contextText = retrievedContext
@@ -243,7 +243,7 @@ flowchart TD
 
 ### 본문 정리와 제목
 
-코드 따라가기: 저장하기 전에 답 본문에서 지우는 것을 본다. [chat-save-to-wiki.ts#L1-L16](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/chat-save-to-wiki.ts#L1-L16)
+코드 분석: 저장하기 전에 답 본문에서 지우는 것을 본다. [chat-save-to-wiki.ts#L1-L16](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/chat-save-to-wiki.ts#L1-L16)
 
 ```ts
 export function cleanAssistantContentForWikiSave(content: string): string {
@@ -264,13 +264,13 @@ export function titleFromCleanAssistantContent(clean: string): string {
 }
 ```
 
-세 번째 정규식은 닫는 태그 없이 끝난 `<think>` 블록, 즉 사고 과정이 중간에 끊긴 답의 나머지를 통째로 지운다. 채팅 스트림이 추론 토큰을 `<think>...</think>`로 감싸 본문과 같은 문자열에 이어 붙이기 때문에 필요한 처리다. 제목은 질문이 아니라 답의 첫 줄이다. 답이 "## 요약"처럼 일반적인 heading으로 시작하면 제목도 "요약"이 된다.
+세 번째 정규식은 닫는 태그 없이 끝난 `<think>` 블록, 즉 사고 과정이 중간에 끊긴 답의 나머지를 모두 지운다. 채팅 스트림이 추론 토큰을 `<think>...</think>`로 감싸 본문과 같은 문자열에 이어 붙이기 때문에 필요한 처리다. 제목은 질문이 아니라 답의 첫 줄이다. 답이 "## 요약"처럼 일반적인 heading으로 시작하면 제목도 "요약"이 된다.
 
 파일명은 `wiki-filename.ts`가 만든다. 제목을 NFKC로 정규화하고 소문자로 바꾼 뒤 Unicode 문자, 숫자, 하이픈만 남겨 50자로 자르고, UTC 날짜와 시분초를 붙인다([wiki-filename.ts#L32-L66](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-filename.ts#L32-L66)). 머리 주석에 따르면 예전 구현이 ASCII 밖 문자를 모두 지워 중국어 제목이 빈 slug가 되었고, 하루에 하나만 저장되는 충돌이 있었다. 한국어 제목도 `\p{L}`에 들어가므로 slug에 그대로 남는다.
 
 ### 파일 쓰기와 색인 갱신
 
-코드 따라가기: 질의 페이지와 `index.md`를 쓰는 부분을 본다. [chat-message.tsx#L567-L577](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-message.tsx#L567-L577)
+코드 분석: 질의 페이지와 `index.md`를 쓰는 부분을 본다. [chat-message.tsx#L567-L577](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-message.tsx#L567-L577)
 
 ```tsx
       const frontmatter = [
@@ -334,7 +334,7 @@ Save to Wiki 말고도 대화에서 위키로 가는 길이 두 개 더 있다.
 
 설정 검사는 프론트 `webSearch`가 먼저 하고([web-search.ts#L130-L162](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/web-search.ts#L130-L162)), 실제 HTTP 요청은 Rust가 한다. 프론트 `webSearch`는 Tauri command `web_search`를 부르고, 이 command와 에이전트의 `web.search` 도구가 같은 `run_web_search` 함수를 공유한다([external_search.rs#L19-L38](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/external_search.rs#L19-L38)). 주석은 공급자와 네트워크 로직을 Rust로 옮기되, 딥 리서치(10장) 같은 기존 프론트 코드가 쓰던 `{ title, url, snippet, source }` 형태는 유지한다고 설명한다.
 
-코드 따라가기: 공급자 문자열로 구현을 고르는 분기를 본다. [tools.rs#L1295-L1319](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/tools.rs#L1295-L1319) 중 일부
+코드 분석: 공급자 문자열로 구현을 고르는 분기를 본다. [tools.rs#L1295-L1319](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/agent/tools.rs#L1295-L1319) 중 일부
 
 ```rust
     let config = config.resolved();
@@ -359,7 +359,7 @@ Save to Wiki 말고도 대화에서 위키로 가는 길이 두 개 더 있다.
 
 `context-budget.ts`는 원래 채팅 패널이 프롬프트를 채울 때 쓰던 예산 계산기다. 머리 주석은 아직 "used by chat-panel when packing the prompt"라고 적고 있고, `tryAddPage in chat-panel`도 언급한다([context-budget.ts#L1-L33](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/context-budget.ts#L1-L33)). 그러나 기준 커밋에서 이 모듈을 가져다 쓰는 곳은 `llm-providers.ts`와 `ingest.ts` 두 곳뿐이고, 채팅 프롬프트 조립은 Rust `fit_context_to_model`로 옮겨 갔다.
 
-코드 따라가기: 예산 비율 상수와 계산을 본다. [context-budget.ts#L55-L91](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/context-budget.ts#L55-L91) 중 일부
+코드 분석: 예산 비율 상수와 계산을 본다. [context-budget.ts#L55-L91](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/context-budget.ts#L55-L91) 중 일부
 
 ```ts
 const DEFAULT_MAX_CTX = 204_800

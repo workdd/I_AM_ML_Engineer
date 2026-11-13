@@ -111,7 +111,7 @@ for (let index = 0; index < contentFiles.length; index += 1) {
 
 진행률은 파일 읽기에 절반, 계산에 절반을 배정한다. 읽기 루프는 `index + 1`을 `contentFiles.length * 2`에 대해 보고하고, 워커 진행률은 그 뒤에 이어 붙인다.
 
-### 계산은 Web Worker에서
+### Web Worker 기반 계산
 
 페이지가 수천 개가 되면 후보 추천 계산이 UI 스레드를 막는다. 그래서 계산 함수 `computeStructuralLint`는 순수 함수로 분리되어 있고([lint-structural-core.ts](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/lint-structural-core.ts#L102-L224)), 브라우저 환경에서는 모듈 워커로 돌린다.
 
@@ -179,7 +179,7 @@ $w(t)$는 두 글자 이상 토큰이면 1, 한 글자 한자 토큰이면 0.35�
 | `CONTAINS_TARGET_SCORE` | 0.82 | 한쪽이 다른 쪽을 포함할 때 유사도 |
 | `MAX_SUGGESTION_CANDIDATES` | 64 | 점수 계산까지 가는 후보 수 상한 |
 
-`no-outlinks`의 추천 대상을 고를 때는 이미 링크한 페이지를 건너뛴다(`direction === "target"` 분기). 링크가 0개인 페이지에서는 사실상 의미가 없지만, 같은 함수를 공유하기 위한 처리다.
+`no-outlinks`의 추천 대상을 고를 때는 이미 링크한 페이지를 건너뛴다(`direction === "target"` 분기). 링크가 0개인 페이지에서는 실질적인 의미가 없지만, 같은 함수를 공유하기 위한 처리다.
 
 ### 무시 규칙: lint-config
 
@@ -222,7 +222,7 @@ $w(t)$는 두 글자 이상 토큰이면 1, 한 글자 한자 토큰이면 0.35�
 - 원문의 여섯 항목 가운데 LLM 몫인 모순, 오래된 주장, 빠진 개념, 조사할 질문을 그대로 네 유형으로 옮겼다.
 - 언어 지시문(`buildLanguageDirective`)은 요약 앞 2,000자를 표본으로 써서 위키의 언어에 맞춘다. 한국어 위키면 결과도 한국어로 나오도록 하는 장치다.
 
-### missing-page 오탐 걸러내기
+### missing-page 오탐 필터링
 
 LLM은 페이지 목록을 정확히 대조하지 못해서 이미 있는 개념을 "페이지 없음"으로 보고하는 일이 잦다. 코드는 파일명과 frontmatter 제목을 모두 정규화해 집합으로 만든 뒤, `missing-page` 결과의 제목이 이 집합에 정확히 있으면 버린다([lint.ts#L327-L332](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/lint.ts#L327-L332)).
 
@@ -232,7 +232,7 @@ LLM은 페이지 목록을 정확히 대조하지 못해서 이미 있는 개념
 
 결과는 모두 `type: "semantic"`으로 저장되고, 원래 유형은 `detail` 앞에 `[contradiction]`처럼 붙는다([lint.ts#L341-L347](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/lint.ts#L341-L347)). 화면에서는 네 유형이 하나의 아이콘으로 묶인다.
 
-## 린트 결과 고치기
+## 린트 결과 수정
 
 ### 항목 하나 고치기: handleFix
 
@@ -272,7 +272,7 @@ case "broken-link": {
 - `rewriteWikilinkTarget`: 대상만 바꾸고 `|alias` 부분은 그대로 둔다([lint-fixes.ts#L35-L49](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/lint-fixes.ts#L35-L49)). 화면에 보이는 링크 글자가 바뀌지 않는다.
 - `ensureBrokenLinkStub`: 깨진 대상에 폴더가 있으면 그 경로를, 없으면 `queries/` 아래를 쓴다. 이미 파일이 있으면 만들지 않는다. 만든 stub에는 `tags: [stub, lint]`와 "Created by Wiki Lint as a placeholder" 문장이 들어간다([lint-fixes.ts#L69-L102](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/lint-fixes.ts#L69-L102)). 페이지 유형은 경로에서 추론하고, 추론하지 못하면 `query`가 된다. frontmatter 구조는 5장에서 다룬다.
 
-### 여러 항목 한 번에 고치기
+### 다중 항목 일괄 수정
 
 여러 결과가 같은 페이지를 고치려 할 때, 하나씩 읽고 쓰면 앞의 수정이 뒤의 수정에 덮여 사라질 수 있다. 일괄 수정은 파일별로 변환 함수를 모은 뒤 한 번 읽고, 변환을 차례로 적용하고, 한 번 쓴다.
 
@@ -358,7 +358,7 @@ export function reviewIdFor(item: Pick<ReviewItem, "type" | "title">): string {
 
 `setItems`의 병합(`mergeReviewItems`)은 "해결됨이 이긴다", 배열 필드는 합집합, `createdAt`은 더 이른 값, 설명은 비어 있지 않은 쪽을 고른다([review-store.ts#L79-L93](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/review-store.ts#L79-L93)). 옛 `review-N` id로 저장된 파일을 불러와도 내용으로 id를 다시 계산하므로, 마이그레이션 버전 플래그 없이 몇 번 불러와도 결과가 같다.
 
-### property test가 보장하는 것
+### property test의 보장 항목
 
 `review-store.property.test.ts`는 fast-check로 무작위 입력을 만들어 병합 규칙의 불변식을 검사한다([review-store.property.test.ts](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/review-store.property.test.ts#L34-L124)). 생성기는 다섯 유형 중 하나, 1~60자 제목, 최대 4개의 `affectedPages`와 `searchQueries`를 만든다.
 
@@ -370,7 +370,7 @@ export function reviewIdFor(item: Pick<ReviewItem, "type" | "title">): string {
 
 세 번째 테스트는 처음 받은 id와 `resolvedAction: "auto-resolved"`가 그대로인지, 두 번째로 넣은 `second.md`가 `affectedPages`에 합쳐졌는지를 단언한다([review-store.property.test.ts#L110-L119](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/review-store.property.test.ts#L110-L119)). 세 번째 테스트는 수집이 같은 리뷰를 다시 만들 때 해결 상태가 되살아나던 회귀를 막는다. 주석이 "that revival was the bug being fixed"라고 적어 두었다. 이 테스트들은 `addItems` 경로만 다루고, `setItems`의 마이그레이션 병합이나 `addItem` 단건 경로는 별도의 예제 테스트(`review-store.test.ts`)가 맡는다. 테스트 전략 전체는 14장에서 정리한다.
 
-## 사람이 리뷰를 처리하는 흐름
+## 사람의 리뷰 처리 흐름
 
 리뷰 화면의 버튼을 누르면 `handleResolve(id, action)`이 `action` 문자열을 보고 할 일을 정한다([review-view.tsx#L90-L316](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/review/review-view.tsx#L90-L316)). LLM이 `OPTIONS:` 줄에 자유 문장을 쓸 수 있기 때문에, 접두어가 정해진 내부 action과 함께 문자열 휴리스틱도 쓴다.
 
@@ -413,7 +413,7 @@ sequenceDiagram
 
 "페이지 열기는 해결이 아니다"라는 원칙이 3번에 들어 있다. 주석이 "Viewing is not the same as accepting / fixing it"이라고 적고 있다([review-view.tsx#L167-L169](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/review/review-view.tsx#L167-L169)).
 
-6번은 휴리스틱의 폭이 넓다. `actionLooksLikeCreate`는 `actionIsDismissal`의 부정이다([review-view.tsx#L663-L681](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/review/review-view.tsx#L663-L681)). `skip`, `dismiss`, `ignore`, `approve`, `keep existing`, `no`와 중국어 두 단어 외의 문장은 모두 "페이지를 만들라"로 해석된다. 예를 들어 LLM이 `Merge pages`라는 선택지를 만들면 병합이 아니라 페이지 생성이 실행된다(코드 분기로 추론). README가 "Predefined action types: Create Page, Deep Research, Skip"이라고 쓴 것은 이 세 갈래로 수렴시킨다는 뜻으로 읽힌다.
+6번은 휴리스틱의 폭이 넓다. `actionLooksLikeCreate`는 `actionIsDismissal`의 부정이다([review-view.tsx#L663-L681](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/review/review-view.tsx#L663-L681)). `skip`, `dismiss`, `ignore`, `approve`, `keep existing`, `no`와 중국어 두 단어 외의 문장은 모두 "페이지를 만들라"로 해석된다. 예를 들어 LLM이 `Merge pages`라는 선택지를 만들면 병합이 아니라 페이지 생성이 실행된다(코드 분기로 추론). README가 "Predefined action types: Create Page, Deep Research, Skip"이라고 쓴 것은 이 세 유형으로 수렴시킨다는 뜻으로 읽힌다.
 
 > **주의**: dismissal 단어 목록은 영어와 중국어뿐이다. 한국어 위키에서 LLM이 `건너뛰기` 같은 선택지를 만들면 6번으로 가서 페이지가 생성된다(코드의 단어 목록으로 추론, 미검증). 수집 프롬프트가 선택지 언어를 어떻게 정하는지는 4장을 참고한다.
 
@@ -423,7 +423,7 @@ sequenceDiagram
 
 ## 오래된 리뷰 자동 정리: sweepResolvedReviews
 
-수집을 계속하다 보면 "X 페이지가 없다"던 리뷰가 다음 수집에서 X 페이지가 생기며 의미를 잃는다. 사람에게 이런 항목까지 처리하게 하면 큐가 쓸모없어진다. 수집 큐가 비는 순간 `sweepResolvedReviews`가 미해결 리뷰를 훑어 이미 해소된 것을 자동으로 해결한다([ingest-queue.ts#L1067-L1069](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-queue.ts#L1067-L1069)).
+수집을 계속하다 보면 "X 페이지가 없다"던 리뷰가 다음 수집에서 X 페이지가 생기며 의미를 잃는다. 사람에게 이런 항목까지 처리하게 하면 큐가 쓸모없어진다. 수집 큐가 비는 순간 `sweepResolvedReviews`가 미해결 리뷰를 전수 확인해 이미 해소된 것을 자동으로 해결한다([ingest-queue.ts#L1067-L1069](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest-queue.ts#L1067-L1069)).
 
 ```mermaid
 flowchart LR

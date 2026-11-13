@@ -1,4 +1,4 @@
-LLM Wiki 는 Rust 로 쓴 Tauri 백엔드 위에 React 프론트엔드를 얹은 구조다. 파일 입출력, 문서 파싱, 벡터 저장소, CLI 하위 프로세스, 로컬 HTTP 서버, 에이전트 런타임은 Rust 가 맡고, 화면과 상태, 수집 파이프라인 대부분, LLM 스트리밍 호출은 TypeScript 가 맡는다. 이 장은 두 층이 어디서 만나는지, 각 층에 어떤 모듈이 있는지 지도를 그린다. 하위 시스템의 세부 동작은 각 장으로 넘긴다.
+LLM Wiki 는 Rust 로 쓴 Tauri 백엔드와 React 프론트엔드를 결합한 구조다. 파일 입출력, 문서 파싱, 벡터 저장소, CLI 하위 프로세스, 로컬 HTTP 서버, 에이전트 런타임은 Rust 가 맡고, 화면과 상태, 수집 파이프라인 대부분, LLM 스트리밍 호출은 TypeScript 가 맡는다. 이 장은 두 층이 어디서 만나는지, 각 층에 어떤 모듈이 있는지 지도를 그린다. 하위 시스템의 세부 동작은 각 장으로 넘긴다.
 
 ## 전체 구조
 
@@ -75,7 +75,7 @@ flowchart TD
     F --> G[build 와 run 루프: macOS Reopen 처리]
 ```
 
-### 코드 따라가기: 플러그인 등록
+### 코드 분석: 플러그인 등록
 
 어떤 Tauri 플러그인을 쓰는지 본다. [src-tauri/src/lib.rs L555-L567](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L555-L567)
 
@@ -123,7 +123,7 @@ http 플러그인 주석이 이 앱의 중요한 설계 하나를 설명한다. 
 
 그다음 두 로컬 HTTP 서버를 띄운다. 클립 서버는 포트 `19827` ([clip_server.rs L17](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/clip_server.rs#L17)), API 서버는 포트 `19828` 이다 ([api_server.rs L23](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/api_server.rs#L23)). 주석은 트레이 같은 부가 기능보다 API 서버를 먼저 띄워야 트레이 생성이 실패해도 백엔드에 접근할 수 있다고 적는다. 두 서버는 10장과 13장에서 다룬다.
 
-### 코드 따라가기: 창 닫기 동작
+### 코드 분석: 창 닫기 동작
 
 닫기 버튼을 눌렀을 때의 분기를 본다. [lib.rs L704-L723](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L704-L723)
 
@@ -169,7 +169,7 @@ http 플러그인 주석이 이 앱의 중요한 설계 하나를 설명한다. 
 | `commands::external_search` | 2 | `web_search`, `anytxt_search` |
 | `agent::skills` | 1 | `agent_list_skills` |
 
-### 코드 따라가기: run_guarded
+### 코드 분석: run_guarded
 
 command 본문을 감싸는 panic 경계 함수를 본다. [src-tauri/src/panic_guard.rs L14-L22](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/panic_guard.rs#L14-L22)
 
@@ -187,9 +187,9 @@ where
 
 파일 첫 주석은 이 함수가 필요한 이유를 적는다. PDF, DOCX, 스프레드시트 파서 같은 서드파티 라이브러리는 잘못된 입력에서 `Err` 대신 panic 을 낸다. 그 panic 이 command 경계를 넘으면 앱 전체가 죽거나 정의되지 않은 동작이 된다 ([L1-L8](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/panic_guard.rs#L1-L8)). `catch_unwind` 로 잡아 `"Internal error in {label}: ..."` 문자열 오류로 바꾸므로 프론트엔드는 평범한 실패로 받는다. 2장에서 본 `Cargo.toml` 의 `panic = "unwind"` 는 이 함수가 동작하기 위한 전제다. `panic = "abort"` 였다면 잡을 기회 없이 프로세스가 끝난다. async command 용으로 `run_guarded_async` 도 있다 ([L25-L34](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/panic_guard.rs#L25-L34)).
 
-이 경계를 쓰는 곳은 `commands/` 중 `fs`, `vectorstore`, `file_sync`, `project`, `search`, `extract_images`, `external_search` 모듈과 `lib.rs` 의 상태 조회 command 다. 문서 파서와 직접 닿는 모듈들이다. `claude_cli`, `codex_cli`, `file_history`, `project_maintenance` 모듈에서는 `run_guarded` 호출을 찾지 못했다.
+이 경계를 쓰는 곳은 `commands/` 중 `fs`, `vectorstore`, `file_sync`, `project`, `search`, `extract_images`, `external_search` 모듈과 `lib.rs` 의 상태 조회 command 다. 문서 파서를 직접 호출하는 모듈들이다. `claude_cli`, `codex_cli`, `file_history`, `project_maintenance` 모듈에서는 `run_guarded` 호출을 찾지 못했다.
 
-### 코드 따라가기: write_file 이 하는 세 가지 일
+### 코드 분석: write_file의 세 가지 역할
 
 프론트엔드가 가장 자주 부르는 command 하나가 안에서 무엇을 하는지 본다. [src-tauri/src/commands/fs.rs L1242-L1266](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/fs.rs#L1242-L1266)
 
@@ -289,7 +289,7 @@ Sources 화면은 한 번 열리면 다른 화면으로 가도 숨김 처리만 
 | `zoom-store` | 29 | 화면 확대 비율 | `app-state.json` |
 | `app-dialog-store` | 74 | 확인 · 경고 대화상자 요청 큐 | 저장 없음 |
 
-### 코드 따라가기: wiki-store 의 두 LLM 설정
+### 코드 분석: wiki-store 의 두 LLM 설정
 
 설정 상태 중 LLM 관련 필드를 본다. [src/stores/wiki-store.ts L430-L440](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/wiki-store.ts#L430-L440)
 
@@ -311,7 +311,7 @@ projectLlmOverride: ProjectLlmOverride
 
 `dataVersion` 은 숫자 하나다. `bumpDataVersion` 이 1씩 올리고 ([wiki-store.ts L753](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/wiki-store.ts#L753)), 그래프 같은 무거운 화면은 이 값이 바뀌면 캐시를 버리고 다시 계산한다. README 는 이를 "dataVersion signaling" 이라고 부른다 ([README.md L377](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/README.md#L377)).
 
-### 코드 따라가기: 스토어 구독으로 자동 저장
+### 코드 분석: 스토어 구독으로 자동 저장
 
 스토어 변경을 디스크로 내보내는 방식을 본다. [src/lib/auto-save.ts L83-L94](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/auto-save.ts#L83-L94)
 
@@ -343,7 +343,7 @@ export function setupAutoSave(): void {
 | `fs.ts` | 33 | `commands::fs` 전부, `file_history`, 프로젝트 생성 · 열기, 서버 상태 조회, MCP 서버 경로 |
 | `file-sync.ts` | 7 | `commands::file_sync` 전부 |
 
-### 코드 따라가기: 래퍼가 하는 일
+### 코드 분석: 래퍼의 역할
 
 래퍼가 단순 전달 이상을 하는 예를 본다. [src/commands/fs.ts L22-L35](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/commands/fs.ts#L22-L35)
 
@@ -417,7 +417,7 @@ sequenceDiagram
     CP->>CP: unlisten, 메시지 확정
 ```
 
-### 코드 따라가기: 이벤트를 보내는 쪽
+### 코드 분석: 이벤트 송신 측
 
 Rust 가 에이전트 이벤트를 프론트엔드로 흘려보내는 부분을 본다. [lib.rs L210-L226](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/lib.rs#L210-L226)
 
@@ -443,7 +443,7 @@ tauri::async_runtime::spawn(async move {
 
 command 는 작업을 tokio task 로 넘기고 바로 `sessionId` 를 돌려준다. 이벤트는 앱 전체로 방송되므로 모든 창의 모든 리스너가 받는다. 그래서 각 이벤트에 `sessionId` 와 `runId` 를 넣어 보낸다.
 
-### 코드 따라가기: 이벤트를 받는 쪽
+### 코드 분석: 이벤트 수신 측
 
 프론트엔드가 자기 실행의 이벤트만 골라 받는 부분을 본다. [src/components/chat/chat-panel.tsx L828-L845](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/chat/chat-panel.tsx#L828-L845)
 
@@ -516,7 +516,7 @@ llm-wiki.md 와 비교하면 이 분담의 의미가 보인다. 원본 문서는
 ## 정리
 
 - Rust 백엔드는 `lib.rs` 의 `run()` 에서 플러그인 5개, 관리 상태 7개, 로컬 서버 2개(19827, 19828), command 78개를 조립한다. 창을 닫아도 백그라운드 기능을 위해 프로세스는 남는다.
-- 파서와 닿는 command 는 `run_guarded` 로 감싸 서드파티 파서의 panic 을 오류 문자열로 바꾸며, 이를 위해 릴리스 프로필이 `panic = "unwind"` 를 쓴다. 무거운 파일 작업은 `spawn_blocking` 으로 돌린다.
+- 파서를 호출하는 command 는 `run_guarded` 로 감싸 서드파티 파서의 panic 을 오류 문자열로 바꾸며, 이를 위해 릴리스 프로필이 `panic = "unwind"` 를 쓴다. 무거운 파일 작업은 `spawn_blocking` 으로 돌린다.
 - 프론트엔드는 `activeView` 값 하나로 화면을 고르고, Zustand 스토어 10개가 상태를 나눠 가진다. 디스크 저장은 `persist` 미들웨어 대신 `auto-save.ts` 의 구독과 디바운스로 하고, 프로젝트 전환 중에는 자동 저장을 멈춘다.
 - 층 사이 통신은 invoke(요청 · 응답), emit/listen(에이전트 · CLI · 파일 감시 스트림), HTTP 플러그인 fetch(CORS 우회 LLM 호출) 세 가지다. invoke 이름은 문자열이라 `src/commands/` 밖에도 흩어져 있다.
 - 수집 · 린트 · 리서치 같은 LLM 파이프라인은 TypeScript `src/lib/` 에 있고, Rust 는 파일 · 파서 · 벡터 저장소 · 검색 · CLI · 에이전트 런타임을 부품으로 제공한다.

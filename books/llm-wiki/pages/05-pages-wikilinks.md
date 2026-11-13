@@ -19,7 +19,7 @@ llm-wiki.md 는 시스템을 세 층으로 나눈다([llm-wiki.md#L25-L33](https
 
 템플릿은 schema 와 purpose 문자열, 추가 폴더 목록을 묶은 객체다. 다섯 개가 있고, 모두 공통 조각(기본 페이지 타입 표, 이름 규칙, frontmatter, index 형식, log 형식, 교차 참조 규칙, 모순 처리)을 이어 붙여 만든다.
 
-코드 따라가기: 모든 템플릿이 공유하는 기본 페이지 타입 표다. [src/lib/templates.ts#L11-L17](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/templates.ts#L11-L17)
+코드 분석: 모든 템플릿이 공유하는 기본 페이지 타입 표다. [src/lib/templates.ts#L11-L17](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/templates.ts#L11-L17)
 
 ```ts
 const BASE_SCHEMA_TYPES = `| entity | wiki/entities/ | Named things (people, tools, organizations, datasets) |
@@ -49,7 +49,7 @@ const BASE_SCHEMA_TYPES = `| entity | wiki/entities/ | Named things (people, too
 
 수집할 때 LLM 이 개념 페이지를 `wiki/concepts/` 에 쓰라는 기본값과 schema 의 사용자 정의 폴더 사이에서 헷갈리는 경우가 생긴다. `wiki-schema.ts` 가 이것을 코드로 교정한다.
 
-코드 따라가기: schema 의 페이지 타입 표를 읽는 부분이다. [src/lib/wiki-schema.ts#L32-L50](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-schema.ts#L32-L50)
+코드 분석: schema 의 페이지 타입 표를 읽는 부분이다. [src/lib/wiki-schema.ts#L32-L50](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-schema.ts#L32-L50)
 
 ```ts
 export function parseWikiSchemaRouting(markdown: string): WikiSchemaRouting {
@@ -109,7 +109,7 @@ flowchart LR
 
 `parseFrontmatter` 는 두 단계로 frontmatter 블록을 찾는다. 먼저 파일 맨 앞의 `---` 쌍을 찾고, 없으면 파일 어디서든 첫 `---` 쌍을 찾되 여는 줄이 6번째 줄 이내일 때만 인정한다([frontmatter.ts#L22-L35](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/frontmatter.ts#L22-L35)). 본문 깊숙이 있는 수평선(`---`)을 frontmatter 로 오인하지 않으면서, LLM 이 앞에 ` ```yaml ` 같은 줄을 붙인 경우를 살리는 절충이다.
 
-코드 따라가기: YAML 파싱을 두 번 시도하는 부분이다. [src/lib/frontmatter.ts#L49-L58](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/frontmatter.ts#L49-L58)
+코드 분석: YAML 파싱을 두 번 시도하는 부분이다. [src/lib/frontmatter.ts#L49-L58](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/frontmatter.ts#L49-L58)
 
 ```ts
   let parsed: unknown
@@ -149,7 +149,7 @@ flowchart LR
 
 `sources` 는 위키의 출처 추적 장치다. 원본 삭제, 그래프의 "같은 원본 공유" 가중치(7장), 단독 소유 판정이 모두 이 필드를 읽는다. 그래서 LLM 이 쓴 값을 그대로 믿지 않는다.
 
-코드 따라가기: `sources` 를 원본 식별자 기준으로 고치는 함수다. [src/lib/ingest.ts#L1835-L1863](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1835-L1863)
+코드 분석: `sources` 를 원본 식별자 기준으로 고치는 함수다. [src/lib/ingest.ts#L1835-L1863](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1835-L1863)
 
 ```ts
   const sourceValues = parseSources(content)
@@ -192,7 +192,7 @@ slug 규칙은 여러 번 바뀌었고, 예전 규칙 세 가지가 `sourceSumma
 
 두 번째 원본이 이미 있는 개념 페이지를 다시 생성하면, 새 내용으로 덮어쓰지 않고 병합한다. llm-wiki.md 의 "The wiki keeps getting richer with every source you add" 를 코드로 지키는 부분이다([llm-wiki.md#L13](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/llm-wiki.md#L13)).
 
-코드 따라가기: 병합의 고정 규칙 세 가지다. [src/lib/page-merge.ts#L31-L54](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/page-merge.ts#L31-L54)
+코드 분석: 병합의 고정 규칙 세 가지다. [src/lib/page-merge.ts#L31-L54](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/page-merge.ts#L31-L54)
 
 ```ts
 const UNION_FIELDS = ["sources", "tags", "related"] as const
@@ -233,7 +233,7 @@ Markdown 렌더러는 `[[...]]` 를 모르므로 `transformWikilinks` 가 `[표�
 
 `#` 앵커를 쓰는 이유는 Tauri 웹뷰가 링크를 외부 주소로 열려고 하지 않게 하려는 것이다. 클릭은 `wiki-reader.tsx` 가 가로채 `resolveRelatedSlug` 로 실제 파일을 찾는다([wiki-reader.tsx#L91-L103](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/components/editor/wiki-reader.tsx#L91-L103)).
 
-코드 따라가기: wikilink 대상을 파일로 풀어내는 규칙이다. [src/lib/wiki-page-resolver.ts#L136-L155](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-page-resolver.ts#L136-L155)
+코드 분석: wikilink 대상을 파일로 풀어내는 규칙이다. [src/lib/wiki-page-resolver.ts#L136-L155](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/wiki-page-resolver.ts#L136-L155)
 
 ```ts
   // Path-like refs can be project-relative (`wiki/concepts/foo`) or
@@ -258,7 +258,7 @@ Markdown 렌더러는 `[[...]]` 를 모르므로 `transformWikilinks` 가 `[표�
 
 저장한 페이지에 LLM 으로 wikilink 를 더하는 모듈도 있다. 주석에 설계 변경 이유가 적혀 있다. 처음에는 페이지 전체를 돌려받았는데, 중간 크기 모델이 이를 "다시 써도 된다" 로 받아들여 사용자 내용을 바꿔 버렸다. 그래서 LLM 은 `{ "links": [{ "term", "target" }] }` JSON 만 돌려주고 치환은 코드가 한다.
 
-코드 따라가기: 치환을 코드가 직접 하는 부분이다. [src/lib/enrich-wikilinks.ts#L213-L239](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/enrich-wikilinks.ts#L213-L239)
+코드 분석: 치환을 코드가 직접 하는 부분이다. [src/lib/enrich-wikilinks.ts#L213-L239](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/enrich-wikilinks.ts#L213-L239)
 
 ```ts
   const fmEnd = content.startsWith("---\n") ? content.indexOf("\n---\n", 3) : -1
@@ -301,7 +301,7 @@ llm-wiki.md 는 두 특수 파일을 이렇게 구분한다. index.md 는 내용
 
 수집 경로의 index 갱신은 목록 전체를 다시 쓰지 않는다. 이번에 쓴 페이지 중 index 에 아직 wikilink 가 없는 것만 골라 `- [[경로]] — 제목` 줄을 `## Recently Updated` 절 맨 앞에 넣는다.
 
-코드 따라가기: 최근 갱신 절을 갈아 끼우는 함수다. [src/lib/ingest.ts#L1807-L1821](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1807-L1821)
+코드 분석: 최근 갱신 절을 교체하는 함수다. [src/lib/ingest.ts#L1807-L1821](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L1807-L1821)
 
 ```ts
 export function updateBoundedRecentIndexSection(index: string, additions: string[]): string {
@@ -321,7 +321,7 @@ export function updateBoundedRecentIndexSection(index: string, additions: string
 }
 ```
 
-결과적으로 수집만 반복한 위키의 index 는 생성 때 만든 빈 타입 절(`## Entities` 등)과, 200줄로 잘리는 최근 목록 하나로 이뤄진다. 200줄을 넘어 밀려난 페이지는 index 에서 사라지지만, 다음 수집에서 다시 쓰이지 않는 한 돌아오지 않는다. 그래서 타입별 전체 목록이 필요하면 Rust `rebuild_wiki_index` 를 쓴다. 모든 `.md` 를 훑어 frontmatter `type` 으로 묶고 제목 순으로 `- [[경로|제목]]` 을 쓰며, 임시 파일에 쓴 뒤 이름을 바꿔 원자적으로 교체한다([project_maintenance.rs#L294-L350](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/project_maintenance.rs#L294-L350)).
+결과적으로 수집만 반복한 위키의 index 는 생성 때 만든 빈 타입 절(`## Entities` 등)과, 200줄로 잘리는 최근 목록 하나로 이뤄진다. 200줄을 넘어 밀려난 페이지는 index 에서 사라지지만, 다음 수집에서 다시 쓰이지 않는 한 돌아오지 않는다. 그래서 타입별 전체 목록이 필요하면 Rust `rebuild_wiki_index` 를 쓴다. 모든 `.md` 를 조회해 frontmatter `type` 으로 묶고 제목 순으로 `- [[경로|제목]]` 을 쓰며, 임시 파일에 쓴 뒤 이름을 바꿔 원자적으로 교체한다([project_maintenance.rs#L294-L350](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/project_maintenance.rs#L294-L350)).
 
 index 가 커져도 프롬프트 비용은 고정된다. 수집 프롬프트는 index 를 최대 32,000자로 자르고 앞 60% 와 끝부분만 넣는다(4장). index 가 "LLM 이 질의 때 먼저 읽는 지도" 라는 llm-wiki.md 의 역할은 유지하되, 크기 상한을 둔 셈이다.
 
@@ -329,7 +329,7 @@ index 가 커져도 프롬프트 비용은 고정된다. 수집 프롬프트는 
 
 log 는 이 앱에서 유일하게 LLM 이 쓴 내용을 덮어쓰지 않고 덧붙이는 파일이다. `isLogPath` 는 `wiki/log.md` 와 이름이 `log.md` 인 모든 경로를 log 로 본다.
 
-코드 따라가기: LLM 이 쓴 log 항목의 날짜를 오늘로 바꾸는 함수다. [src/lib/ingest.ts#L2060-L2069](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2060-L2069)
+코드 분석: LLM 이 쓴 log 항목의 날짜를 오늘로 바꾸는 함수다. [src/lib/ingest.ts#L2060-L2069](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/ingest.ts#L2060-L2069)
 
 ```ts
 export function stampGeneratedLogDate(content: string, date: string): string {
@@ -387,7 +387,7 @@ stateDiagram-v2
 
 ### 삭제
 
-코드 따라가기: 지워진 원본을 출처에서 빼고, 남는 출처가 없는 페이지만 삭제 목록에 넣는 부분이다. [src/lib/source-lifecycle.ts#L539-L556](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/source-lifecycle.ts#L539-L556)
+코드 분석: 지워진 원본을 출처에서 빼고, 남는 출처가 없는 페이지만 삭제 목록에 넣는 부분이다. [src/lib/source-lifecycle.ts#L539-L556](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/source-lifecycle.ts#L539-L556)
 
 ```ts
     const survivors = sources.filter(
@@ -432,7 +432,7 @@ stateDiagram-v2
 
 LLM 이 위키를 고치는 앱에서는 "무엇이 바뀌었나" 를 되돌릴 방법이 필요하다. llm-wiki.md 는 "The wiki is just a git repo of markdown files" 라며 git 에 맡긴다([llm-wiki.md#L62](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/llm-wiki.md#L62)). LLM Wiki 는 git 을 요구하지 않고, 파일 쓰기 명령 안에 작은 버전 저장소를 넣었다.
 
-코드 따라가기: Rust `write_file` 이 쓰기 전후로 버전을 남기는 부분이다. [src-tauri/src/commands/fs.rs#L1252-L1261](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/fs.rs#L1252-L1261)
+코드 분석: Rust `write_file` 이 쓰기 전후로 버전을 남기는 부분이다. [src-tauri/src/commands/fs.rs#L1252-L1261](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src-tauri/src/commands/fs.rs#L1252-L1261)
 
 ```rust
             file_sync::mark_app_write_path(p);

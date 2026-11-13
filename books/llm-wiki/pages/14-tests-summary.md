@@ -25,7 +25,7 @@ flowchart LR
     end
 ```
 
-### 코드 따라가기: npm 스크립트
+### 코드 분석: npm 스크립트
 
 [`package.json`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/package.json#L12-L14)의 테스트 스크립트는 모의(mock) 테스트와 실제 LLM 테스트를 나눈다.
 
@@ -38,7 +38,7 @@ flowchart LR
 - 실제 LLM 테스트는 파일 병렬 실행을 끈다. 엔드포인트 하나에 동시에 요청이 몰리지 않게 하려는 것으로 보인다(추정)
 - 실제 LLM 테스트는 [`embedding.real-llm.test.ts`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/lib/embedding.real-llm.test.ts#L54)처럼 `RUN_LLM_TESTS === "1"`일 때만 켜지고, 아니면 `it.skipIf`로 건너뛴다. 환경변수는 [`load-test-env.ts`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/test-helpers/load-test-env.ts)가 `.env.test.local`에서 읽는다
 
-### property 테스트가 지키는 것
+### property 테스트의 불변식
 
 [`review-store.property.test.ts`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/src/stores/review-store.property.test.ts#L34-L97)는 리뷰 큐(09장)의 불변식을 무작위 입력으로 확인한다.
 
@@ -50,7 +50,7 @@ flowchart LR
 
 LLM이 같은 리뷰를 표현만 바꿔 여러 번 낼 수 있기 때문에, 중복 제거 규칙을 예시 몇 개가 아니라 성질로 검사한 선택이다.
 
-### CI가 돌리는 것
+### CI 실행 단계
 
 [`.github/workflows/ci.yml`](https://github.com/nashsu/llm_wiki/blob/e08cfce65aad8b76b13546a081c1a8d4422b70c3/.github/workflows/ci.yml#L52-L62)의 단계는 의존성 설치, `npx vite build`, MCP 서버 리소스 준비, `cargo build`다. 테스트를 실행하는 단계는 없다. 152개 TS 테스트 파일과 Rust 테스트 378개는 개발자가 로컬에서 돌릴 때만 실행된다.
 
@@ -61,7 +61,7 @@ LLM이 같은 리뷰를 표현만 바꿔 여러 번 낼 수 있기 때문에, �
 | 장점 | 근거 | 장 |
 |---|---|---|
 | 아이디어 문서의 세 층과 세 작업을 그대로 지킨다 | `raw/sources`, `wiki/`, `schema.md`, 수집 · 질의 · 린트 | 01 |
-| 결과물이 그냥 마크다운 폴더다 | Obsidian vault로 열리고 git으로 이력을 남길 수 있다. 앱이 없어져도 위키는 남는다 | 01, 05 |
+| 결과물이 일반 마크다운 폴더다 | Obsidian vault로 열리고 git으로 이력을 남길 수 있다. 앱이 없어져도 위키는 남는다 | 01, 05 |
 | 수집이 견고하다 | 분석과 생성을 나눈 2단계 호출, SHA256 증분 캐시, 디스크에 저장되는 큐와 재시도 | 04 |
 | 출처를 끝까지 따라간다 | 모든 페이지 frontmatter의 `sources: []`가 그래프의 출처 겹침 신호로도 쓰인다 | 05, 07 |
 | 그래프가 단순 링크 그림이 아니다 | 4가지 신호 관련성, Louvain 커뮤니티, 고립 페이지 · 브리지 노드 인사이트 | 07 |
@@ -83,7 +83,7 @@ LLM이 같은 리뷰를 표현만 바꿔 여러 번 낼 수 있기 때문에, �
 | CI가 테스트를 돌리지 않는다 | 빌드만 확인한다 | 14 |
 | 라이선스가 GPL-3.0이다 | 코드를 가져다 다른 제품에 넣으려면 GPL 조건을 따라야 한다 | 00 |
 
-## 비슷한 도구와의 관계
+## 유사 도구와의 관계
 
 | 도구 | 관계 | 출처 |
 |---|---|---|
