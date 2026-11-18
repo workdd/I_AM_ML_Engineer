@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub (v0.15.0 기준 갱신)
 - `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) · Palantir Foundry 문서
 - `2026-11-13` [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) · GitHub
 - `2026-11-11` [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) · GitHub
@@ -74,7 +75,6 @@
 - `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
 - `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
 - `2026-10-19` [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) · 티스토리 (일주일만 하면 ...)
-- `2026-10-16` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub
 - `2026-10-16` [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) · GitHub
 - `2026-10-16` [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) · GitHub
 - `2026-10-16` [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) · GitHub
@@ -222,7 +222,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-04-24 | [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) | bradautomates | `#AgentSkills` `#ClaudeCode` `#Video` `#ffmpeg` `#Whisper` |
 | 2026-04-14 | [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) | morluto | `#MCP` `#ReverseEngineering` `#Ghidra` `#Evidence` `#PromptInjection` |
 | 2026-04-11 | [late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
-| 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` |
+| 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` `#MCP` |
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2026-03-09 | [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) | fabio-rovai | `#Ontology` `#OWL` `#SHACL` `#MCP` `#FormalVerification` |
 | 2026-02-19 | [agent-desktop: OS 접근성 트리 기반 데스크톱 앱 조작 프레임워크](readings/repos/[20260219]%20vercel-labs_agent-desktop_접근성트리기반_데스크톱_컴퓨터유즈.md) | Vercel Labs | `#ComputerUse` `#AccessibilityTree` `#DesktopAutomation` `#AIAgent` `#Rust` |
