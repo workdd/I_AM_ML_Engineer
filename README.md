@@ -20,7 +20,7 @@
 
 <br><br>
 
-**전문 검색**, **주제별 목차**, **다이어그램 렌더**, **시스템 테마 자동 추종**
+**전문 검색** · **주제별 목차** · **다이어그램 렌더** · **시스템 테마 자동 추종**
 
 휴대폰에서도 그대로 읽힙니다.
 
@@ -28,64 +28,276 @@
 
 ## About
 
-논문, 기술 블로그, 오픈소스 저장소를 읽고 **판단에 쓸 수 있는 형태**로 정리합니다. 수치는 원문에서 직접 확인하고, 결과가 나온 조건과 한계를 함께 적습니다.
+논문, 기술 블로그, 오픈소스 저장소를 읽고 정리합니다. 요약이 아니라 **판단에 쓸 수 있는 형태**로 남기는 것이 목표입니다.
 
-## 최근 정리
+정리마다 다음을 지킵니다.
 
-- `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) (GitHub, v0.15.0 기준 갱신)
-- `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) (Palantir Foundry 문서)
-- `2026-11-13` [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) (GitHub)
-- `2026-11-11` [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) (GitHub)
-- `2026-11-10` [토스 AI-Ready Data: 표준 마트 위에 온톨로지를 얹고 골든셋으로 관리하는 데이터 의미 층](readings/blogs/[20261109]%20토스_AI-Ready_Data_온톨로지_시맨틱레이어.md) (토스 채용 아티클)
-- `2026-11-10` [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) (if(kakao)26 발표)
-- `2026-11-09` [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) (GitHub)
-- `2026-11-09` [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) (GitHub)
-- `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) (GitHub)
-- `2026-11-06` [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) (GitHub)
+- **원문 확인**: 수치와 인용은 원문에서 직접 확인합니다. 2차 자료를 옮겨 적지 않습니다
+- **한계 명시**: 어떤 조건에서 나온 결과인지, 어디까지 일반화되는지 함께 적습니다
+- **상호 연결**: 같은 문제를 다루는 자료끼리 링크로 잇습니다
+- **적용 지점**: 읽은 내용 중 다른 곳에 옮길 수 있는 원리를 따로 뽑습니다
 
-전체 목록은 [사이트](https://workdd.github.io/I_AM_ML_Engineer/) 왼쪽 목차에 주제별로 있습니다.
+## Readings
 
-## 주제
+가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
-| 주제 | 다루는 것 | 지도 |
-|------|-----------|------|
-| 그래프와 지식 표현 | GraphRAG, 지식 그래프, 온톨로지, 시맨틱 레이어 | [지식 지도](readings/_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md), [오픈소스 지형](readings/_maps/graphrag_%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_%EC%A7%80%ED%98%95.md), [읽을 논문](readings/_maps/graphrag_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md) |
-| 에이전트와 도구 연결 | MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 | |
-| LLM 서빙과 추론 최적화 | KV 캐시, 추론 엔진, 양자화, 비용 | |
-| 모델 학습 | 사전학습, 최적화 방법 | |
-| 신뢰도와 환각 탐지 | 신뢰도 신호, 판정기, 환각 검출 | [가드레일 읽을 논문](readings/_maps/guardrail_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md) |
-| 엔지니어링 일반 | 접근 제어, 플랫폼, 업계 사례 | |
+- `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub (v0.15.0 기준 갱신)
+- `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) · Palantir Foundry 문서
+- `2026-11-13` [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) · GitHub
+- `2026-11-11` [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) · GitHub
+- `2026-11-10` [토스 AI-Ready Data: 표준 마트 위에 온톨로지를 얹고 골든셋으로 관리하는 데이터 의미 층](readings/blogs/[20261109]%20토스_AI-Ready_Data_온톨로지_시맨틱레이어.md) · 토스 채용 아티클
+- `2026-11-10` [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) · if(kakao)26 발표
+- `2026-11-09` [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) · GitHub
+- `2026-11-09` [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) · GitHub
+- `2026-11-06` [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) · GitHub
+- `2026-11-06` [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) · GitHub
+- `2026-11-05` [oh-my-hermes: Hermes Agent 위에 얹는 작업 분할 · 모델 라우팅 · 증거 게이트 계층](readings/repos/[20260603]%20rlaope_oh-my-hermes_Hermes_Agent_위_작업분할_모델라우팅_증거게이트.md) · GitHub
+- `2026-11-04` [edgextract: 닫힌 yes/no 질문과 결정 모델로 markdown에서 지식 그래프 추출](readings/repos/[20261003]%20raphaelmansuy_edgextract_닫힌질문_결정모델로_지식그래프추출.md) · GitHub
+- `2026-11-04` [Carrel: 온톨로지 증강 에이전트용 셀프호스팅 지식베이스 (그래프 ablation · 재빌드 안정성)](readings/repos/[20260928]%20FengZhenfei_carrel_온톨로지증강_에이전트용_지식베이스.md) · GitHub
+- `2026-11-04` [Elephant-Goldfish Model: fresh-context 리뷰어로 설계 문서를 검증하는 에이전트 스킬](readings/repos/[20260913]%20google_elephant-goldfish-model_fresh-context_리뷰어로_설계문서_검증.md) · GitHub
+- `2026-11-03` [kgdiff: 지식 그래프 버전 간 의미 diff와 리뷰 도구](readings/repos/[20261101]%20iiwish_kgdiff_지식그래프_버전간_의미diff_리뷰.md) · GitHub
+- `2026-11-02` [agent-desktop: OS 접근성 트리 기반 데스크톱 앱 조작 프레임워크](readings/repos/[20260219]%20vercel-labs_agent-desktop_접근성트리기반_데스크톱_컴퓨터유즈.md) · GitHub
+- `2026-10-30` [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) · GitHub
+- `2026-10-30` [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) · GitHub
+- `2026-10-29` [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) · 로보코 블로그
+- `2026-10-29` [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) · MLSys 2026
+- `2026-10-29` [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) · GitHub
+- `2026-10-29` [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) · AWS 기술 블로그
+- `2026-10-29` [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) · GitHub (v0.1.9 기준 갱신)
+- `2026-10-28` [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) · GitHub
+- `2026-10-28` [NVIDIA Auto Ontology: DB 메타데이터로 만드는 에이전트용 시맨틱 레이어와 Text-to-SQL](readings/repos/[20260427]%20NVIDIA_auto-ontology_에이전트용_시맨틱레이어_TextToSQL.md) · GitHub
+- `2026-10-28` [토스 SNAP: 작은 모델이 자신 있는 요청만 가져가 LLM 비용 줄이기](readings/blogs/[20261027]%20토스_SNAP_선택적내재화_LLM비용절감.md) · 토스 기술 블로그
+- `2026-10-27` [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) · Q Labs Research
+- `2026-10-27` [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) · GitHub
+- `2026-10-27` [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) · SEC EDGAR
+- `2026-10-26` [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) · GitHub
+- `2026-10-23` [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) · GitHub
+- `2026-10-20` [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) · MariaDB 공식 문서
+- `2026-10-19` [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) · 아카라이브 AI 로컬 홈랩
+- `2026-10-19` [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) · 티스토리 (일주일만 하면 ...)
+- `2026-10-16` [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) · GitHub
+- `2026-10-16` [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) · GitHub
+- `2026-10-16` [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) · GitHub
+- `2026-10-13` [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) · 토스 기술 블로그
+- `2026-10-13` [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) · MUSINSA techblog
+- `2026-10-07` [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) · 비브로스 기술 블로그
+- `2026-10-07` [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) · GitHub
+- `2026-10-01` [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) · arXiv
+- `2026-09-29` [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) · arXiv / ICLR 2026
+- `2026-09-28` [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) · arXiv
+- `2026-09-28` [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) · arXiv / AAAI 2026
 
-## Books
+### 그래프와 지식 표현
 
-오픈소스 하나를 코드 단위로 따라가는 책입니다.
+GraphRAG 계열과 지식 그래프. 서로 반박하고 보완하는 관계라 묶어서 읽는 편이 낫습니다.
+열 건이 서로 어디에 놓이는지는 [GraphRAG 지식 지도](readings/_maps/graphrag_%EC%A7%80%EC%8B%9D%EC%A7%80%EB%8F%84.md)에 정리했습니다.
+GraphRAG 관련 오픈소스 저장소 38개를 용도별로 나눈 목록은 [GraphRAG 오픈소스 지형](readings/_maps/graphrag_%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_%EC%A7%80%ED%98%95.md)에 있습니다.
+아직 읽지 않은 후보 68건은 [읽을 논문 대기열](readings/_maps/graphrag_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md)에 모아 두고 하나씩 정리합니다.
 
-- [DeepInfer 해부](https://workdd.github.io/I_AM_ML_Engineer/books/deepinfer/): DeepSeek 추론 엔진 코드 분석
-- [LLM Wiki 해부](https://workdd.github.io/I_AM_ML_Engineer/books/llm-wiki/): 자동 정리형 지식 위키 앱 코드 분석
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-11-09 | [토스 AI-Ready Data: 표준 마트 위에 온톨로지를 얹고 골든셋으로 관리하는 데이터 의미 층](readings/blogs/[20261109]%20토스_AI-Ready_Data_온톨로지_시맨틱레이어.md) | 토스 채용 아티클 (Data 시리즈) | `#KnowledgeGraph` `#Ontology` `#SemanticLayer` `#TextToSQL` `#GoldenSet` |
+| 2026-10-20 | [MariaDB OQGRAPH: 엣지 테이블 위의 SQL 그래프 연산 엔진과 Apache AGE 비교](readings/blogs/[20261020]%20MariaDB_OQGRAPH_SQL_그래프엔진_AGE비교.md) | MariaDB 공식 문서 | `#GraphDB` `#OQGRAPH` `#ApacheAGE` `#ShortestPath` `#SQL` |
+| 2026-10-15 | [OntoBricks로 이해하는 온톨로지 ①: 시맨틱 레이어, 온톨로지, 지식 그래프](readings/blogs/[20261015]%20OntoBricks_온톨로지_개념_지식그래프_첫걸음.md) | 티스토리 (일주일만 하면 ...) | `#Ontology` `#OWL` `#KnowledgeGraph` `#SemanticLayer` `#Databricks` |
+| 2026-10-14 | [카카오페이증권 if(kakao)26: 사건 중심 지식 그래프와 근거·가정을 나눠 말하는 금융 에이전트](readings/blogs/[20261014]%20카카오페이증권_ifkakao26_지식그래프_설명가능_금융에이전트.md) | if(kakao)26 발표 (카카오페이증권) | `#KnowledgeGraph` `#Ontology` `#FinanceAgent` `#ExplainableAI` `#Groundedness` |
+| 2026-09-29 | [GraphRAG-Bench: RAG에 그래프는 언제 필요한가](readings/papers/[20260929]%20GraphRAG-Bench_When_to_use_Graphs_in_RAG.md) | arXiv / ICLR 2026 | `#GraphRAG` `#Benchmark` `#HippoRAG2` `#ContextRelevance` `#TokenCost` |
+| 2026-09-28 | [RAGSearch: 에이전트 검색 시대에도 GraphRAG가 필요한가](readings/papers/[20260928]%20RAGSearch_Do_We_Still_Need_GraphRAG.md) | arXiv | `#GraphRAG` `#AgenticSearch` `#Benchmark` `#HippoRAG2` `#MultiHopQA` |
+| 2026-09-28 | [PathRAG: 이웃을 다 넣지 말고 경로만 넣는 GraphRAG](readings/papers/[20260928]%20PathRAG_Pruning_Graph_RAG_with_Relational_Paths.md) | arXiv / AAAI 2026 | `#GraphRAG` `#LightRAG` `#PathRetrieval` `#Pruning` `#TokenCost` |
+| 2026-09-10 | [Graph RAG의 모든 것: 패턴과 구현체 지형도](readings/blogs/[20260910]%20devto_Graph_RAG의_모든_것.md) | dev.to | `#GraphRAG` `#RAPTOR` `#DRIFT` `#KnowledgeGraph` `#AWS` |
+| 2026-09-10 | [LLM on Graphs 서베이: GraphRAG는 이 지형의 한 칸이다](readings/papers/[20260910]%20LLM_on_Graphs_Comprehensive_Survey.md) | arXiv | `#Survey` `#GraphNeuralNetwork` `#GraphRAG` `#TextAttributedGraph` |
+| 2026-09-08 | [Microsoft GraphRAG 동작원리 단계별 해부](readings/blogs/[20260908]%20TowardsAI_Microsoft_GraphRAG_동작원리_단계별.md) | Towards AI | `#GraphRAG` `#KnowledgeGraph` `#Leiden` `#LocalSearch` `#GlobalSearch` |
+| 2026-08-31 | [ROGRAG: 다단계 검색 GraphRAG](readings/papers/[20260831]%20ROGRAG_Robustly_Optimized_GraphRAG.md) | arXiv / GitHub | `#GraphRAG` `#LogicForm` `#KnowledgeGraph` `#Ablation` |
+| 2026-07-02 | [LogicRAG: Adaptive Reasoning Structures](readings/papers/[20260702]%20LogicRAG_Adaptive_Reasoning_Structures.md) | arXiv / GitHub | `#RAG` `#GraphRAG` `#MultiHopQA` `#DAG` |
+| 2026-06-14 | [Open Knowledge Format(OKF)](readings/blogs/[20260614]%20PyTorchKR_Open_Knowledge_Format_OKF.md) | PyTorchKR | `#OKF` `#지식표현` `#LLMWiki` `#GoogleCloud` `#MCP` |
 
-## 면접과 실습
+### 에이전트와 도구 연결
 
-- **면접**: [통계, 수학](interviews/01_통계_수학.md), [머신러닝](interviews/02_머신러닝.md), [딥러닝](interviews/03_딥러닝.md), [자연어처리](interviews/04_자연어처리.md), [OpenAI MLE 출제경향](interviews/14_OpenAI_MLE_출제경향.md)
-- **실습 노트북**: [ML/DL 기초 6편](experiments/basics/), [Attention에서 Mini GPT까지 10편](experiments/transformer/). Pre-Quiz, TODO 구현, 테스트, 시각화, Post-Quiz 순서입니다
+MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
-## 구조
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-10-13 | [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) | 토스 기술 블로그 | `#LLMGateway` `#MCP` `#Guardrail` `#RateLimit` `#PTU` |
+| 2026-09-10 | [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) | Liner | `#AIAgent` `#SSE` `#Redis` `#PubSub` `#상태관리` |
+| 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
+| 2026-09-02 | [The End of Software Engineering: 에이전트 패러다임 선언 검토](readings/papers/[20260902]%20End_of_Software_Engineering_Agentic_Paradigm.md) | arXiv | `#AgenticEngineering` `#AIAgent` `#PositionPaper` `#SWEbench` |
+| 2026-07-10 | [RAG-MCP: Prompt Bloat 없는 MCP 도구 선택](readings/papers/[20260710]%20RAG-MCP_Prompt_Bloat_Tool_Selection.md) | arXiv | `#MCP` `#RAG` `#ToolSelection` `#PromptBloat` |
+| 2026-07-06 | [Agentic AI: Single vs Multi-Agent Systems](readings/blogs/[20260706]%20Medium_Agentic_AI_Single_vs_Multi_Agent_Systems.md) | Medium | `#AgenticAI` `#MultiAgent` `#LangGraph` `#WorkflowDesign` |
+| 2026-07-06 | [How Many Tools Should an LLM Agent See?](readings/papers/[20260706]%20How_Many_Tools_Should_an_LLM_Agent_See.md) | arXiv | `#LLMAgent` `#ToolSelection` `#Retrieval` `#MCP` `#BoR` |
+| 2026-07-02 | [OpenWiki: repo 문서화 에이전트](readings/blogs/[20260702]%20LangChain_OpenWiki_Repo_Documentation_Agent.md) | LangChain Blog | `#OpenWiki` `#AIAgent` `#Documentation` `#DeepAgents` |
+| 2026-04-01 | [Deep Insight: 프로덕션 멀티 에이전트가 풀어야 할 5가지 문제와 계층형 설계](readings/blogs/[20260401]%20AWS블로그_DeepInsight_프로덕션_멀티에이전트_5가지문제.md) | AWS 기술 블로그 | `#MultiAgent` `#StrandsAgents` `#AgentCore` `#HumanInTheLoop` `#PromptCaching` |
+| 2025-12-31 | [AI 테스트 에이전트 구축](readings/blogs/[20251231]%20Medium_AI_테스트_에이전트_구축.md) | Medium | `#TDD` `#AIAgent` `#ClaudeCode` `#SubAgent` |
+| 2025-12-30 | [Context Engineering 핵심역량](readings/blogs/[20251230]%20SKdevocean_Context_Engineering_핵심역량.md) | SK devocean | `#ContextEngineering` `#LLM` `#ContextWindow` |
+| 2025-12-30 | [OMS Claude AI 워크플로우](readings/blogs/[20251230]%20컬리_OMS_Claude_AI_워크플로우.md) | 컬리 기술블로그 | `#ClaudeAI` `#MSA` `#팀생산성` |
+| 2025-12-29 | [Visa Intelligent Commerce + AgentCore](readings/blogs/[20251229]%20AWS블로그_Visa_Intelligent_Commerce_AgentCore.md) | AWS ML Blog | `#AgenticAI` `#Bedrock` `#MCP` `#MultiAgent` |
+| 2025-12-25 | [Claude Code 스타일 스킬 시스템](readings/blogs/[20251225]%20AWS_Strands_스킬시스템_Claude_Code_스타일.md) | AWS Samples | `#LLM` `#Agent` `#Skill-System` |
+| 2025-12-24 | [Table Agent 테이블 데이터 처리](readings/blogs/[20251224]%20채널톡_Table_Agent_테이블데이터_처리.md) | 채널톡 | `#RAG` `#Text-to-SQL` `#Agent` |
+| 2025-12-22 | [Subagents Supervisor 패턴](readings/blogs/[20251222]%20LangChain_Subagents_Supervisor_패턴.md) | LangChain | `#MultiAgent` `#Supervisor` |
+| 2025-12-18 | [MCP vs Claude Skills 비교](readings/blogs/[20251218]%20요즘IT_MCP와_Claude_Skills_비교.md) | 요즘IT | `#MCP` `#ClaudeSkills` |
+
+### LLM 서빙과 추론 최적화
+
+처리량, 지연, 메모리. 엔진 설정과 서빙 구조를 나눠 보는 관점.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-10-28 | [토스 SNAP: 작은 모델이 자신 있는 요청만 가져가 LLM 비용 줄이기](readings/blogs/[20261027]%20토스_SNAP_선택적내재화_LLM비용절감.md) | 토스 기술 블로그 | `#LLMCost` `#SelectivePrediction` `#ModelCascade` `#Confidence` `#토큰효율` |
+| 2026-10-28 | [LLM 캐시는 어떻게 작동할까: 프리픽스 캐싱, 캐시 고려 라우팅, 사용자 격리](readings/blogs/[20261028]%20로보코_LLM캐시_작동원리_프리픽스캐싱과_격리.md) | 로보코 블로그 | `#PromptCaching` `#PrefixCaching` `#KVCache` `#LMCache` `#MultiTenant` |
+| 2026-07-07 | [LLM 비용 64% 절감: 메트릭부터 만들고 Prompt Caching을 붙이기](readings/blogs/[20260707]%20무신사_LLM비용_64절감_Prompt_Caching.md) | MUSINSA techblog | `#PromptCaching` `#Bedrock` `#토큰효율` `#LLMCost` |
+| 2026-11-01 | [kgdiff: 지식 그래프 버전 간 의미 diff와 리뷰 도구](readings/repos/[20261101]%20iiwish_kgdiff_지식그래프_버전간_의미diff_리뷰.md) | iiwish | `#KnowledgeGraph` `#Ontology` `#GraphDiff` `#GraphRAG` `#RDF` `#TypeScript` |
+| 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | DeepSeek-AI | `#Inference` `#vLLM` `#MoE` `#PDDisaggregation` `#SpeculativeDecoding` |
+| 2026-10-01 | [Why Does PTQ Work: 4비트로 깎아도 LLM이 버티는 이유](readings/papers/[20261001]%20Why_Does_Post-Training_Quantization_Work.md) | arXiv | `#Quantization` `#PTQ` `#NVFP4` `#Interpretability` `#LMHead` |
+| 2026-09-18 | [Cache-to-Cache: 모델끼리 KV 캐시로 대화하기](readings/papers/[20260918]%20Cache-to-Cache_Direct_Semantic_Communication.md) | arXiv / ICLR 2026 | `#MultiLLM` `#KVCache` `#ModelCommunication` `#Inference` |
+| 2026-09-14 | [NCP-ArchPreview: 토큰 다음에 개념을 예측하게 만들기](readings/papers/[20260914]%20NCP-ArchPreview_Next_Concept_Prediction.md) | arXiv | `#LatentSpaceLM` `#NextConceptPrediction` `#VectorQuantization` `#Pretraining` |
+| 2026-09-11 | [DeepSeek-V4.1-Flash: KV 캐시를 토큰당 890바이트로](readings/papers/[20260911]%20DeepSeek-V4.1-Flash_KV_Cache_Compression.md) | DeepSeek-AI | `#KVCache` `#SparseAttention` `#MoE` `#ContextPacking` `#FP4` |
+| 2026-09-10 | [EKS에서 vLLM 콜드 스타트 428초를 226초로](readings/blogs/[20260910]%20AWS블로그_EKS_vLLM_Gemma4_콜드스타트_최적화.md) | AWS 기술 블로그 | `#vLLM` `#EKS` `#ColdStart` `#Karpenter` `#SleepMode` |
+| 2026-09-08 | [서빙 구조가 LLM 처리량을 바꾸는 방식](readings/blogs/[20260908]%20Notion_서빙구조가_LLM_처리량을_바꾸는_방식.md) | Notion | `#vLLM` `#RayServe` `#Triton` `#KServe` `#Throughput` |
+| 2026-07-06 | [Fused Linear Cross-Entropy: 메모리 아끼면서 CE 계산하기](readings/blogs/[20260706]%20TrillionLabs_Fused_Linear_Cross_Entropy.md) | Trillion Labs Research | `#CrossEntropy` `#LLMTraining` `#MemoryOptimization` `#CUDA` |
+| 2026-04-18 | [SkipKV: 추론 모델의 KV 캐시를 문장 단위로 지우고 생성 자체를 줄이기](readings/papers/[20260418]%20SkipKV_추론모델_문장단위_KV제거와_적응형steering.md) | MLSys 2026 | `#KVCache` `#ReasoningModel` `#Eviction` `#ActivationSteering` `#Throughput` |
+| 2026-01-04 | [JSON vs TOON 토큰효율](readings/blogs/[20260104]%20네이버클라우드_JSON_vs_TOON_토큰효율.md) | 네이버클라우드 | `#TOON` `#JSON` `#토큰효율` `#LLM` |
+| 2025-12-19 | [LLM 서빙 성능최적화](readings/blogs/[20251219]%20네이버클로바_LLM서빙_성능최적화.md) | 네이버 CLOVA | `#LLM` `#KVCache` `#Goodput` |
+| 2025-12-19 | [Speculative Decoding 적용기](readings/blogs/[20251219]%20네이버클로바_Speculative_Decoding_적용기.md) | 네이버 CLOVA | `#LLM` `#SpeculativeDecoding` |
+| 2025-12-19 | [Tensor Parallelism 심층분석](readings/blogs/[20251219]%20nanovllm_Tensor_Parallelism_심층분석.md) | liyuan24 블로그 | `#LLM` `#TensorParallel` |
+| 2025-12-18 | [토스 대규모 데이터 서빙 아키텍처](readings/blogs/[20251218]%20토스_대규모_데이터서빙_아키텍처.md) | 토스 기술블로그 | `#DataEngineering` `#StarRocks` |
+
+### 모델 학습
+
+사전학습과 최적화 방법. 서빙 쪽과 달리 가중치를 만드는 단계.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-10-02 | [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) | Q Labs Research | `#ZerothOrder` `#EvolutionStrategies` `#Pretraining` `#Backprop` `#EGGROLL` |
+
+### 신뢰도와 환각 탐지
+
+답을 믿어도 되는지 판단하는 신호들.
+입력 단계 가드레일 후보 22건은 [가드레일 읽을 논문](readings/_maps/guardrail_%EC%9D%BD%EC%9D%84_%EB%85%BC%EB%AC%B8.md)에 모아 두었습니다.
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-09-28 | [JEV-as-a-Judge: 확신하면 받고, 모르면 넘기는 판정기](readings/papers/[20260928]%20JEV-as-a-Judge_Confidence_Cascade.md) | arXiv | `#LLMasJudge` `#Calibration` `#Cascade` `#EvalCost` |
+| 2026-06-11 | [Future Context 기반 LLM 환각 검출](readings/blogs/[20260611]%20네이버클로바_Future_Context_환각검출.md) | 네이버 CLOVA | `#환각검출` `#BlackBox` `#FutureContext` `#ACL2026` |
+| 2026-06-09 | [Logits as Confidence: LLM·VLM 신뢰도 활용](readings/blogs/[20260609]%20Medium_Logits_as_Confidence_LLM_VLM.md) | Medium | `#Logits` `#Confidence` `#LLM` `#VLM` `#LogProbs` |
+| 2025-12-24 | [ML 모델 벤치마크 필요성](readings/blogs/[20251224]%20채널톡_ML모델_벤치마크_필요성.md) | 채널톡 | `#RAG` `#벤치마크` `#하이브리드검색` |
+
+### 엔지니어링 일반
+
+| 날짜 | 제목 | 출처 | 태그 |
+|------|------|------|------|
+| 2026-11-16 | [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) | Palantir Foundry 문서 | `#AccessControl` `#DataGovernance` `#MandatoryAccessControl` `#DataLineage` `#PII` |
+| 2026-10-26 | [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) | SEC EDGAR | `#Anthropic` `#IPO` `#LLM비즈니스` `#Compute` `#지배구조` |
+| 2026-10-13 | [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) | 아카라이브 AI 로컬 홈랩 | `#로컬LLM` `#DGXSpark` `#OCR` `#사람평가` `#교차검증` |
+| 2026-10-05 | [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) | 비브로스 기술 블로그 | `#PlatformEngineering` `#GitOps` `#ArgoCD` `#Terraform` `#승인게이트` |
+| 2025-12-27 | [AI 진화: 계산기부터 LLM까지](readings/blogs/[20251227]%20네이버클로바_AI진화_계산기부터_LLM까지.md) | 네이버 CLOVA | `#AI역사` `#딥러닝` `#옴니모달` |
+| 2025-12-27 | [Logistic Regression 통계 vs ML](readings/blogs/[20251227]%20Velog_Logistic_Regression_통계vs머신러닝.md) | Velog | `#LogisticRegression` `#MLE` `#SGD` |
+| 2025-12-23 | [머신러닝 테스트 코드 구현](readings/blogs/[20251223]%20velog_ML_테스트코드_구현.md) | velog | `#MLOps` `#Testing` `#pytest` |
+| 2025-12-18 | [LLM 버그 트리아지 자동화](readings/blogs/[20251218]%20채널톡_LLM_버그트리아지_자동화.md) | 채널톡 | `#LLM` `#자동화` |
+
+## Repos & Tools
+
+직접 뜯어본 오픈소스 저장소와 도구입니다. 코드 규모, 기여자, 라이선스, 실제 구현 여부까지 확인해 적습니다.
+
+| 날짜 | 레포 | 조직 | 태그 |
+|------|------|------|------|
+| 2026-11-06 | [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) | gogoymh | `#Ontology` `#SemanticLayer` `#TextToSQL` `#MCP` `#KnowledgeBase` |
+| 2026-10-30 | [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) | amitshekhariitbhu | `#ForwardDeployedEngineer` `#LearningRoadmap` `#AIEngineering` `#VoiceAgent` `#LLMEvaluation` |
+| 2026-10-22 | [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) | Dongbumlee | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#LLMasJudge` `#Neo4j` |
+| 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
+| 2026-10-14 | [Graphicle: 코딩 에이전트용 코드 그래프와 프로젝트 메모리, 그리고 긴 문맥 pack](readings/repos/[20261014]%20Graphicle-AI_graphicle_코딩에이전트용_코드그래프_메모리.md) | Graphicle-AI | `#CodeGraph` `#AgentMemory` `#MCP` `#ContextPacking` `#PromptCache` `#Benchmark` |
+| 2026-10-03 | [edgextract: 닫힌 yes/no 질문과 결정 모델로 markdown에서 지식 그래프 추출](readings/repos/[20261003]%20raphaelmansuy_edgextract_닫힌질문_결정모델로_지식그래프추출.md) | raphaelmansuy | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#ClosedDecision` `#Calibration` |
+| 2026-09-30 | [PhotoCraft: 순수 Rust 포토샵 재구현과 명령 등록부 기반 MCP](readings/repos/[20260930]%20storytold_photocraft_Rust_포토샵_클린룸_재구현.md) | storytold | `#Rust` `#PSD` `#MCP` `#CommandRegistry` `#AgentReady` |
+| 2026-09-28 | [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) | trillion-labs | `#DiffusionLM` `#BlockDiffusion` `#SpeculativeDecoding` `#vLLM` `#TypedDecision` |
+| 2026-09-28 | [Carrel: 온톨로지 증강 에이전트용 셀프호스팅 지식베이스 (그래프 ablation · 재빌드 안정성)](readings/repos/[20260928]%20FengZhenfei_carrel_온톨로지증강_에이전트용_지식베이스.md) | FengZhenfei | `#KnowledgeGraph` `#Ontology` `#GraphRAG` `#HybridRetrieval` `#AgentSkill` |
+| 2026-09-17 | [pg-jev: Postgres 테이블에 자연어 조건을 거는 확장과 행 묶음 판정 파이프라인](readings/repos/[20260917]%20realZachi_pg-jev_Postgres_자연어조건_행판정_확장.md) | realZachi | `#SemanticSQL` `#Postgres` `#Batching` `#Calibration` `#CostModel` |
+| 2026-09-15 | [iKnow: macOS가 사용자에 대해 쌓는 개인 지식 그래프를 읽기 전용으로 열어 보는 도구](readings/repos/[20260915]%208rank_iKnow_macOS_개인지식그래프_열람도구.md) | 8rank | `#KnowledgeGraph` `#PersonalKnowledgeGraph` `#Provenance` `#Privacy` `#Ontology` |
+| 2026-09-13 | [Elephant-Goldfish Model: fresh-context 리뷰어로 설계 문서를 검증하는 에이전트 스킬](readings/repos/[20260913]%20google_elephant-goldfish-model_fresh-context_리뷰어로_설계문서_검증.md) | google | `#AgentWorkflow` `#SpecDrivenDevelopment` `#Subagent` `#DesignReview` `#ClaudeCode` |
+| 2026-09-11 | [GPT-6 Astra 프롬프트 설계 분석](readings/repos/[20260911]%20CL4R1T4S_GPT-6_Astra_프롬프트_설계_분석.md) | CL4R1T4S | `#SystemPrompt` `#PromptDesign` `#권한설계` `#PromptInjection` |
+| 2026-09-11 | [llm-as-a-verifier: logprob 분포로 에이전트 궤적 채점](readings/repos/[20260911]%20llm-as-a-verifier_학습없이_에이전트_궤적을_채점하는_검증_프레임워크.md) | llm-as-a-verifier | `#Verifier` `#LogProbs` `#TestTimeScaling` `#BestOfN` `#PrefixCache` |
+| 2026-09-02 | [reef: 서빙하면서 스스로 학습하는 에이전트 인프라](readings/repos/[20260902]%20Human-Agent-Society_reef_자기개선_에이전트_지속학습_인프라.md) | Human-Agent-Society | `#ContinualLearning` `#SelfImprovingAgent` `#RL` `#HarnessEvolution` `#SGLang` |
+| 2026-07-31 | [MatrAIx-Persona-8B: 페르소나 인구규모 AI 평가 인프라](readings/repos/[20260731]%20MatrAIx-ai_MatrAIx-Persona-8B_페르소나_인구규모_AI평가인프라.md) | MatrAIx-ai | `#PersonaSimulation` `#AI평가` `#SyntheticData` `#LLMAgent` `#Benchmark` |
+| 2026-07-23 | [AgentENV: 에이전트 환경 대규모 실행 플랫폼](readings/repos/[20260723]%20kvcache-ai_AgentENV_에이전트환경_대규모실행.md) | kvcache-ai | `#AgenticRL` `#Firecracker` `#Sandbox` `#E2B` `#KimiK3` |
+| 2026-07-08 | [ThinkRail: pi 에이전트를 감싼 IDE와 SPEC.md 그래프](readings/repos/[20260708]%20JetBrains_thinkrail_pi기반_에이전트IDE_SpecGraph.md) | JetBrains | `#CodingAgent` `#AgenticIDE` `#SpecDrivenDevelopment` `#GitWorktree` `#AgentSkills` |
+| 2026-07-02 | [auto-ontology-eval: 온톨로지가 Text-to-SQL 정확도를 얼마나 올리는지 재는 대조 평가 도구](readings/repos/[20260702]%20NVIDIA_auto-ontology-eval_TextToSQL_온톨로지효과_대조평가.md) | NVIDIA | `#TextToSQL` `#Evaluation` `#Ontology` `#BIRD` `#NeMoGym` |
+| 2026-06-03 | [oh-my-hermes: Hermes Agent 위에 얹는 작업 분할 · 모델 라우팅 · 증거 게이트 계층](readings/repos/[20260603]%20rlaope_oh-my-hermes_Hermes_Agent_위_작업분할_모델라우팅_증거게이트.md) | rlaope | `#AgentHarness` `#ModelRouting` `#MultiAgent` `#EvidenceGate` `#AgentMemory` |
+| 2026-04-27 | [NVIDIA Auto Ontology: DB 메타데이터로 만드는 에이전트용 시맨틱 레이어와 Text-to-SQL](readings/repos/[20260427]%20NVIDIA_auto-ontology_에이전트용_시맨틱레이어_TextToSQL.md) | NVIDIA | `#Ontology` `#SemanticLayer` `#TextToSQL` `#MCP` `#pgvector` |
+| 2026-04-24 | [claude-video (/watch): 에이전트에게 영상을 프레임과 자막으로 보여 주는 스킬](readings/repos/[20260424]%20bradautomates_claude-video_에이전트에게_영상을_보여주는_watch_스킬.md) | bradautomates | `#AgentSkills` `#ClaudeCode` `#Video` `#ffmpeg` `#Whisper` |
+| 2026-04-14 | [REA: 에이전트에 붙이는 리버스 엔지니어링 MCP](readings/repos/[20260414]%20morluto_rea_에이전트용_리버스엔지니어링_MCP.md) | morluto | `#MCP` `#ReverseEngineering` `#Ghidra` `#Evidence` `#PromptInjection` |
+| 2026-04-11 | [late.sh: SSH 한 줄로 들어가는 터미널 클럽하우스](readings/repos/[20260411]%20mpiorowski_late-sh_SSH로_들어가는_터미널_클럽하우스.md) | mpiorowski | `#SSH` `#TUI` `#Rust` `#LLMFirstDocs` `#Kubernetes` |
+| 2026-04-10 | [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) | ModernRelay | `#GraphDB` `#Ontology` `#HybridSearch` `#Branching` `#Lance` `#MCP` |
+| 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
+| 2026-03-09 | [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) | fabio-rovai | `#Ontology` `#OWL` `#SHACL` `#MCP` `#FormalVerification` |
+| 2026-02-19 | [agent-desktop: OS 접근성 트리 기반 데스크톱 앱 조작 프레임워크](readings/repos/[20260219]%20vercel-labs_agent-desktop_접근성트리기반_데스크톱_컴퓨터유즈.md) | Vercel Labs | `#ComputerUse` `#AccessibilityTree` `#DesktopAutomation` `#AIAgent` `#Rust` |
+| 2025-04-29 | [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) | llm-d (CNCF) | `#DistributedInference` `#vLLM` `#PrefixCaching` `#PDDisaggregation` `#KVCache` |
+| 2024-10-21 | [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) | Physical-Intelligence | `#VLA` `#Robotics` `#FlowMatching` `#PaliGemma` `#LeRobot` |
+| 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
+| 2019-03-01 | [Ghidra: NSA가 공개한 리버스 엔지니어링 프레임워크](readings/repos/[20190301]%20NationalSecurityAgency_ghidra_리버스엔지니어링_프레임워크.md) | NationalSecurityAgency | `#ReverseEngineering` `#Decompiler` `#IR` `#BinarySimilarity` `#NSA` |
+
+## Interview Prep
+
+`interviews/` 에 질문별 답변과 기업별 출제 경향을 정리합니다.
+
+| 파일 | 내용 |
+|------|------|
+| [01_통계_수학.md](interviews/01_통계_수학.md) | 선형대수, 확률, 통계 |
+| [02_머신러닝.md](interviews/02_머신러닝.md) | ML 알고리즘과 개념 |
+| [03_딥러닝.md](interviews/03_딥러닝.md) | 딥러닝 일반 |
+| [04_자연어처리.md](interviews/04_자연어처리.md) | NLP |
+| [14_OpenAI_MLE_출제경향.md](interviews/14_OpenAI_MLE_출제경향.md) | OpenAI ML Engineer 문제 유형 분포 |
+
+## Hands-on Experiments
+
+직접 구현하며 확인하는 노트북입니다. Pre-Quiz → TODO 구현 → 테스트 → 시각화 → Post-Quiz 구조입니다.
+
+| 분류 | 노트북 |
+|------|--------|
+| ML/DL 기초 | [Gradient Descent](experiments/basics/01_gradient_descent.ipynb) · [Activation](experiments/basics/02_activation_functions.ipynb) · [Backprop](experiments/basics/03_backpropagation.ipynb) · [Regularization](experiments/basics/04_regularization.ipynb) · [BatchNorm](experiments/basics/05_batch_norm.ipynb) · [PCA](experiments/basics/06_pca.ipynb) |
+| Transformer | [Attention → Mini GPT](experiments/transformer/) (8개 노트북, [08_mini_gpt](experiments/transformer/08_mini_gpt.ipynb) 에서 Decoding Strategies 포함) |
+
+## Repository Structure
 
 ```
-readings/      읽은 자료 정리 (papers, blogs, repos, _maps)
-books/         코드 분석 책
-interviews/    면접 질문과 기업별 출제 경향
-experiments/   직접 구현하는 실습 노트북
-deep_learning/ Transformer, CNN, RNN 개념 정리
-practical_tips/ 실무 경험과 팁
+I_AM_ML_Engineer/
+├── readings/              # 읽은 자료 정리 (이 저장소의 중심)
+│   ├── papers/            # 논문
+│   ├── blogs/             # 기술 블로그
+│   ├── repos/             # 오픈소스 저장소·도구
+│   └── _maps/             # 노트 사이의 관계를 그린 지도
+├── interviews/            # 면접 질문 정리와 기업별 출제 경향
+├── experiments/           # 실습 노트북 (직접 구현)
+│   ├── basics/            # ML/DL 기초
+│   └── transformer/       # Attention 에서 GPT 까지
+├── deep_learning/         # Transformer, CNN, RNN 개념 정리
+└── practical_tips/        # 실무 경험과 팁
 ```
 
 ## 정리 형식
 
-파일명은 `[YYYYMMDD] 출처_제목.md`. 메타데이터, 한 줄 요약, 본문, **읽을 때 감안할 것**(조건, 표본, 원문 오기), 가져갈 지점, 결론 순서로 씁니다. 논문은 원문 목차를 그대로 따르고, 블로그와 저장소는 주제 단위로 묶습니다.
+파일명은 `[YYYYMMDD] 출처_제목.md` 로 통일합니다. 각 정리는 다음 뼈대를 따릅니다.
+
+1. **메타데이터** - 원문 링크, 저자, 발행일, 실험 환경, 읽은 날짜, 태그
+2. **한 줄 요약** - 이 자료가 주장하는 것
+3. **본문** - 아래 본문 규칙을 따릅니다
+4. **읽을 때 감안할 것** - 조건, 표본, 검증되지 않은 전제, 발견한 오기
+5. **가져갈 지점** - 다른 자료에 옮길 수 있는 원리와 저장소 내 관련 정리 연결
+6. **결론** - 이 자료를 어떻게 쓰는 것이 맞는지
+
+4번이 핵심입니다. 벤더 자료의 정량 지표 부재, 단일 환경 실험, 인용 오류 같은 것을 여기 적습니다.
+
+본문 규칙
+--
+
+**논문은 원문 목차를 그대로 따라갑니다.** 절 번호와 제목을 원문과 같게 두어 대조하며 읽을 수 있게 합니다. 임의로 재구성하지 않습니다. 4번과 5번 절만 읽는 쪽이 덧붙인 것으로 표시합니다.
+
+블로그와 저장소 정리는 원문 구조를 따르되 주제 단위로 묶습니다. 원문이 절 번호를 쓰지 않는 경우가 많고, 흐름이 설명에 맞춰져 있기 때문입니다.
+
+공통으로 지키는 것은 다음과 같습니다.
+
+- 수치와 표는 원문에서 직접 확인해 옮깁니다. 2차 자료의 인용을 재인용하지 않습니다
+- 원문에서 발견한 오기나 불일치는 4번 절에 기록합니다
+- 같은 문제를 다루는 다른 정리와 상대 경로로 링크를 겁니다
 
 ## Contributing
 
-피드백과 토론은 [Issues](https://github.com/workdd/I_AM_ML_Engineer/issues)에 남겨 주세요.
+정리 내용에 대한 피드백이나 토론은 환영합니다. [Issues](https://github.com/workdd/I_AM_ML_Engineer/issues)에 남겨주세요.
 
 ## License
 
