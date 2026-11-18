@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) · Palantir Foundry 문서
 - `2026-11-13` [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) · GitHub
 - `2026-11-11` [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) · GitHub
 - `2026-11-10` [토스 AI-Ready Data: 표준 마트 위에 온톨로지를 얹고 골든셋으로 관리하는 데이터 의미 층](readings/blogs/[20261109]%20토스_AI-Ready_Data_온톨로지_시맨틱레이어.md) · 토스 채용 아티클
@@ -182,6 +183,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-11-16 | [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) | Palantir Foundry 문서 | `#AccessControl` `#DataGovernance` `#MandatoryAccessControl` `#DataLineage` `#PII` |
 | 2026-10-26 | [Anthropic S-1: 상장 신고서로 본 매출, 컴퓨트, 지배구조](readings/blogs/[20261026]%20Anthropic_S-1_상장신고서_요약.md) | SEC EDGAR | `#Anthropic` `#IPO` `#LLM비즈니스` `#Compute` `#지배구조` |
 | 2026-10-13 | [동네 치과 AX 전환기: 로컬 LLM으로 전화·보험 서류·경영 리포트 자동화](readings/blogs/[20261013]%20동네치과_AX전환기_로컬LLM_업무자동화.md) | 아카라이브 AI 로컬 홈랩 | `#로컬LLM` `#DGXSpark` `#OCR` `#사람평가` `#교차검증` |
 | 2026-10-05 | [배럭: 인프라 요청을 폼과 봇 PR로 바꾼 사내 플랫폼](readings/blogs/[20261005]%20비브로스_사내_인프라_플랫폼_배럭_구축기.md) | 비브로스 기술 블로그 | `#PlatformEngineering` `#GitOps` `#ArgoCD` `#Terraform` `#승인게이트` |
