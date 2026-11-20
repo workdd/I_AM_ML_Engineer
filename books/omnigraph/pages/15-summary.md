@@ -84,7 +84,7 @@ flowchart TB
 | 대상 문서 | 문서 내용 | 코드 | 장 |
 |---|---|---|---|
 | RFC 0012 | 임베딩 설정 필드 6개(`dim`, `normalize` 포함) | `EmbeddingConfig` 필드 4개, 스키마에는 원본 속성과 모델만 기록 | 07 |
-| RFC 0027 | not-started | `plan_lineage_merge` 구현 완료, 기본값 `On`, 열 필터가 아닌 fragment와 deletion 파일 비교 방식 | 12 |
+| RFC 0027 | not-started | `plan_lineage_merge` 구현 완료, 기본값 `On`(디버그 빌드는 `verify`), 열 필터가 아닌 fragment와 deletion 파일 비교 방식 | 12 |
 | RFC 0030 | 실패 오류 `HistoricalDataReclaimed` | 변형 이름 `HistoricalVersionReclaimed { published_dataset_version }` | 13 |
 | RFC 0043 | Lance 11 전제 | `Cargo.toml`은 Lance `=13.0.0`, analyzer 세대 상수 이름에는 `lance11.0.0`이 남음 | 07 |
 | RFC 0047 | draft, in-progress | `T27`, `FullTextIndexRequired`, 순위 보고가 이미 구현됨 | 07 |
