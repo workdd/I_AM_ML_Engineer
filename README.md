@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-20` [Sionic AI: 3B 모델이 GRPO로 2027학년도 수능 수학 다수결 만점에 도달한 과정](readings/blogs/[20261120]%20SionicAI_3B모델_수능수학_GRPO_다수결만점.md) · Sionic Tech Blog
 - `2026-11-20` [SelfGraph: 어떤 그래프 DB 위에서도 버전 관리되는 에이전트용 지식 그래프 SDK](readings/repos/[20261104]%20hydra-db_selfgraph_버전되는_에이전트용_지식그래프_SDK.md) · GitHub
 - `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub (v0.15.0 기준 갱신)
 - `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) · Palantir Foundry 문서
@@ -167,6 +168,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
 | 2026-10-02 | [Dust: 역전파 없이 트랜스포머를 사전학습하기](readings/papers/[20261002]%20Dust_Pretraining_Transformers_Without_Backpropagation.md) | Q Labs Research | `#ZerothOrder` `#EvolutionStrategies` `#Pretraining` `#Backprop` `#EGGROLL` |
+| 2026-11-20 | [Sionic AI: 3B 모델이 GRPO로 2027학년도 수능 수학 다수결 만점에 도달한 과정](readings/blogs/[20261120]%20SionicAI_3B모델_수능수학_GRPO_다수결만점.md) | Sionic AI | `#GRPO` `#RLVR` `#SmallLM` `#MathReasoning` `#DynamicSampling` `#OnDevice` |
 
 ### 신뢰도와 환각 탐지
 
