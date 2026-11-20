@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-20` [SelfGraph: 어떤 그래프 DB 위에서도 버전 관리되는 에이전트용 지식 그래프 SDK](readings/repos/[20261104]%20hydra-db_selfgraph_버전되는_에이전트용_지식그래프_SDK.md) · GitHub
 - `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub (v0.15.0 기준 갱신)
 - `2026-11-18` [Palantir Foundry Markings: 데이터를 따라 전파되는 필수 접근 제어](readings/blogs/[20261116]%20Palantir_Foundry_Markings_데이터를_따라가는_필수접근제어.md) · Palantir Foundry 문서
 - `2026-11-13` [trida-stack: AR LLM을 block-diffusion으로 바꾸고 self-speculative 생성과 typed decision을 한 가중치로 서빙](readings/repos/[20260928]%20trillion-labs_trida-stack_AR에서_블록디퓨전_변환_서빙스택.md) · GitHub
@@ -199,6 +200,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 날짜 | 레포 | 조직 | 태그 |
 |------|------|------|------|
 | 2026-11-06 | [auto-ontology-mcp: NVIDIA Auto Ontology 시맨틱 레이어를 LLM 없이 MCP 서버로, 개인 지식 저장소까지](readings/repos/[20261106]%20gogoymh_auto-ontology-mcp_MCP_시맨틱레이어_개인지식저장소.md) | gogoymh | `#Ontology` `#SemanticLayer` `#TextToSQL` `#MCP` `#KnowledgeBase` |
+| 2026-11-04 | [SelfGraph: 어떤 그래프 DB 위에서도 버전 관리되는 에이전트용 지식 그래프 SDK](readings/repos/[20261104]%20hydra-db_selfgraph_버전되는_에이전트용_지식그래프_SDK.md) | hydra-db | `#KnowledgeGraph` `#Ontology` `#AgentMemory` `#Temporal` `#EntityResolution` |
 | 2026-10-30 | [Forward Deployed Engineer Roadmap: 고객 현장 AI 엔지니어 학습 순서와 블로그 140편](readings/repos/[20261030]%20amitshekhariitbhu_forward-deployed-engineer-roadmap_FDE_학습로드맵.md) | amitshekhariitbhu | `#ForwardDeployedEngineer` `#LearningRoadmap` `#AIEngineering` `#VoiceAgent` `#LLMEvaluation` |
 | 2026-10-22 | [OntoSmith: 온톨로지를 먼저 정하고 판정 모델 게이트로 지식 그래프를 짓는 빌더](readings/repos/[20261022]%20Dongbumlee_ontosmith_온톨로지우선_판정게이트_지식그래프빌더.md) | Dongbumlee | `#KnowledgeGraph` `#Ontology` `#InformationExtraction` `#LLMasJudge` `#Neo4j` |
 | 2026-10-16 | [DeepInfer: DeepSeek가 공개한 자사 서비스용 추론 엔진과 vLLM 비교](readings/repos/[20261016]%20deepseek-ai_DeepInfer_DeepSeek전용_추론엔진_vLLM비교.md) | deepseek-ai | `#Inference` `#vLLM` `#ExpertParallel` `#KVCache` `#DeepSeek` |
