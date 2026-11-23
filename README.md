@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-23` [OrionBelt Ontology Builder: Java 없이 브라우저에서 쓰는 OWL, SKOS 온톨로지 워크벤치](readings/repos/[20251125]%20ralforion_orionbelt-ontology-builder_브라우저_OWL_SKOS_온톨로지_워크벤치.md) · GitHub
 - `2026-11-20` [Sionic AI: 3B 모델이 GRPO로 2027학년도 수능 수학 다수결 만점에 도달한 과정](readings/blogs/[20261120]%20SionicAI_3B모델_수능수학_GRPO_다수결만점.md) · Sionic Tech Blog
 - `2026-11-20` [SelfGraph: 어떤 그래프 DB 위에서도 버전 관리되는 에이전트용 지식 그래프 SDK](readings/repos/[20261104]%20hydra-db_selfgraph_버전되는_에이전트용_지식그래프_SDK.md) · GitHub
 - `2026-11-18` [Omnigraph: 에이전트가 브랜치로 쓰는 타입 그래프 DB](readings/repos/[20260410]%20ModernRelay_omnigraph_브랜치되는_타입_그래프DB.md) · GitHub (v0.15.0 기준 갱신)
@@ -230,6 +231,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 | 2026-03-22 | [OpenCrab: 에이전트에 MCP로 붙이는 온톨로지 공장](readings/repos/[20260322]%20AlexAI-MCP_OpenCrab_MCP로_붙이는_온톨로지_공장.md) | AlexAI-MCP | `#MCP` `#Ontology` `#KnowledgeGraph` `#GraphRAG` `#ReBAC` |
 | 2026-03-09 | [Open Ontologies: 온톨로지 변경 계획과 검증 가능한 추론 증명서](readings/repos/[20260309]%20fabio-rovai_open-ontologies_온톨로지_변경계획과_검증가능한_추론.md) | fabio-rovai | `#Ontology` `#OWL` `#SHACL` `#MCP` `#FormalVerification` |
 | 2026-02-19 | [agent-desktop: OS 접근성 트리 기반 데스크톱 앱 조작 프레임워크](readings/repos/[20260219]%20vercel-labs_agent-desktop_접근성트리기반_데스크톱_컴퓨터유즈.md) | Vercel Labs | `#ComputerUse` `#AccessibilityTree` `#DesktopAutomation` `#AIAgent` `#Rust` |
+| 2025-11-25 | [OrionBelt Ontology Builder: Java 없이 브라우저에서 쓰는 OWL, SKOS 온톨로지 워크벤치](readings/repos/[20251125]%20ralforion_orionbelt-ontology-builder_브라우저_OWL_SKOS_온톨로지_워크벤치.md) | RALFORION | `#Ontology` `#OWL` `#SKOS` `#SHACL` `#MCP` |
 | 2025-04-29 | [llm-d: Kubernetes 위 분산 LLM 추론 스택 (KV 인식 라우팅, P/D 분리, 계층 KV 캐시)](readings/repos/[20250429]%20llm-d_llm-d_Kubernetes_분산추론_스택_라우팅과_PD분리.md) | llm-d (CNCF) | `#DistributedInference` `#vLLM` `#PrefixCaching` `#PDDisaggregation` `#KVCache` |
 | 2024-10-21 | [openpi: Physical Intelligence의 VLA 로봇 정책 π0 · π0-FAST · π0.5 공개 구현](readings/repos/[20241021]%20Physical-Intelligence_openpi_VLA_로봇정책_파이제로.md) | Physical-Intelligence | `#VLA` `#Robotics` `#FlowMatching` `#PaliGemma` `#LeRobot` |
 | 2023-05-10 | [Opik: LLM 관측·평가 플랫폼과 Langfuse 비교](readings/repos/[20230510]%20comet-ml_opik_LLM관측평가_플랫폼_Langfuse비교.md) | comet-ml | `#LLMObservability` `#LLMasJudge` `#Langfuse` `#ClickHouse` `#SelfHosting` |
