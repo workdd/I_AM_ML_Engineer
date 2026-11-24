@@ -51,6 +51,8 @@ plugins:
       separator: '[\s\-\.\_,:!=\[\]()"/]+'
   - literate-nav:
       nav_file: SUMMARY.md
+  # 하위 항목이 있는 부, 장 페이지를 묶음 제목 자체로 쓴다 (literate-nav 의 제목 중복 방지)
+  - section-index
   - mermaid2:
       version: 11.12.0
 
