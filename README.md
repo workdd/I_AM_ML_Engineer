@@ -41,6 +41,7 @@
 
 가장 최근에 추가한 8건입니다. 전체는 아래 주제별 표에 있습니다.
 
+- `2026-11-25` [Anthropic Claude Ship: PR 리뷰, 수정, 승인을 정책 파일로 묶은 세 에이전트](readings/blogs/[20261123]%20Anthropic_Claude_Ship_PR리뷰_수정_승인_에이전트.md) · Claude 블로그
 - `2026-11-23` [OrionBelt Ontology Builder: Java 없이 브라우저에서 쓰는 OWL, SKOS 온톨로지 워크벤치](readings/repos/[20251125]%20ralforion_orionbelt-ontology-builder_브라우저_OWL_SKOS_온톨로지_워크벤치.md) · GitHub
 - `2026-11-20` [Sionic AI: 3B 모델이 GRPO로 2027학년도 수능 수학 다수결 만점에 도달한 과정](readings/blogs/[20261120]%20SionicAI_3B모델_수능수학_GRPO_다수결만점.md) · Sionic Tech Blog
 - `2026-11-20` [SelfGraph: 어떤 그래프 DB 위에서도 버전 관리되는 에이전트용 지식 그래프 SDK](readings/repos/[20261104]%20hydra-db_selfgraph_버전되는_에이전트용_지식그래프_SDK.md) · GitHub
@@ -119,6 +120,7 @@ MCP, 멀티 에이전트, 도구 선택, 에이전트 운영 인프라.
 
 | 날짜 | 제목 | 출처 | 태그 |
 |------|------|------|------|
+| 2026-11-23 | [Anthropic Claude Ship: PR 리뷰, 수정, 승인을 정책 파일로 묶은 세 에이전트](readings/blogs/[20261123]%20Anthropic_Claude_Ship_PR리뷰_수정_승인_에이전트.md) | Anthropic | `#CodeReview` `#CodingAgent` `#ClaudeCode` `#DevOps` `#PolicyAsCode` |
 | 2026-10-13 | [토스 AI Platform: 검토한 사용 조건을 실제 호출까지 잇는 GenAI Gateway](readings/blogs/[20261013]%20토스_AI_Platform_GenAI_Gateway.md) | 토스 기술 블로그 | `#LLMGateway` `#MCP` `#Guardrail` `#RateLimit` `#PTU` |
 | 2026-09-10 | [에이전트 중단 기능 설계: Flag 체크포인트](readings/blogs/[20260910]%20Liner_에이전트_중단기능_설계.md) | Liner | `#AIAgent` `#SSE` `#Redis` `#PubSub` `#상태관리` |
 | 2026-09-02 | [Bedrock AgentCore: LangGraph 위에 운영 레이어 얹기](readings/blogs/[20260902]%20AWS블로그_Bedrock_AgentCore_멀티데이터소스_NLP_에이전트.md) | AWS 기술 블로그 | `#AgentCore` `#Bedrock` `#LangGraph` `#MCP` `#Observability` |
