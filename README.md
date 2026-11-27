@@ -2,7 +2,8 @@
 
 # I AM ML Engineer
 
-읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
+ML 관련 참고할만한 논문, 기술 블로그, 오픈소스를 읽고 정리합니다.
+
 
 <a href="https://workdd.github.io/I_AM_ML_Engineer/">
   <img src="https://img.shields.io/badge/%F0%9F%93%96%20%EC%9B%B9%EC%97%90%EC%84%9C%20%EC%9D%BD%EA%B8%B0-workdd.github.io-3d6b45?style=for-the-badge&labelColor=1e1c1a" alt="웹에서 읽기">
