@@ -171,7 +171,7 @@ def copy_trees() -> None:
 HERO = re.compile(r"\A<div align=\"center\">.*?</div>\n+", re.S)
 HERO_REPLACEMENT = """# I AM ML Engineer
 
-읽은 것을 **"왜 이렇게 만들었나"** 까지 파고들어 정리하는 저장소
+ML 관련 참고할만한 논문, 기술 블로그, 오픈소스를 읽고 정리합니다.
 
 """
 
